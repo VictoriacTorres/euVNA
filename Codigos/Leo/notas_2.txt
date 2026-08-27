@@ -1,0 +1,60 @@
+Se puede llevar la resolucion a 1k, entre 35MHz y 4.4 GHz. Para ello hay que modificar los registros en el código ADF4351.c
+
+Primer lugar el cristal es de 10 MHZ. 
+	Esto seria la REFin.
+
+Segundo lugar, dependiendo del rango en frecuencia en el que se va a utilizar puede ser necesario modificar la fpfd,
+	lo que impolicaria modificar los valores de D, R y/o T. 
+
+Tercero. Usando el programa Analog Devices ADF435, setenado el ADF4351, se puede probar lo mas conveniente. 
+	Por lo que vi con R = 10, y T (Ref/2) seleccionado tengo una PFD de 0.5Mhz. Entre 35 MHZ y 4Ghz solo varian Div, FRAC, INT y MOD. 
+
+Cuarto. Para usar el programa de Exe sin mayores modificaciones, 
+	o sea solo modificando el registro 0. 
+	Abria que generar los seteos para todos los casos (en FREC_INIT de la funcion set_frec_values) 
+	donde queden prefijados MOD y Div, esto implica setear los 6 registros.
+ 	Luego hay que agregar esos casos a las funciones set_frec y set_barrido con la configuracion correspondiente, 
+	o sea, divisor (tiene que ver con el valor de fpfd), init(selecciona el rango correspondiente) ,set_frec_values(). 
+
+Quinto. Valores obtenidos para distintos rangos de frecuencia. Div es necesario ponerlo porque la salida derl VCo 
+        debe estar entre 2.2 y 4.4 GHZ. El MOD es el minimo que deberia ponerse.
+
+Opcion A: R:10  , T:seleccionado
+35 =< f < 68.75    [Mhz] :  MOD:125    , Div 64
+68.75 =< f < 137.5 [Mhz] :  MOD:125    , Div 32
+137.5 =< f < 275   [Mhz] :  MOD:125    , Div 16
+275   =< f < 550   [Mhz] :  MOD:125    , Div 8
+550  =< f < 1100   [Mhz] :  MOD:125    , Div 4
+1100 =< f < 2200   [Mhz] :  MOD:250    , Div 2
+2200 =< f < 4400   [Mhz] :  MOD:500    , Div 1
+
+Concluciones:
+Del cuarto punto. Hay en total 7 casos. El que determina estos casos es la salida del VCO, 
+lo que nos obliga a modificar el Div. Entre 0.55 y 4.4 GHZ no seria necesario agregagr nuevos casos.  
+
+Del quinto punto. Seria conveniente, para simplificar la programacion, dejar a MOD en 1000. 
+Esto implicaria solo modificar (aparte de los registros) el punto 95 del codigo,
+ pasaría  de (frac = (100 / divisor) * (frec - divisor * intt);)  a (frac = (1000 / divisor) * (frec - divisor * intt);) dentro de la funcion set_frec. 
+
+En cuanto al valor de divisor (si se mantienen los valores de R, T y D)
+quedaria fijo en 0.5. Es una variable global, capaz se puede declarar al principio como divisor = 0.5.
+
+Version 2. 550 y 4400 MHz
+
+Funciona entre aprox 550 y 4400 MHz, faltaria ajustar bien los extremos. 
+Para eso deberia agregar algunas variables mas para trabajar con las frecuencias en KHz.
+ 
+Del quinto punto se modifico completamente a
+frac =((invpfd * mfrec * divi) - (intmf*1000));
+
+
+Version 3. 275 y 4400 MHz
+
+Se busca extender el rango hasta los 35 MHz. Para ello necesito setear mas registros. 
+
+Version 4. 137.5 y 4400 MHz hecho
+
+Version 5. 69 y 4400 MHz, me complicaria 
+
+Version 6. 35 y 4400 MHz
+

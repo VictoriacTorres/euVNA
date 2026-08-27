@@ -1,0 +1,417 @@
+#include <SPI.h>
+
+//-------------------- Pines --------------------
+
+#define PIN_LE1   10
+#define PIN_CE1    9
+
+#define PIN_LE2   7
+#define PIN_CE2   6 
+
+//-------------------- Constantes --------------------
+
+const double REF_FREQ = 10000000.0;      // 10 MHz
+// fPFD = REF_FREQ * (1+D) / (R * (1+T))
+// Con D=0 (doubler off) y T=0 (div2 off): fPFD = 10 MHz / 25 = 400 kHz exactos
+const uint16_t R_COUNTER = 25; 
+const bool REF_DOUBLER = false;
+const bool REF_DIV2 = false; 
+
+const uint16_t MOD = 1000;
+const uint16_t PHASE = 1;
+
+//-------------------- Registros --------------------
+
+uint32_t reg[6];
+
+//--------------------------------------------------
+
+void writeRegister1(uint32_t value)
+{
+    digitalWrite(PIN_LE1, LOW);
+
+    SPI.transfer((value >> 24) & 0xFF);
+    SPI.transfer((value >> 16) & 0xFF);
+    SPI.transfer((value >> 8) & 0xFF);
+    SPI.transfer(value & 0xFF);
+
+    digitalWrite(PIN_LE1, HIGH);
+    delayMicroseconds(2);
+    digitalWrite(PIN_LE1, LOW);
+}
+void writeRegister2(uint32_t value)
+{
+    digitalWrite(PIN_LE2, LOW);
+
+    SPI.transfer((value >> 24) & 0xFF);
+    SPI.transfer((value >> 16) & 0xFF);
+    SPI.transfer((value >> 8) & 0xFF);
+    SPI.transfer(value & 0xFF);
+
+    digitalWrite(PIN_LE2, HIGH);
+    delayMicroseconds(2);
+    digitalWrite(PIN_LE2, LOW);
+}
+//--------------------------------------------------
+
+void updateADF1()
+{
+    for(int i=5;i>=0;i--){
+        writeRegister1(reg[i]);
+    }
+    
+}
+
+void updateADF2()
+{
+    for(int i=5;i>=0;i--){
+        writeRegister2(reg[i]);
+    }
+    
+}
+//--------------------------------------------------
+
+void setFrequency1(double MHz)
+{
+    uint8_t rf_div_sel;
+    uint8_t rf_div;
+
+    if(MHz >= 2200)
+    {
+        rf_div_sel=0;
+        rf_div=1;
+    }
+    else if(MHz>=1100)
+    {
+        rf_div_sel=1;
+        rf_div=2;
+    }
+    else if(MHz>=550)
+    {
+        rf_div_sel=2;
+        rf_div=4;
+    }
+    else if(MHz>=275)
+    {
+        rf_div_sel=3;
+        rf_div=8;
+    }
+    else
+    {
+        rf_div_sel=4;
+        rf_div=16;
+    }
+
+    double fpfd=REF_FREQ;
+
+    if(REF_DOUBLER)
+        fpfd*=2.0;
+
+    if(REF_DIV2)
+        fpfd/=2.0;
+
+    fpfd/=R_COUNTER;
+
+    double fvco=MHz*1000000.0*rf_div;
+
+    double N=fvco/fpfd;
+
+    uint16_t INT=floor(N);
+
+    uint16_t FRAC=round((N-INT)*MOD);
+    Serial.print(fpfd);
+    if(FRAC>=MOD)
+    {
+        INT++;
+        FRAC=0;
+    }
+
+    //---------------- R0 ----------------
+
+    reg[0]=0;
+
+    reg[0]|=((uint32_t)INT)<<15;
+    reg[0]|=((uint32_t)FRAC)<<3;
+
+    //---------------- R1 ----------------
+
+    reg[1]=0;
+    // Prescaler = 8/9
+    reg[1] |= (1UL << 27);
+    reg[1]|=((uint32_t)PHASE)<<15;
+    reg[1]|=((uint32_t)MOD)<<3;
+    reg[1]|=1;
+
+    //---------------- R2 ----------------
+
+reg[2] = 0;
+
+// DB30 = 0 -> Low Noise Mode
+
+// Reference Doubler
+if (REF_DOUBLER)
+    reg[2] |= (1UL << 25);
+
+// Reference Divide-by-2
+if (REF_DIV2)
+    reg[2] |= (1UL << 24);
+
+// R Counter
+reg[2] |= ((uint32_t)R_COUNTER << 14);
+
+// Charge Pump = 5.00 mA
+reg[2] |= (15UL << 9);
+
+// PD Polarity = Positive
+reg[2] |= (1UL << 6);
+
+// Registro 2
+reg[2] |= 2;
+
+    //---------------- R3 ----------------
+
+    //reg[3]=0x000004B3; // CSR deshabilitado, ABP=6ns (frac-N), band select modo lento. Igual en ambos ADF4351.
+    reg[3]=0X000404B3; //CSR habilitado
+
+    //---------------- R4 ----------------
+
+    reg[4]=0;
+
+    // Feedback fundamental
+    reg[4]|=(1UL<<23);
+
+    // RF Divider
+    reg[4]|=((uint32_t)rf_div_sel<<20);
+
+    // Band Select Divider: fPFD/4 = 100 kHz (<=125 kHz, modo lento OK) -> banda selecciona en ~100 us
+    reg[4]|=(4UL<<12);
+
+    // RF Output Enable
+    reg[4]|=(1UL<<5);
+
+    // +5 dBm
+    reg[4]|=(3UL<<3);
+
+    reg[4]|=4;
+
+    //---------------- R5 ----------------
+
+    reg[5]=0x00580005;
+
+    //---------------- Enviar ----------------
+
+    updateADF1();
+
+    //---------------- Mostrar ----------------
+
+    Serial.println();
+    Serial.print("Frecuencia generador 1: ");
+    Serial.print(MHz,6);
+    Serial.println(" MHz");
+
+    for(int i=5;i>=0;i--)
+    {
+        Serial.print("R");
+        Serial.print(i);
+        Serial.print(" = 0x");
+
+        if(reg[i]<0x10000000) Serial.print("0");
+
+        Serial.println(reg[i],HEX);
+    }
+}
+
+
+void setFrequency2(double MHz)
+{
+    uint8_t rf_div_sel;
+    uint8_t rf_div;
+
+    if(MHz >= 2200)
+    {
+        rf_div_sel=0;
+        rf_div=1;
+    }
+    else if(MHz>=1100)
+    {
+        rf_div_sel=1;
+        rf_div=2;
+    }
+    else if(MHz>=550)
+    {
+        rf_div_sel=2;
+        rf_div=4;
+    }
+    else if(MHz>=275)
+    {
+        rf_div_sel=3;
+        rf_div=8;
+    }
+    else
+    {
+        rf_div_sel=4;
+        rf_div=16;
+    }
+
+    double fpfd=REF_FREQ;
+
+    if(REF_DOUBLER)
+        fpfd*=2.0;
+
+    if(REF_DIV2)
+        fpfd/=2.0;
+
+    fpfd/=R_COUNTER;
+
+    double fvco=MHz*1000000.0*rf_div;
+
+    double N=fvco/fpfd;
+
+    uint16_t INT=floor(N);
+
+    uint16_t FRAC=round((N-INT)*MOD);
+
+    if(FRAC>=MOD)
+    {
+        INT++;
+        FRAC=0;
+    }
+
+    //---------------- R0 ----------------
+
+    reg[0]=0;
+
+    reg[0]|=((uint32_t)INT)<<15;
+    reg[0]|=((uint32_t)FRAC)<<3;
+
+    //---------------- R1 ----------------
+
+    reg[1]=0;
+    // Prescaler = 8/9
+    reg[1] |= (1UL << 27);
+    reg[1]|=((uint32_t)PHASE)<<15;
+    reg[1]|=((uint32_t)MOD)<<3;
+    reg[1]|=1;
+
+    //---------------- R2 ----------------
+
+reg[2] = 0;
+
+// DB30 = 0 -> Low Noise Mode
+
+// Reference Doubler
+if (REF_DOUBLER)
+    reg[2] |= (1UL << 25);
+
+// Reference Divide-by-2
+if (REF_DIV2)
+    reg[2] |= (1UL << 24);
+
+// R Counter
+reg[2] |= ((uint32_t)R_COUNTER << 14);
+
+// Charge Pump = 5.00 mA
+reg[2] |= (15UL << 9);
+
+// PD Polarity = Positive
+reg[2] |= (1UL << 6);
+
+// Registro 2
+reg[2] |= 2;
+
+    //---------------- R3 ----------------
+
+    //reg[3]=0x000004B3; // CSR deshabilitado, ABP=6ns (frac-N), band select modo lento. Igual en ambos ADF4351.
+    reg[3]=0X000404B3; //CSR habilitado
+
+
+    //---------------- R4 ----------------
+
+    reg[4]=0;
+
+    // Feedback fundamental
+    reg[4]|=(1UL<<23);
+
+    // RF Divider
+    reg[4]|=((uint32_t)rf_div_sel<<20);
+
+    // Band Select Divider: fPFD/4 = 100 kHz (<=125 kHz, modo lento OK) -> banda selecciona en ~100 us
+    reg[4]|=(4UL<<12);
+
+    // RF Output Enable
+    reg[4]|=(1UL<<5);
+
+    // +5 dBm
+    reg[4]|=(3UL<<3);
+
+    reg[4]|=4;
+
+    //---------------- R5 ----------------
+
+    reg[5]=0x00580005;
+
+    //---------------- Enviar ----------------
+
+    updateADF2();
+
+    //---------------- Mostrar ----------------
+
+    Serial.println();
+    Serial.print("Frecuencia generador 2: ");
+    Serial.print(MHz,6);
+    Serial.println(" MHz");
+
+    for(int i=5;i>=0;i--)
+    {
+        Serial.print("R");
+        Serial.print(i);
+        Serial.print(" = 0x");
+
+        if(reg[i]<0x10000000) Serial.print("0");
+
+        Serial.println(reg[i],HEX);
+    }
+}
+
+//--------------------------------------------------
+
+void setup()
+{
+    pinMode(PIN_LE1,OUTPUT);
+    pinMode(PIN_CE1,OUTPUT);
+    pinMode(PIN_LE2,OUTPUT);
+    pinMode(PIN_CE2,OUTPUT);
+
+
+   // digitalWrite(PIN_LE1,HIGH);
+    //digitalWrite(PIN_CE1,HIGH);
+
+    //digitalWrite(PIN_LE2,HIGH);
+    //digitalWrite(PIN_CE2,HIGH);
+
+    SPI.begin();
+
+    SPI.beginTransaction(
+        SPISettings(
+            1000000, //1000000
+            MSBFIRST,
+            SPI_MODE0));
+
+    Serial.begin(115200);
+
+    delay(100);
+
+    setFrequency1(2198.00);
+    setFrequency2(2198.00);
+
+    // Ejemplos:
+    // setFrequency(1100.000000);
+    // setFrequency(1100.001000);
+    // setFrequency(2100.000000);
+}
+
+void loop()
+{
+     
+     
+}
