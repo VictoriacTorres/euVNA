@@ -22,6 +22,7 @@ Requisitos:
 
 import csv
 import time
+import pickle
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -62,6 +63,7 @@ VENTANA_FFT = "flattop"
 # Banda donde se busca el pico del tono de batido (Hz)
 BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2,
                         F_CENTRO_FILTRO + ANCHO_BANDA_FILTRO / 2)
+ARCHIVO_FIGURA = "barrido_y_adquisicion_modulo_senales.pkl"
 
 # ==================== Arduino / serial ====================
 
@@ -208,7 +210,12 @@ def graficar_resultado(freq_rf, modulo_db, fase_deg):
     axs[1].grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.show()
+    with open(ARCHIVO_FIGURA, "wb") as f:
+        pickle.dump(fig, f)
+    print(f"Figura guardada en {ARCHIVO_FIGURA}")
+
+    # Forma original de mostrar la figura directamente.
+    # plt.show()
 
 def main():
     frecuencias_rf = generar_frecuencias(F_INICIO_MHZ, F_FIN_MHZ, F_PASO_MHZ)

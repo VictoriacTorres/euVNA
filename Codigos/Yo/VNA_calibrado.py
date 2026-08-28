@@ -18,6 +18,7 @@ Requisitos:
 import csv
 import time
 import os
+import pickle
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -85,6 +86,7 @@ BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2,
 # ==================== Salidas ====================
 
 ARCHIVO_CSV = f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado.csv"
+ARCHIVO_FIGURA = f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado.pkl"
 archivo_calibracion = f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}.csv"
 
 # ==================== Calibración ====================
@@ -310,7 +312,12 @@ def graficar_resultado(freq_rf, modulo_db, fase_deg):
     axs[1].grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.show()
+    with open(ARCHIVO_FIGURA, "wb") as f:
+        pickle.dump(fig, f)
+    print(f"Figura guardada en {ARCHIVO_FIGURA}")
+
+    # Forma original de mostrar la figura directamente.
+    # plt.show()
 
 def main():
     frecuencias_rf = generar_frecuencias(F_INICIO_MHZ, F_FIN_MHZ, F_PASO_MHZ)

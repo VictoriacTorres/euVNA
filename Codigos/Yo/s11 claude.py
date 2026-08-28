@@ -18,6 +18,7 @@ Requisitos:
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 from scipy.io import wavfile
 from scipy.signal import firwin, lfilter
 from scipy.signal.windows import get_window
@@ -26,6 +27,8 @@ from tkinter import filedialog
 
 
 FREC_MAX_PLOT = 16000  # límite del eje X en Hz, solo para el gráfico de verificación
+ARCHIVO_FIGURA_TIEMPO = "s11_claude_senales.pkl"
+ARCHIVO_FIGURA_S11 = "s11_claude_espectros.pkl"
 
 
 def elegir_archivos_wav():
@@ -220,7 +223,11 @@ def graficar_señales (
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.pause(0.1)  # Abre el gráfico sin bloquear
+    fig = plt.gcf()
+    with open(ARCHIVO_FIGURA_TIEMPO, "wb") as f:
+        pickle.dump(fig, f)
+    print(f"Figura guardada en {ARCHIVO_FIGURA_TIEMPO}")
+    # plt.pause(0.1)  # Forma original de mostrar sin bloquear
 
 def graficar_s11(
     paths_wav,
@@ -284,7 +291,10 @@ def graficar_s11(
     ax.legend()
 
     plt.tight_layout()
-    plt.pause(0.1)  # Abre el gráfico sin bloquear
+    with open(ARCHIVO_FIGURA_S11, "wb") as f:
+        pickle.dump(fig, f)
+    print(f"Figura guardada en {ARCHIVO_FIGURA_S11}")
+    # plt.pause(0.1)  # Forma original de mostrar sin bloquear
 
     return f_fundamental, modulo_db, fase_deg
 

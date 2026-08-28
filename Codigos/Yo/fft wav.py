@@ -17,6 +17,7 @@ Requisitos:
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 from scipy.io import wavfile
 from scipy.signal import find_peaks
 from scipy.signal.windows import get_window
@@ -25,6 +26,7 @@ from tkinter import filedialog
 
 
 FREC_MAX_PLOT = 16000  # límite del eje X en Hz
+ARCHIVO_FIGURA = "fft_wav.pkl"
 
 
 def elegir_archivos_wav():
@@ -233,7 +235,12 @@ def graficar_fft(paths_wav, escala_db=True, n_picos=5, frec_max=FREC_MAX_PLOT, v
     marcar_picos(axs[1], freqs_der, mag_der_plot, picos_der)
 
     plt.tight_layout()
-    plt.show()
+    with open(ARCHIVO_FIGURA, "wb") as f:
+        pickle.dump(fig, f)
+    print(f"Figura guardada en {ARCHIVO_FIGURA}")
+
+    # Forma original de mostrar la figura directamente.
+    # plt.show()
 
 
 if __name__ == "__main__":

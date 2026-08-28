@@ -362,9 +362,9 @@ def graficar_resultado(freq_rf, modulo_db, fase_deg):
 
     plt.tight_layout()
 
-    try: # Guard0 la figura completa ANTES de mostrarla, momento más confiable para que pickle la capture bien.
+    try: # Guarda la figura completa ANTES de mostrarla.
         with open(ARCHIVO_FIGURA, "wb") as f:
-        pickle.dump(fig, f)
+            pickle.dump(fig, f)
         print(f"Figura interactiva guardada en {ARCHIVO_FIGURA} "
             f"(reabrila con abrir_figura.py)")
     except Exception as e:
