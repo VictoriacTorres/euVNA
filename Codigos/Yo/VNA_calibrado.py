@@ -1,17 +1,15 @@
 """
-Barrido de RF + adquisición + cálculo de S11.
+Victoria Torres, 27/8/2026.
+VNA calibrado con barrido de RF, adquisicion de audio y correccion SOL.
 
-Por cada frecuencia del barrido:
-    1. Se le manda la frecuencia al Arduino (adf4351_serial.ino) por serial.
-    2. Se graba una captura corta desde la entrada line-in (ref = canal
-       izquierdo, medición = canal derecho).
-    3. Se filtra cada canal con un FIR pasabanda alrededor de 1 kHz.
-    4. Se calcula la FFT compleja de ambos canales.
-    5. Se busca el pico del tono de batido en el canal de referencia, y
-       se toma el mismo bin en el canal de medición.
-    6. S11_punto = medición[bin] / referencia[bin].
-
-Al terminar se grafica y se guardan los resultados en un .csv.
+Flujo general:
+    1. Genera las frecuencias y diseña un filtro FIR pasabanda para el tono
+       de batido; calcula la FFT con ventana flattop.
+    2. Busca una calibracion previa o mide SHORT, OPEN y LOAD de 50 ohms.
+    3. Configura el Arduino, captura referencia y medicion, y calcula S11 en
+       el bin del pico de batido detectado.
+    4. Barre el DUT, aplica la correccion SOL y obtiene modulo en dB y fase.
+    5. Guarda el resultado corregido en un CSV y lo muestra en dos graficas.
 
 Requisitos:
     pip install pyserial sounddevice numpy scipy matplotlib

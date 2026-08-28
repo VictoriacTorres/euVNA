@@ -1,20 +1,19 @@
 """
-Barrido de RF + adquisición + cálculo de S11.
+Victoria Torres, 27/8/2026. 
+euVNA calibrado: barrido de RF, adquisicion de audio, calibracion SOL y
+medicion corregida de S11 con control de calidad mediante SNR.
 
-Por cada frecuencia del barrido:
-    1. Se le manda la frecuencia al Arduino (adf4351_serial.ino) por serial.
-    2. Se graba una captura corta desde la entrada line-in (ref = canal
-       izquierdo, medición = canal derecho).
-    3. Se filtra cada canal con un FIR pasabanda alrededor de 1 kHz.
-    4. Se calcula la FFT compleja de ambos canales.
-    5. Se busca el pico del tono de batido en el canal de referencia, y
-       se toma el mismo bin en el canal de medición.
-    6. S11_punto = medición[bin] / referencia[bin].
-
-Al terminar se grafica y se guardan los resultados en un .csv.
+Flujo general:
+    1. Genera las frecuencias, omite las excluidas y diseña el filtro FIR.
+    2. Busca una calibracion previa o realiza los barridos SHORT, OPEN y LOAD.
+    3. Configura el Arduino, captura ambos canales y calcula S11 en el pico
+       de batido detectado mediante FFT con ventana flattop.
+    4. Estima el SNR minimo y marca como NaN los puntos por debajo del umbral.
+    5. Calcula los terminos de error SOL, mide el DUT y aplica la correccion.
+    6. Elimina puntos invalidos, calcula modulo y fase, y guarda el CSV final.
 
 Requisitos:
-    pip install pyserial sounddevice numpy scipy matplotlib
+     pip install pyserial sounddevice numpy scipy matplotlib
 """
 
 import csv
@@ -29,10 +28,8 @@ import sounddevice as sd
 from scipy.signal import firwin, lfilter
 from scipy.signal.windows import get_window
 
-
 # ==================== Configuración: Arduino / barrido de RF ====================
-
-PUERTO = "COM3"          # Windows: "COM3", "COM5", etc. Linux/Mac: "/dev/ttyACM0"
+PUERTO = "COM3"         
 BAUDRATE = 115200
 
 F_INICIO_MHZ = 1700.000
@@ -62,38 +59,40 @@ FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221
                              1833.00, 1854.00, 1858.00, 1910.00, 1937.00, 2018.00, 2150.00, 2235.00, 2236.00, 
                              2237.00, 2238.00, 2239.00, 2240.00, 2241.00, 2279.00, 2280.00, 2281.00, 2283.00, 2284.00, 
                              2324.00, 2325.00, 2327.00, 2328.00, 2329.00, 2370.00, 2374.00, 2421.00, 2463.00]
-# ==================== Configuración: adquisición de audio ====================
 
+# ==================== Configuración adquisición de audio ====================
 FS_AUDIO = 44100
 DURACION_CAPTURA_S = 0.2
 
 # Índice del dispositivo de audio a usar (line-in). None = dispositivo de
-# entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
-#   python -c "import sounddevice as sd; print(sd.query_devices())"
-# y poné acá el índice que corresponda a tu placa de sonido / line-in.
+# entrada por defecto del sistema. Si no, python -c "import sounddevice as sd; print(sd.query_devices())"
+# y acá el índice que corresponda a la placa de sonido / line-in.
 DISPOSITIVO_AUDIO = None
 
 # ==================== Configuración: filtro FIR + FFT ====================
-
 F_CENTRO_FILTRO = 1000       # Hz, tono de batido esperado
 ANCHO_BANDA_FILTRO = 200     # Hz
 NUMTAPS_FILTRO = 1001        # debe ser menor que la cantidad de muestras por captura
-
 VENTANA_FFT = "flattop"
 
 # Banda donde se busca el pico del tono de batido (Hz)
-BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2,
-                        F_CENTRO_FILTRO + ANCHO_BANDA_FILTRO / 2)
+BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2, F_CENTRO_FILTRO + ANCHO_BANDA_FILTRO / 2)
 
-# ==================== Salida ====================
-
-ARCHIVO_CSV = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}.csv"
+# ==================== Salidas ====================
+CARPETA_CSV = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "Archivos csv resultados-calibracion"
+)
+ARCHIVO_CSV = os.path.join(
+    CARPETA_CSV,
+    f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}.csv"
+)
 ARCHIVO_FIGURA = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}.pkl"
 
 # ==================== Control de calidad: SNR ====================
 
-# Umbral mínimo de SNR (dB) del tono de batido para considerar válido un
-# punto de medición. Por debajo de esto, se descarta (se marca NaN en
+# Umbral mínimo de SNR (dB) del tono de FI para considerar válido un
+# punto de medición. Por debajo, se descarta (se marca NaN en
 # vez de saltearlo, para no desalinear los índices entre los barridos
 # de calibración SOL y el del DUT).
 UMBRAL_SNR_DB = 30
@@ -102,6 +101,130 @@ UMBRAL_SNR_DB = 30
 # de ruido, para no confundir los lóbulos laterales de la ventana
 # flattop con ruido real.
 ANCHO_GUARDIA_SNR_HZ = 15
+
+# ==================== Arduino / serial ====================
+def generar_frecuencias(inicio, fin, paso): #Genera la lista de frecuencias evitando arrastre de error de punto flotante.
+    n_pasos = round((fin - inicio) / paso)
+    return [inicio + i * paso for i in range(n_pasos + 1)]
+
+def conectar_arduino(puerto, baudrate):
+    ser = serial.Serial(puerto, baudrate, timeout=5)
+    time.sleep(2)  # el Arduino se resetea al abrir el puerto; espero a que arranque
+    ser.reset_input_buffer()
+
+    linea = ser.readline().decode(errors="ignore").strip()
+    if linea:
+        print(f"Arduino: {linea}")                                  #VER SI PUEDO BORRAR ESTO
+
+    return ser
+
+def setear_frecuencia(ser, f_mhz): #Manda la frecuencia al Arduino y espera la confirmación.
+    comando = f"{f_mhz:.6f}\n"
+    ser.write(comando.encode())
+    respuesta = ser.readline().decode(errors="ignore").strip()
+    while respuesta and not respuesta.startswith("OK") and not respuesta.startswith("ERROR"):
+        print("  (Arduino):", respuesta)
+        respuesta = ser.readline().decode(errors="ignore").strip()
+    return respuesta
+
+# ==================== Adquisición ====================
+def capturar_audio(duracion_s, fs, dispositivo=None):
+    """Graba desde la entrada configurada. Devuelve (canal_ref, canal_med)
+    como arrays float64, con canal_ref = izquierdo, canal_med = derecho."""
+
+    n_muestras = int(duracion_s* fs)
+    grabacion_con_ruido = sd.rec(n_muestras, samplerate=fs, channels=2,
+                        dtype="float64", device=dispositivo)
+    sd.wait()
+
+    grabacion=grabacion_con_ruido[int(fs * 0.010):] # recorto primeros 10 milisegundos
+    canal_ref = grabacion[:, 0]
+    canal_med = grabacion[:, 1]
+
+    return canal_ref, canal_med
+
+# ==================== Filtro FIR + FFT + S11 ====================
+def diseñar_filtro_pasabanda(fs, f_centro, ancho_banda, numtaps):
+    n_muestras_captura = int(DURACION_CAPTURA_S * fs)   # DEBE SER MAYOR QUE NUMTAPS, fs es 44100
+
+    f_baja = f_centro - ancho_banda / 2
+    f_alta = f_centro + ancho_banda / 2
+    return firwin(numtaps, [f_baja, f_alta], pass_zero=False, fs=fs, window="hamming")
+
+def aplicar_filtro(señal, coeficientes):
+    return lfilter(coeficientes, 1.0, señal)
+
+def calcular_espectro_complejo(señal, fs, ventana):   # Acá uso la flattop para calcular la FFT
+    n = len(señal)
+    w = get_window(ventana, n)
+    fft_vals = np.fft.fft(señal * w)
+    fft_freqs = np.fft.fftfreq(n, d=1 / fs)
+    mitad = n // 2
+    return fft_freqs[:mitad], fft_vals[:mitad]
+
+def buscar_indice_pico(freqs, espectro, banda):
+    """Devuelve el índice del bin de mayor magnitud dentro de la banda dada."""
+    f_baja, f_alta = banda
+    i0 = np.searchsorted(freqs, f_baja)
+    i1 = np.searchsorted(freqs, f_alta)
+
+    if i1 <= i0:
+        raise ValueError("La banda de búsqueda no contiene ningún bin de frecuencia.")
+
+    magnitud = np.abs(espectro[i0:i1])
+    return i0 + np.argmax(magnitud)
+
+
+def calcular_snr_db(freqs, espectro, banda, idx_pico, ancho_guardia_hz=ANCHO_GUARDIA_SNR_HZ):
+    """ Estima el SNR (dB) del tono en idx_pico, comparando su magnitud
+    contra el piso de ruido dentro de la misma banda de búsqueda
+    (excluyendo una zona de guardia alrededor del pico, para no tomar
+    los lóbulos laterales de la ventana como si fueran ruido).    """
+    f_baja, f_alta = banda
+    i0 = np.searchsorted(freqs, f_baja)
+    i1 = np.searchsorted(freqs, f_alta)
+
+    magnitud_banda = np.abs(espectro[i0:i1])
+    idx_pico_local = idx_pico - i0
+
+    resolucion_hz = freqs[1] - freqs[0]
+    guardia_bins = max(1, int(round(ancho_guardia_hz / resolucion_hz)))
+
+    mascara = np.ones(len(magnitud_banda), dtype=bool)
+    lo = max(0, idx_pico_local - guardia_bins)
+    hi = min(len(magnitud_banda), idx_pico_local + guardia_bins + 1)
+    mascara[lo:hi] = False
+
+    if not np.any(mascara): # Banda demasiado angosta para estimar ruido de forma confiable;
+                            # no descartamos el punto por esto, dejamos pasar.
+        return np.inf
+
+    piso_ruido = np.median(magnitud_banda[mascara])
+    pico = magnitud_banda[idx_pico_local]
+
+    return 20 * np.log10(pico / (piso_ruido + 1e-15))
+
+
+def medir_s11_punto(canal_ref, canal_med, fs, coef_filtro):
+    """Devuelve un único valor complejo de S11 correspondiente al tono de batido, la
+    frecuencia real donde se encontró ese pico, y el SNR (dB) más bajo
+    entre referencia y medición (el "cuello de botella" de la medición).  """
+    ref_filtrada = aplicar_filtro(canal_ref, coef_filtro)
+    med_filtrada = aplicar_filtro(canal_med, coef_filtro)
+
+    freqs_ref, espectro_ref = calcular_espectro_complejo(ref_filtrada, fs, VENTANA_FFT)
+    freqs_med, espectro_med = calcular_espectro_complejo(med_filtrada, fs, VENTANA_FFT)
+
+    idx_pico = buscar_indice_pico(freqs_ref, espectro_ref, BANDA_BUSQUEDA_PICO)
+
+    snr_ref_db = calcular_snr_db(freqs_ref, espectro_ref, BANDA_BUSQUEDA_PICO, idx_pico)
+    snr_med_db = calcular_snr_db(freqs_med, espectro_med, BANDA_BUSQUEDA_PICO, idx_pico)
+    snr_db = min(snr_ref_db, snr_med_db)
+
+    epsilon = np.max(np.abs(espectro_ref)) * 1e-9
+    s11 = espectro_med[idx_pico] / (espectro_ref[idx_pico] + epsilon)
+
+    return s11, freqs_ref[idx_pico], snr_db
 
 # ==================== Calibración ====================
 def calculo_errores (GM_CC, GM_CA, GM_50, n):
@@ -163,162 +286,7 @@ def cargar_calibracion_csv(path): #rearma los valores complejos
             delta_e.append(complex(float(row["delta_e_real"]), float(row["delta_e_imag"])))
     return np.array(freqs), np.array(e_00), np.array(e_11), np.array(delta_e)
 
-# ==================== Arduino / serial ====================
-
-def generar_frecuencias(inicio, fin, paso):
-    """Genera la lista de frecuencias evitando arrastre de error de punto flotante."""
-    n_pasos = round((fin - inicio) / paso)
-    return [inicio + i * paso for i in range(n_pasos + 1)]
-
-
-def conectar_arduino(puerto, baudrate):
-    ser = serial.Serial(puerto, baudrate, timeout=5)
-    time.sleep(2)  # el Arduino se resetea al abrir el puerto; esperamos a que arranque
-    ser.reset_input_buffer()
-
-    linea = ser.readline().decode(errors="ignore").strip()
-    if linea:
-        print(f"Arduino: {linea}")
-
-    return ser
-
-
-def setear_frecuencia(ser, f_mhz):
-    """Manda la frecuencia al Arduino y espera la confirmación."""
-    comando = f"{f_mhz:.6f}\n"
-    ser.write(comando.encode())
-
-    respuesta = ser.readline().decode(errors="ignore").strip()
-    while respuesta and not respuesta.startswith("OK") and not respuesta.startswith("ERROR"):
-        print("  (Arduino):", respuesta)
-        respuesta = ser.readline().decode(errors="ignore").strip()
-
-    return respuesta
-
-
-# ==================== Adquisición ====================
-
-def capturar_audio(duracion_s, fs, dispositivo=None):
-    """
-    Graba desde la entrada configurada. Devuelve (canal_ref, canal_med)
-    como arrays float64, con canal_ref = izquierdo, canal_med = derecho.
-    """
-
-    n_muestras = int(duracion_s* fs)
-    grabacion_con_ruido = sd.rec(n_muestras, samplerate=fs, channels=2,
-                        dtype="float64", device=dispositivo)
-    sd.wait()
-
-    grabacion=grabacion_con_ruido[int(fs * 0.001):] # recorto el primer milisegundo
-    canal_ref = grabacion[:, 0]
-    canal_med = grabacion[:, 1]
-
-    return canal_ref, canal_med
-
-
-# ==================== Filtro FIR + FFT + S11 ====================
-
-def diseñar_filtro_pasabanda(fs, f_centro, ancho_banda, numtaps):
-    n_muestras_captura = int(DURACION_CAPTURA_S * fs)
-    if numtaps >= n_muestras_captura:
-        raise ValueError(
-            f"NUMTAPS_FILTRO ({numtaps}) debe ser menor que la cantidad de "
-            f"muestras por captura ({n_muestras_captura}, con DURACION_CAPTURA_S="
-            f"{DURACION_CAPTURA_S}s y FS_AUDIO={fs}Hz). Bajá NUMTAPS_FILTRO o "
-            f"subí DURACION_CAPTURA_S."
-        )
-
-    f_baja = f_centro - ancho_banda / 2
-    f_alta = f_centro + ancho_banda / 2
-    return firwin(numtaps, [f_baja, f_alta], pass_zero=False, fs=fs, window="hamming")
-
-
-def aplicar_filtro(señal, coeficientes):
-    return lfilter(coeficientes, 1.0, señal)
-
-
-def calcular_espectro_complejo(señal, fs, ventana):
-    n = len(señal)
-    w = get_window(ventana, n)
-    fft_vals = np.fft.fft(señal * w)
-    fft_freqs = np.fft.fftfreq(n, d=1 / fs)
-    mitad = n // 2
-    return fft_freqs[:mitad], fft_vals[:mitad]
-
-
-def buscar_indice_pico(freqs, espectro, banda):
-    """Devuelve el índice del bin de mayor magnitud dentro de la banda dada."""
-    f_baja, f_alta = banda
-    i0 = np.searchsorted(freqs, f_baja)
-    i1 = np.searchsorted(freqs, f_alta)
-
-    if i1 <= i0:
-        raise ValueError("La banda de búsqueda no contiene ningún bin de frecuencia.")
-
-    magnitud = np.abs(espectro[i0:i1])
-    return i0 + np.argmax(magnitud)
-
-
-def calcular_snr_db(freqs, espectro, banda, idx_pico, ancho_guardia_hz=ANCHO_GUARDIA_SNR_HZ):
-    """
-    Estima el SNR (dB) del tono en idx_pico, comparando su magnitud
-    contra el piso de ruido dentro de la misma banda de búsqueda
-    (excluyendo una zona de guardia alrededor del pico, para no tomar
-    los lóbulos laterales de la ventana como si fueran ruido).
-    """
-    f_baja, f_alta = banda
-    i0 = np.searchsorted(freqs, f_baja)
-    i1 = np.searchsorted(freqs, f_alta)
-
-    magnitud_banda = np.abs(espectro[i0:i1])
-    idx_pico_local = idx_pico - i0
-
-    resolucion_hz = freqs[1] - freqs[0]
-    guardia_bins = max(1, int(round(ancho_guardia_hz / resolucion_hz)))
-
-    mascara = np.ones(len(magnitud_banda), dtype=bool)
-    lo = max(0, idx_pico_local - guardia_bins)
-    hi = min(len(magnitud_banda), idx_pico_local + guardia_bins + 1)
-    mascara[lo:hi] = False
-
-    if not np.any(mascara):
-        # Banda demasiado angosta para estimar ruido de forma confiable;
-        # no descartamos el punto por esto, dejamos pasar.
-        return np.inf
-
-    piso_ruido = np.median(magnitud_banda[mascara])
-    pico = magnitud_banda[idx_pico_local]
-
-    return 20 * np.log10(pico / (piso_ruido + 1e-15))
-
-
-def medir_s11_punto(canal_ref, canal_med, fs, coef_filtro):
-    """
-    A partir de una captura de referencia y medición, devuelve un único
-    valor complejo de S11 correspondiente al tono de batido, la
-    frecuencia real donde se encontró ese pico, y el SNR (dB) más bajo
-    entre referencia y medición (el "cuello de botella" de la medición).
-    """
-    ref_filtrada = aplicar_filtro(canal_ref, coef_filtro)
-    med_filtrada = aplicar_filtro(canal_med, coef_filtro)
-
-    freqs_ref, espectro_ref = calcular_espectro_complejo(ref_filtrada, fs, VENTANA_FFT)
-    freqs_med, espectro_med = calcular_espectro_complejo(med_filtrada, fs, VENTANA_FFT)
-
-    idx_pico = buscar_indice_pico(freqs_ref, espectro_ref, BANDA_BUSQUEDA_PICO)
-
-    snr_ref_db = calcular_snr_db(freqs_ref, espectro_ref, BANDA_BUSQUEDA_PICO, idx_pico)
-    snr_med_db = calcular_snr_db(freqs_med, espectro_med, BANDA_BUSQUEDA_PICO, idx_pico)
-    snr_db = min(snr_ref_db, snr_med_db)
-
-    epsilon = np.max(np.abs(espectro_ref)) * 1e-9
-    s11 = espectro_med[idx_pico] / (espectro_ref[idx_pico] + epsilon)
-
-    return s11, freqs_ref[idx_pico], snr_db
-
-
 # ==================== Barrido ====================
-
 def barrido(ser,frecuencias_rf, coef_filtro, nombre_medida=""):
     print(f"\n---> Iniciando adquisición: {nombre_medida}")
     resultados_freq_rf = []
@@ -370,7 +338,6 @@ def barrido(ser,frecuencias_rf, coef_filtro, nombre_medida=""):
 
     return np.array(resultados_freq_rf), np.array(resultados_s11_complejo)
 
-
 def guardar_csv(path, freq_rf, modulo_db, fase_deg):
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
@@ -378,7 +345,6 @@ def guardar_csv(path, freq_rf, modulo_db, fase_deg):
         for f_rf, m, fa in zip(freq_rf, modulo_db, fase_deg):
             writer.writerow([f"{f_rf:.6f}", f"{m:.4f}", f"{fa:.4f}"])
     print(f"Resultados guardados en {path}")
-
 
 def graficar_resultado(freq_rf, modulo_db, fase_deg):
     fig, axs = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
@@ -396,36 +362,33 @@ def graficar_resultado(freq_rf, modulo_db, fase_deg):
 
     plt.tight_layout()
 
-    # Guardamos la figura completa (no una imagen) ANTES de mostrarla,
-    # que es el momento más confiable para que pickle la capture bien.
-    try:
+    try: # Guard0 la figura completa ANTES de mostrarla, momento más confiable para que pickle la capture bien.
         with open(ARCHIVO_FIGURA, "wb") as f:
-            pickle.dump(fig, f)
+        pickle.dump(fig, f)
         print(f"Figura interactiva guardada en {ARCHIVO_FIGURA} "
-              f"(reabrila con abrir_figura.py)")
+            f"(reabrila con abrir_figura.py)")
     except Exception as e:
         print(f"AVISO: no se pudo guardar la figura con pickle ({e}). "
-              f"El CSV con los datos crudos sigue disponible igual.")
+              f"El CSV con los datos sigue disponible igual.")
 
     plt.show()
 
 def main():
+    os.makedirs(CARPETA_CSV, exist_ok=True)
+
     frecuencias_rf = generar_frecuencias(F_INICIO_MHZ, F_FIN_MHZ, F_PASO_MHZ)
     print(f"Barrido: {len(frecuencias_rf)} pasos, de {F_INICIO_MHZ} a {F_FIN_MHZ} MHz "
           f"(paso {F_PASO_MHZ} MHz)")
     
-    coef_filtro = diseñar_filtro_pasabanda(
-        FS_AUDIO, F_CENTRO_FILTRO, ANCHO_BANDA_FILTRO, NUMTAPS_FILTRO
-    )
+    coef_filtro = diseñar_filtro_pasabanda(FS_AUDIO, F_CENTRO_FILTRO, ANCHO_BANDA_FILTRO, NUMTAPS_FILTRO)
 
-    # Nombre dinámico del archivo de calibración
-    archivo_calibracion = f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}.csv"
+    archivo_calibracion = os.path.join(CARPETA_CSV, f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}.csv")
     hacer_cal = True
 
-    # 1. Comprobar si existe la matriz de calibración para este barrido
+    # Comprobar si existe la matriz de calibración para este barrido
     if os.path.exists(archivo_calibracion):
         print(f"\nSe encontró un archivo de calibración coincidente: '{archivo_calibracion}'")
-        rta = input("¿Deseas usar esta calibración previa (s) o realizar una nueva calibración SOL (n)? [s/n]: ")
+        rta = input("¿Deseas usar esta calibración previa? [s/n]: ")
         if rta.strip().lower() == 's':
             hacer_cal = False
 
@@ -434,7 +397,6 @@ def main():
     
     ser = conectar_arduino(PUERTO, BAUDRATE)
 
- # 3. Procedimiento de calibración SOL si corresponde
     if hacer_cal:
         print("\n===========================================")
         print("   INICIANDO CALIBRACIÓN S.O.L.")
@@ -448,15 +410,13 @@ def main():
         
         input("\nPaso 3/3: Conecte la carga LOAD (50 Ohms) y presione Enter para barrer...")
         _, gm_50 = barrido(ser, frecuencias_rf, coef_filtro, "CALIBRACIÓN LOAD")
+
         
-        # Calcular los términos de error con la función de álgebra lineal
         n_puntos = len(freqs_cal)
         e_00, e_11, delta_e = calculo_errores(gm_cc, gm_ca, gm_50, n_puntos)
         
-        # Guardar en archivo .csv
         guardar_calibracion_csv(archivo_calibracion, freqs_cal, e_00, e_11, delta_e)
 
-    # 4. Medición del Dispositivo Bajo Prueba (DUT)
     print("\n===========================================")
     print("   MEDICIÓN DEL DISPOSITIVO (DUT)")
     print("===========================================")
@@ -468,10 +428,9 @@ def main():
 
      # Chequeo de consistencia (por si cambiaron las frecuencias excluidas entre runs)
     if len(freqs_dut) != len(e_00):
-        print("\n¡ADVERTENCIA! El número de puntos no coincide con la calibración. Mal el rango de frecuencias")
+        print("\nError: El número de puntos no coincide con la calibración.")
 
-     # 6. Aplicar la corrección SOL al DUT
-    gamma_corregido = correccion(gm_dut, e_00, e_11, delta_e, len(gm_dut))
+    gamma_corregido = correccion(gm_dut, e_00, e_11, delta_e, len(gm_dut)) # Aplica la corrección SOL al DUT
     
 
     fase_deg = np.degrees(np.angle(gamma_corregido))

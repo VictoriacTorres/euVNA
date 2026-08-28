@@ -1,5 +1,15 @@
 """
-Lee un archivo WAV (estéreo), y grafica la FFT de cada canal hasta 16 kHz.
+Victoria Torres, 27/8/2026.
+Analizador de archivos WAV estereo mediante FFT.
+
+Flujo general:
+    1. Permite elegir un WAV estereo o dos WAV mono y normaliza sus muestras.
+    2. Asigna los canales izquierdo y derecho como referencia y medicion.
+    3. Aplica una ventana configurable, por defecto flattop, y calcula la FFT
+       con correccion de ganancia coherente y amplitud unilateral.
+    4. Limita el espectro al rango indicado, por defecto hasta 16 kHz.
+    5. Detecta los picos principales y grafica ambos espectros en dB o escala
+       lineal, etiquetando las frecuencias y amplitudes de los picos.
 
 Requisitos:
     pip install numpy matplotlib scipy

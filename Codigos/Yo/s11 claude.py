@@ -1,17 +1,19 @@
 """
-Lee un WAV estéreo con la señal incidente (referencia, canal izquierdo) y la
-reflejada (medición, canal derecho), aplica un filtro pasabanda centrado en
-la fundamental de interés (por ejemplo el batido de 1 kHz), calcula la FFT
-de cada canal y obtiene S11 = medición / referencia usando SOLO el bin de la
-fundamental (no bin a bin en todo el espectro):
+Victoria Torres, 27/8/2026.
+Calcula S11 a partir de un archivo WAV estereo.
 
-  - Se busca el pico de magnitud dentro de una ventana alrededor de f_centro
-    en el espectro de referencia.
-  - Se usa ese mismo bin de frecuencia en el espectro de medición.
-  - S11 = espectro_med[bin] / espectro_ref[bin] -> módulo (dB) y fase (°).
+Flujo general:
+        1. Selecciona un WAV estereo con referencia en el canal izquierdo y
+             medicion en el derecho, y normaliza sus muestras.
+        2. Aplica a ambos canales el mismo filtro FIR pasabanda alrededor del
+             tono de batido y calcula sus FFT complejas.
+        3. Busca el pico de la fundamental en la referencia y usa el mismo bin
+             para la medicion.
+        4. Calcula S11 mediante cociente de amplitudes y diferencia de fases.
+        5. Grafica las señales filtradas y los espectros, marcando la fundamental.
 
 Requisitos:
-    pip install numpy matplotlib scipy
+        pip install numpy matplotlib scipy
 """
 
 import numpy as np

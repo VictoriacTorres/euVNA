@@ -1,5 +1,6 @@
 """
-Barrido de RF + adquisición + cálculo de S11, todo en un solo script.
+Victoria Torres, 27/8/2026.
+VNA basico: barrido de RF, adquisicion de audio y calculo de S11 sin calibrar.
 
 Por cada frecuencia del barrido:
     1. Se le manda la frecuencia al Arduino (adf4351_serial.ino) por serial.
@@ -11,10 +12,8 @@ Por cada frecuencia del barrido:
          y se toma el mismo bin en el canal de medición.
     6. S11_punto = medición[bin] / referencia[bin].
 
-Al terminar el barrido, se desenrolla la fase acumulada y se grafica
-|S11| (dB) y fase (grados) en función de la frecuencia de RF. También se
-guardan los resultados crudos en un .csv para post-procesar con el
-algoritmo de calibración.
+Al terminar el barrido, calcula modulo y fase, los grafica en funcion de la
+frecuencia de RF y guarda los resultados en un archivo CSV.
 
 Requisitos:
     pip install pyserial sounddevice numpy scipy matplotlib
