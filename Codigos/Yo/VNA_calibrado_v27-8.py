@@ -1,17 +1,15 @@
 """
-Barrido de RF + adquisición + cálculo de S11.
+Victoria Torres, 27/8/2026.
+VNA calibrado con barrido de RF, adquisicion de audio y correccion SOL.
 
-Por cada frecuencia del barrido:
-    1. Se le manda la frecuencia al Arduino (adf4351_serial.ino) por serial.
-    2. Se graba una captura corta desde la entrada line-in (ref = canal
-       izquierdo, medición = canal derecho).
-    3. Se filtra cada canal con un FIR pasabanda alrededor de 1 kHz.
-    4. Se calcula la FFT compleja de ambos canales.
-    5. Se busca el pico del tono de batido en el canal de referencia, y
-       se toma el mismo bin en el canal de medición.
-    6. S11_punto = medición[bin] / referencia[bin].
-
-Al terminar se grafica y se guardan los resultados en un .csv y en un .pk la imagen interactiva de matplotlib.
+Flujo general:
+    1. Genera las frecuencias y diseña un filtro FIR pasabanda para el tono
+       de batido; calcula la FFT con ventana flattop.
+    2. Busca una calibracion previa o mide SHORT, OPEN y LOAD de 50 ohms.
+    3. Configura el Arduino, captura referencia y medicion, y calcula S11 en
+       el bin del pico de batido detectado.
+    4. Barre el DUT, aplica la correccion SOL y obtiene modulo en dB y fase.
+    5. Guarda el resultado corregido en un CSV y lo muestra en dos graficas.
 
 Requisitos:
     pip install pyserial sounddevice numpy scipy matplotlib
@@ -21,15 +19,11 @@ import csv
 import time
 import os
 import pickle
-import re
-import tkinter as tk
-from tkinter import simpledialog
 
 import numpy as np
 import matplotlib.pyplot as plt
 import serial
 import sounddevice as sd
-from matplotlib.lines import Line2D
 from scipy.signal import firwin, lfilter
 from scipy.signal.windows import get_window
 
@@ -39,8 +33,8 @@ from scipy.signal.windows import get_window
 PUERTO = "COM3"          # Windows: "COM3", "COM5", etc. Linux/Mac: "/dev/ttyACM0"
 BAUDRATE = 115200
 
-F_INICIO_MHZ = 1800.000
-F_FIN_MHZ = 2200.000
+F_INICIO_MHZ = 1700.000
+F_FIN_MHZ = 2300.000
 F_PASO_MHZ = 1.000
 FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221.00, 226.00, 256.00, 260.00, 280.00, 
                              285.00, 291.00, 320.00, 347.00, 353.00, 354.00, 359.00, 360.00, 365.00, 366.00, 371.00, 
@@ -69,7 +63,7 @@ FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221
 # ==================== Configuración: adquisición de audio ====================
 
 FS_AUDIO = 44100
-DURACION_CAPTURA_S = 0.6
+DURACION_CAPTURA_S = 1
 
 # Índice del dispositivo de audio a usar (line-in). None = dispositivo de
 # entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
@@ -91,19 +85,9 @@ BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2,
 
 # ==================== Salidas ====================
 
-CARPETA_CSV = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "Archivos csv resultados-calibracion"
-)
-ARCHIVO_CSV = os.path.join(
-    CARPETA_CSV,
-    f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado.csv"
-)
-NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
-archivo_calibracion = os.path.join(
-    CARPETA_CSV,
-    f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}.csv"
-)
+ARCHIVO_CSV = f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado.csv"
+ARCHIVO_FIGURA = f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado.pkl"
+archivo_calibracion = f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}.csv"
 
 # ==================== Calibración ====================
 def calculo_errores (GM_CC, GM_CA, GM_50, n):
@@ -201,7 +185,7 @@ def capturar_audio(duracion_s, fs, dispositivo=None):
                         dtype="float64", device=dispositivo)
     sd.wait()
 
-    grabacion=grabacion_con_ruido[int(fs * 0.150):] # recorto los primeros 200 milisegundos
+    grabacion=grabacion_con_ruido[int(fs * 0.250):] # recorto los primeros 250 milisegundos
     canal_ref = grabacion[:, 0]
     canal_med = grabacion[:, 1]
 
@@ -327,46 +311,15 @@ def graficar_resultado(freq_rf, modulo_db, fase_deg):
     axs[1].set_ylabel("Fase (grados)")
     axs[1].grid(True, alpha=0.3)
 
-    elementos_leyenda = [
-        Line2D([], [], color="none", label=f"F inicio: {F_INICIO_MHZ:.3f} MHz"),
-        Line2D([], [], color="none", label=f"F fin: {F_FIN_MHZ:.3f} MHz"),
-        Line2D([], [], color="none", label=f"F paso: {F_PASO_MHZ:.3f} MHz"),
-        Line2D([], [], color="none", label=f"F centro filtro: {F_CENTRO_FILTRO:.0f} Hz"),
-    ]
-    fig.legend(handles=elementos_leyenda, loc="lower center", ncol=2,
-               frameon=True)
-    plt.tight_layout(rect=(0, 0.10, 1, 1))
+    plt.tight_layout()
+    with open(ARCHIVO_FIGURA, "wb") as f:
+        pickle.dump(fig, f)
+    print(f"Figura guardada en {ARCHIVO_FIGURA}")
 
-    ventana = tk.Tk()
-    ventana.withdraw()
-    try:
-        medicion = simpledialog.askstring(
-            "Nombre de la medición",
-            "¿A qué medición corresponde esta figura?\n"
-            "El nombre se agregará al archivo .pkl:"
-        )
-    finally:
-        ventana.destroy()
-
-    if medicion and medicion.strip():
-        nombre_medicion = re.sub(r"[<>:\"/\\|?*]", "_", medicion.strip())
-        archivo_figura = f"{NOMBRE_FIGURA_BASE}_{nombre_medicion}.pkl"
-        try:
-            with open(archivo_figura, "wb") as f:
-                pickle.dump(fig, f)
-            print(f"Figura interactiva guardada en {archivo_figura} "
-                  f"(reabrila con abrir_figura.py)")
-        except Exception as e:
-            print(f"AVISO: no se pudo guardar la figura con pickle ({e}). "
-                  "El CSV con los datos sigue disponible igual.")
-    else:
-        print("AVISO: no se guardó la figura porque no se indicó la medición.")
-
-    plt.show()
+    # Forma original de mostrar la figura directamente.
+    # plt.show()
 
 def main():
-    os.makedirs(CARPETA_CSV, exist_ok=True)
-
     frecuencias_rf = generar_frecuencias(F_INICIO_MHZ, F_FIN_MHZ, F_PASO_MHZ)
     print(f"Barrido: {len(frecuencias_rf)} pasos, de {F_INICIO_MHZ} a {F_FIN_MHZ} MHz "
           f"(paso {F_PASO_MHZ} MHz)")
