@@ -62,14 +62,14 @@ FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221
                              1600.00, 1601.00, 1602.00, 1603.00, 1604.00, 1605.00, 1629.00, 1630.00, 1631.00, 1632.00, 
                              1633.00, 1634.00, 1635.00, 1636.00, 1662.00, 1663.00, 1664.00, 1665.00, 1666.00, 1667.00, 
                              1668.00, 1669.00, 1696.00, 1697.00, 1698.00, 1700.00, 1701.00, 1702.00, 1730.00, 1731.00, 
-                             1732.00, 1734.00, 1735.00, 1736.00, 1766.00, 1767.00, 1771.00, 1772.00, 1803.00, 1829.00, 
-                             1833.00, 1854.00, 1858.00, 1910.00, 1937.00, 2018.00, 2150.00, 2235.00, 2236.00, 
+                             1732.00, 1734.00, 1735.00, 1736.00, 1766.00, 1767.00, 1771.00, 1772.00, 1809.00, 1803.00, 1829.00, 
+                             1833.00, 1854.00, 1858.00, 1910.00, 1937.00, 2018.00, 2150.00, 2158.00, 2166.00, 2190.00, 2235.00, 2236.00, 
                              2237.00, 2238.00, 2239.00, 2240.00, 2241.00, 2279.00, 2280.00, 2281.00, 2283.00, 2284.00, 
                              2324.00, 2325.00, 2327.00, 2328.00, 2329.00, 2370.00, 2374.00, 2421.00, 2463.00]
 # ==================== Configuración: adquisición de audio ====================
 
 FS_AUDIO = 44100
-DURACION_CAPTURA_S = 0.6
+DURACION_CAPTURA_S = 0.5
 
 # Índice del dispositivo de audio a usar (line-in). None = dispositivo de
 # entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
@@ -97,7 +97,7 @@ CARPETA_CSV = os.path.join(
 )
 ARCHIVO_CSV = os.path.join(
     CARPETA_CSV,
-    f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado.csv"
+    f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado_SENSOR.csv"
 )
 NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
 archivo_calibracion = os.path.join(
@@ -201,7 +201,7 @@ def capturar_audio(duracion_s, fs, dispositivo=None):
                         dtype="float64", device=dispositivo)
     sd.wait()
 
-    grabacion=grabacion_con_ruido[int(fs * 0.150):] # recorto los primeros 200 milisegundos
+    grabacion=grabacion_con_ruido[int(fs * 0.150):] # recorto los primeros 100 milisegundos
     canal_ref = grabacion[:, 0]
     canal_med = grabacion[:, 1]
 
@@ -316,12 +316,12 @@ def guardar_csv(path, freq_rf, modulo_db, fase_deg):
 def graficar_resultado(freq_rf, modulo_db, fase_deg):
     fig, axs = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 
-    axs[0].plot(freq_rf, modulo_db, color="deeppink", linewidth=1, marker=".")
+    axs[0].plot(freq_rf, modulo_db, color="deeppink", marker=".", linestyle="None")
     axs[0].set_title("S11 - Módulo")
     axs[0].set_ylabel("|S11| (dB)")
     axs[0].grid(True, alpha=0.3)
 
-    axs[1].plot(freq_rf, fase_deg, color="darkmagenta", linewidth=1, marker=".")
+    axs[1].plot(freq_rf, fase_deg, color="darkmagenta", marker=".", linestyle="None")
     axs[1].set_title("S11 - Fase")
     axs[1].set_xlabel("Frecuencia de RF (MHz)")
     axs[1].set_ylabel("Fase (grados)")
