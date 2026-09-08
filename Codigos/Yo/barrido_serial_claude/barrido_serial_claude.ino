@@ -218,7 +218,7 @@ void setup()
     Serial.begin(115200);
     delay(100);
 
-    Serial.println("READY");
+    Serial.println("Listo");
 }
 
 void loop()
