@@ -69,7 +69,7 @@ FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221
 # ==================== Configuración: adquisición de audio ====================
 
 FS_AUDIO = 44100
-DURACION_CAPTURA_S = 0.5
+DURACION_CAPTURA_S = 0.02
 
 # Índice del dispositivo de audio a usar (line-in). None = dispositivo de
 # entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
@@ -81,7 +81,7 @@ DISPOSITIVO_AUDIO = None
 
 F_CENTRO_FILTRO = 10000       # Hz, tono de batido esperado
 ANCHO_BANDA_FILTRO = 200     # Hz
-NUMTAPS_FILTRO = 1001        # debe ser menor que la cantidad de muestras por captura
+NUMTAPS_FILTRO = 63        # debe ser menor que la cantidad de muestras por captura
 
 VENTANA_FFT = "flattop"
 
@@ -201,7 +201,7 @@ def capturar_audio(duracion_s, fs, dispositivo=None):
                         dtype="float64", device=dispositivo)
     sd.wait()
 
-    grabacion=grabacion_con_ruido[int(fs * 0.150):] # recorto los primeros 100 milisegundos
+    grabacion=grabacion_con_ruido[int(fs * 0.004):] # recorto los primeros 100 milisegundos
     canal_ref = grabacion[:, 0]
     canal_med = grabacion[:, 1]
 
@@ -265,7 +265,7 @@ def medir_s11_punto(canal_ref, canal_med, fs, coef_filtro):
     idx_pico = buscar_indice_pico(freqs_ref, espectro_ref, BANDA_BUSQUEDA_PICO)
 
     epsilon = np.max(np.abs(espectro_ref)) * 1e-9
-    s11 = espectro_med[idx_pico] / (espectro_ref[idx_pico] + epsilon)
+    s11 = np.conj(espectro_med[idx_pico] / (espectro_ref[idx_pico] + epsilon))
 
     return s11, freqs_ref[idx_pico]
 

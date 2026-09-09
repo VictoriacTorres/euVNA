@@ -276,7 +276,7 @@ class MainWindow(QMainWindow):
         self.ax_smith = self.fig_smith.add_subplot(111)
         dibujar_fondo_smith(self.ax_smith)
         (self.linea_smith,) = self.ax_smith.plot([], [], color="deeppink",
-                                                  marker=".", linewidth=1)
+                                                  marker=".", linestyle="None")
         self.canvas_smith = FigureCanvas(self.fig_smith)
 
         fila_graficos = QHBoxLayout()
@@ -293,7 +293,7 @@ class MainWindow(QMainWindow):
         self.ax_mod.set_ylabel("|S11| (dB)")
         self.ax_mod.grid(True, alpha=0.3)
         (self.linea_mod,) = self.ax_mod.plot([], [], color="deeppink",
-                                              marker=".", linewidth=1)
+                                              marker=".", linestyle="None")
 
         self.ax_fase.clear()
         self.ax_fase.set_facecolor("#fad7ea")
@@ -302,7 +302,7 @@ class MainWindow(QMainWindow):
         self.ax_fase.set_ylabel("Fase (grados)")
         self.ax_fase.grid(True, alpha=0.3)
         (self.linea_fase,) = self.ax_fase.plot([], [], color="darkmagenta",
-                                                marker=".", linewidth=1)
+                                                marker=".", linestyle="None")
         self.fig_mf.tight_layout()
 
     @staticmethod
@@ -530,7 +530,7 @@ class MainWindow(QMainWindow):
         self._preparar_ejes_mod_fase()
         self.canvas_mf.draw()
         dibujar_fondo_smith(self.ax_smith)
-        (self.linea_smith,) = self.ax_smith.plot([], [], color="deeppink", marker=".", linewidth=1)
+        (self.linea_smith,) = self.ax_smith.plot([], [], color="deeppink", marker=".", linestyle="None")
         self.canvas_smith.draw()
 
         self.btn_medir.setEnabled(False)

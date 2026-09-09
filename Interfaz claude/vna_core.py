@@ -187,7 +187,7 @@ def medir_s11_punto(canal_ref, canal_med, fs, coef_filtro, ventana_fft, banda):
     idx_pico = buscar_indice_pico(freqs_ref, espectro_ref, banda)
 
     epsilon = np.max(np.abs(espectro_ref)) * 1e-9
-    s11 = espectro_med[idx_pico] / (espectro_ref[idx_pico] + epsilon)
+    s11 = np.conj(espectro_med[idx_pico] / (espectro_ref[idx_pico] + epsilon))
 
     return s11, freqs_ref[idx_pico]
 
