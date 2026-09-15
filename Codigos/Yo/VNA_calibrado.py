@@ -39,9 +39,10 @@ from scipy.signal.windows import get_window
 PUERTO = "COM3"          # Windows: "COM3", "COM5", etc. Linux/Mac: "/dev/ttyACM0"
 BAUDRATE = 115200
 
-F_INICIO_MHZ = 1800.000
-F_FIN_MHZ = 2200.000
+F_INICIO_MHZ = 1850.000
+F_FIN_MHZ = 1950.000
 F_PASO_MHZ = 1.000
+OFFSET_MHZ=0.010 # Frecuencia de audio
 FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221.00, 226.00, 256.00, 260.00, 280.00, 
                              285.00, 291.00, 320.00, 347.00, 353.00, 354.00, 359.00, 360.00, 365.00, 366.00, 371.00, 
                              372.00, 378.00, 379.00, 385.00, 386.00, 392.00, 393.00, 400.00, 401.00, 408.00, 409.00, 
@@ -67,10 +68,9 @@ FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221
                              2237.00, 2238.00, 2239.00, 2240.00, 2241.00, 2279.00, 2280.00, 2281.00, 2283.00, 2284.00, 
                              2324.00, 2325.00, 2327.00, 2328.00, 2329.00, 2370.00, 2374.00, 2421.00, 2463.00]
 # ==================== Configuración: adquisición de audio ====================
-
 FS_AUDIO = 44100
-DURACION_CAPTURA_S = 0.02
-
+DURACION_CAPTURA_S = 1
+DESCARTE_S = 0.200
 # Índice del dispositivo de audio a usar (line-in). None = dispositivo de
 # entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
 #   python -c "import sounddevice as sd; print(sd.query_devices())"
@@ -201,7 +201,7 @@ def capturar_audio(duracion_s, fs, dispositivo=None):
                         dtype="float64", device=dispositivo)
     sd.wait()
 
-    grabacion=grabacion_con_ruido[int(fs * 0.004):] # recorto los primeros 100 milisegundos
+    grabacion=grabacion_con_ruido[int(fs * DESCARTE_S):] # recorto los primeros milisegundos
     canal_ref = grabacion[:, 0]
     canal_med = grabacion[:, 1]
 

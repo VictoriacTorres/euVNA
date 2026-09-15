@@ -401,8 +401,8 @@ void setup()
 
     delay(100);
 
-    setFrequency1(870.000);
-    setFrequency2(870.005);
+    setFrequency1(1000.000);
+    setFrequency2(1000.001);
 
     // Ejemplos:
     // setFrequency(1100.000000);
