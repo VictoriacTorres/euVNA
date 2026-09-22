@@ -39,8 +39,8 @@ from scipy.signal.windows import get_window
 PUERTO = "COM3"          # Windows: "COM3", "COM5", etc. Linux/Mac: "/dev/ttyACM0"
 BAUDRATE = 115200
 
-F_INICIO_MHZ = 1850.000
-F_FIN_MHZ = 1950.000
+F_INICIO_MHZ = 1800.000
+F_FIN_MHZ = 2200.000
 F_PASO_MHZ = 1.000
 OFFSET_MHZ=0.010 # Frecuencia de audio
 FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221.00, 226.00, 256.00, 260.00, 280.00, 
@@ -70,7 +70,7 @@ FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221
 # ==================== Configuración: adquisición de audio ====================
 FS_AUDIO = 44100
 DURACION_CAPTURA_S = 1
-DESCARTE_S = 0.200
+DESCARTE_S = 0.300
 # Índice del dispositivo de audio a usar (line-in). None = dispositivo de
 # entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
 #   python -c "import sounddevice as sd; print(sd.query_devices())"
@@ -97,12 +97,12 @@ CARPETA_CSV = os.path.join(
 )
 ARCHIVO_CSV = os.path.join(
     CARPETA_CSV,
-    f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado_SENSOR.csv"
+    f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado_50R.csv"
 )
 NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
 archivo_calibracion = os.path.join(
     CARPETA_CSV,
-    f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}.csv"
+    f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - signo corregido.csv"
 )
 
 # ==================== Calibración ====================
