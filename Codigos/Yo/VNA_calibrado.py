@@ -67,6 +67,23 @@ FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221
                              1833.00, 1854.00, 1858.00, 1910.00, 1937.00, 2018.00, 2150.00, 2158.00, 2166.00, 2190.00, 2235.00, 2236.00, 
                              2237.00, 2238.00, 2239.00, 2240.00, 2241.00, 2279.00, 2280.00, 2281.00, 2283.00, 2284.00, 
                              2324.00, 2325.00, 2327.00, 2328.00, 2329.00, 2370.00, 2374.00, 2421.00, 2463.00]
+
+# ==================== Salidas ====================
+
+CARPETA_CSV = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "Archivos csv resultados-calibracion"
+)
+ARCHIVO_CSV = os.path.join(
+    CARPETA_CSV,
+    f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado.csv"
+)
+NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
+archivo_calibracion = os.path.join(
+    CARPETA_CSV,
+    f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - 1oct.csv"
+)
+
 # ==================== Configuración: adquisición de audio ====================
 FS_AUDIO = 44100
 DURACION_CAPTURA_S = 1
@@ -89,21 +106,6 @@ VENTANA_FFT = "flattop"
 BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2,
                         F_CENTRO_FILTRO + ANCHO_BANDA_FILTRO / 2)
 
-# ==================== Salidas ====================
-
-CARPETA_CSV = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "Archivos csv resultados-calibracion"
-)
-ARCHIVO_CSV = os.path.join(
-    CARPETA_CSV,
-    f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado_50R.csv"
-)
-NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
-archivo_calibracion = os.path.join(
-    CARPETA_CSV,
-    f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - signo corregido.csv"
-)
 
 # ==================== Calibración ====================
 def calculo_errores (GM_CC, GM_CA, GM_50, n):
@@ -124,13 +126,16 @@ def calculo_errores (GM_CC, GM_CA, GM_50, n):
         delta_e[i]=sol[2] 
     return e_00, e_11, delta_e
 
+def correccion_punto(gm, e_00, e_11, delta_e):
+    denominador = gm * e_11 - delta_e
+    if abs(denominador) < 1e-15:
+        denominador = 1e-15 + 1e-15j
+    return (gm - e_00) / denominador
+
 def correccion(GM,e_00,e_11,delta_e,n):
     Gamma=np.empty(n,dtype=complex)
     for i in range(n):
-        denominador = (GM[i]*e_11[i]-delta_e[i])
-        if abs(denominador) < 1e-15:
-            denominador = 1e-15 + 1e-15j
-        Gamma[i]=(GM[i]-e_00[i])/denominador
+        Gamma[i] = correccion_punto(GM[i], e_00[i], e_11[i], delta_e[i])
     return Gamma
 
 def guardar_calibracion_csv(path, freqs, e_00, e_11, delta_e):
@@ -272,7 +277,7 @@ def medir_s11_punto(canal_ref, canal_med, fs, coef_filtro):
 
 # ==================== Barrido ====================
 
-def barrido(ser,frecuencias_rf, coef_filtro, nombre_medida=""):
+def barrido(ser,frecuencias_rf, coef_filtro, nombre_medida="", calibracion=None):
     print(f"\n---> Iniciando adquisición: {nombre_medida}")
     resultados_freq_rf = []
     resultados_s11_complejo = []
@@ -295,12 +300,26 @@ def barrido(ser,frecuencias_rf, coef_filtro, nombre_medida=""):
         resultados_freq_rf.append(f_rf)
         resultados_s11_complejo.append(s11)
 
-        #Mostrar resultados parciales en la consola
-        modulo_db = 20 * np.log10(np.abs(s11) + 1e-12)
-        fase_rad = np.angle(s11)
+        gamma_mostrar = s11
+        etiqueta_modulo = "|S11|"
+        etiqueta_fase = "fase"
+        if calibracion is not None:
+            idx = len(resultados_s11_complejo) - 1
+            e_00, e_11, delta_e = calibracion
+            if idx < min(len(e_00), len(e_11), len(delta_e)):
+                gamma_mostrar = correccion_punto(
+                    s11, e_00[idx], e_11[idx], delta_e[idx]
+                )
+                etiqueta_modulo = "|S11| calibrado"
+                etiqueta_fase = "fase calibrada"
+            else:
+                continue
+
+        modulo_db = 20 * np.log10(np.abs(gamma_mostrar) + 1e-12)
+        fase_deg = np.degrees(np.angle(gamma_mostrar))
         print(f"[{i + 1}/{len(frecuencias_rf)}] RF={f_rf:.3f} MHz  "
-                f"batido={f_batido:.1f} Hz  |S11|={modulo_db:.2f} dB  "
-                f"fase={np.degrees(fase_rad):.1f}°")
+              f"batido={f_batido:.1f} Hz  {etiqueta_modulo}={modulo_db:.2f} dB  "
+              f"{etiqueta_fase}={fase_deg:.1f}°")
     return np.array(resultados_freq_rf), np.array(resultados_s11_complejo)
 
 
@@ -417,7 +436,10 @@ def main():
     print("===========================================")
     input("Conecte el dispositivo a medir y presione Enter para iniciar el barrido final...")
     
-    freqs_dut, gm_dut = barrido(ser, frecuencias_rf, coef_filtro, "MEDICIÓN DUT")
+    freqs_dut, gm_dut = barrido(
+        ser, frecuencias_rf, coef_filtro, "MEDICIÓN DUT",
+        calibracion=(e_00, e_11, delta_e),
+    )
     
     ser.close()
 
@@ -427,7 +449,6 @@ def main():
 
      # 6. Aplicar la corrección SOL al DUT
     gamma_corregido = correccion(gm_dut, e_00, e_11, delta_e, len(gm_dut))
-    
 
     fase_deg = np.degrees(np.angle(gamma_corregido))
     # fase_deg = np.degrees(np.unwrap(np.angle(resultados_s11_complejo))) # Desenrollo la fase
