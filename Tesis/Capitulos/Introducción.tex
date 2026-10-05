@@ -1,0 +1,39 @@
+\section{Contexto y motivación}
+
+La diabetes es una afección crónica que se desencadena cuando el organismo pierde su capacidad de producir suficiente insulina o de utilizarla con eficacia para mantener los niveles de glucosa en la sangre dentro de los márgenes normales. La cantidad de adultos que la padecen se ha casi cuadruplicado entre 1980 y 2016, con un aumento en la prevalencia más acelerado en países de ingresos bajos y medios que en países de ingresos altos \cite{OMS_2016}. Para 2021 fue la causa directa de 1,6 millones de muertes \cite{OMS_2024}.
+Existen numerosos dispositivos que permiten realizar un control de la glucosa en sangre pero requieren, en general, de una punción en alguna parte del cuerpo para extraer una muestra de sangre. El mecanismo tradicional requiere depositar la muestra en una tira reactiva dentro de un medidor para obtener el valor de glucemia. Se recomienda, en promedio, que los pacientes realicen 4 mediciones al día (dependiendo de la estabilidad de los niveles o del régimen de tratamiento). Dado que la extracción suele ser dolorosa, además de que tiene un costo asociado al gasto de cada tira reactiva,  la mayoría de los pacientes no logran tener un buen monitoreo de su glucemia. Por este motivo se ha incursionado en la glucometría semi-invasiva como los sistemas CGM (Continous Glucose Monitoring) \cite{Freestylelibre} que obtienen mediciones del líquido intersticial y requieren la colocación de un sensor debajo de la piel que se debe reemplazar periódicamente, por lo que siguen siendo invasivos, incómodos de usar y descartables. 
+El estudio de propuestas para la medición no invasiva ha avanzado en los últimos años, pero aún no existe una técnica ampliamente adoptada ni dispositivos comerciales fiables.
+Se ha observado que existe una correlación entre la concentración de glucosa en sangre y sus propiedades eléctricas (permitividad relativa y conductividad) \cite{Topsakal}, por lo que es razonable suponer que las variaciones en la composición dieléctrica de una muestra de tejido biológico pueden alterar la distribución de los campos electromagnéticos presentes en un sensor de microondas. 
+
+Por esta razón el Laboratorio de Comunicaciones (LAC), perteneciente al Instituto de Investigaciones Científicas y Tecnológicas en Electrónica (ICYTE), que depende de la UNMDP y del Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET) tiene una línea de investigación cuyo objetivo es diseñar e implementar un prototipo que permita realizar una medición de glucemia, basado en un VNA y un sensor de microondas.
+
+Un Analizador Vectorial de Redes es un instrumento de medición que permite caracterizar sistemas en alta frecuencia. La forma en que lo hace es haciendo incidir una señal de microondas en los puertos del sistema, y midiendo las señales que salen del resto de los puertos.
+
+El Laboratorio busca optimizar, compactar y mejorar el rendimiento del VNA actual, por lo que requiere el diseño y desarrollo de un VNA de un puerto que esté adaptado a un sensor de microondas que resuena alrededor de los 2 GHz.
+
+ \section{Partes interesadas}
+El Grupo de Investigación del LAC es quien solicita el desarrollo. Por esta razón, el equipo se utilizará bajo su supervisión, y sus posibles usuarios son:
+\begin{itemize}
+    \item Ingenieros, técnicos y/o radioaficionados;
+    \item Estudiantes de ingeniería.
+\end{itemize}
+
+
+
+\section{Objetivos}
+El objetivo principal del proyecto es el diseño, desarrollo, calibración y ensayo de un VNA de bajo costo y tamaño compacto, que opere en la banda de frecuencias de UHF que abarca desde 1,8 a 2,2 GHz, orientado a la medición no invasiva de glucemia.
+\vspace{\baselineskip}
+
+Los objetivos particulares son:
+\begin{itemize}
+    \item Implementar en una placa de circuito impreso el VNA;
+    \item Generar un barrido en la banda de frecuencias de interés;
+    \item Implementar un sistema heterodino que permita trabajar con señales de frecuencia intermedia (FI) en la banda de audio;
+    \item Digitalizar las señales obtenidas para aplicar un tratamiento digital que permita calcular el coeficiente de reflexión del sistema bajo prueba (DUT - \textit{Device Under Test});
+    \item Implementar una rutina de calibración para eliminar errores sistemáticos del sistema;
+    
+\end{itemize}
+
+\section{Organización del informe}
+El informe se organiza de la siguiente manera: en el capítulo primero se introduce el proyecto y se brinda un punteo de los objetivos más importantes. El capítulo 2 se centra en el marco teórico, donde se explican las bases para entender el funcionamiento del dispositivo. El capítulo 3 describe el proyecto con su implementación. En el capítulo 4 se muestran los resultados y mediciones. El capítulo 5 se dedica a conclusiones y trabajos futuros, y el 6 exhibe los esquemáticos y códigos utilizados. Por último se anexan los apéndices en donde se encuentran: el estudio preliminar, el plan de trabajo, las especificaciones de requerimientos, funcional y técnica y el plan de pruebas. 
+

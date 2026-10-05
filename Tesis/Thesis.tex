@@ -1,0 +1,230 @@
+\documentclass[11pt,a4paper, table, dvipsnames]{report}
+\usepackage{graphicx,float}
+\floatplacement{figure}{H}
+\floatplacement{table}{H}
+\usepackage[hidelinks]{hyperref}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{ragged2e}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{tabularx} 
+\usepackage{url}
+\usepackage{subcaption}
+\usepackage{amsmath,amssymb}
+\usepackage{indentfirst}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+
+%Bibliografia
+\usepackage[style=numeric, backend=biber]{biblatex}
+\addbibresource{Bibliografia.bib}
+
+%Formato codigo
+\usepackage{minted}
+\usemintedstyle{emacs}
+
+
+\numberwithin{equation}{section}
+\renewcommand{\contentsname}{Índice}
+\fancypagestyle{firstpage}{
+\fancyhf{}
+\lhead{{\includegraphics[width=5cm]{Imagenes/fi.jpg}}}
+\rhead{{\includegraphics[width=5cm]{Imagenes/UNMDP_BW.jpg}}}
+\renewcommand{\headrulewidth}{0pt} }
+\captionsetup[figure]{name={Figura}}
+
+\newcommand{\Thesis}{Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
+\newcommand{\Degree}{Ingeniería Electrónica}
+\newcommand{\Name}{Victoria Carla Torres}
+\newcommand{\Department}{Departamento de Ingeniería Electrónica y Computación}
+\newcommand{\Universidad}{Universidad Nacional de Mar del Plata}
+\newcommand{\Place}{Facultad de Ingeniería}
+\newcommand{\Fecha}{Septiembre 2026}
+
+\begin{document}
+
+%========= Title Page =========
+\begin{titlepage}
+\thispagestyle{firstpage}
+\pagestyle{empty}
+\vspace*{3cm}
+\centering
+
+\begin{huge}
+\textsc{\Universidad}\\
+\vspace{1cm}      
+\text{Facultad de Ingeniería}
+\end{huge}
+
+
+\vspace{1cm}
+
+\begin{LARGE}
+\begin{center} \text{Trabajo final} \end{center}
+\hrule
+\vspace{8pt}
+\textbf{\Thesis}
+\end{LARGE}
+\vspace{10pt}
+\hrule
+\vspace*{\fill}
+
+\begin{Large}
+\textbf{\Name}\\[6pt]
+\end{Large}
+\vfill
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.8\textwidth]{Imagenes/Logo.png}
+\end{figure}
+\vspace{\fill}
+
+\begin{Large}
+\text{\Degree}\\
+\Department\\
+\Fecha\\
+\end{Large}
+
+\end{titlepage}
+\pagestyle{empty}
+\pagenumbering{arabic}
+\renewcommand{\chaptername}{Capítulo}
+
+%=============== Agradecimientos ===============
+\addcontentsline{toc}{chapter}{Agradecimientos}
+{\Huge\bfseries Agradecimientos\par}
+\vspace{1.5cm}
+\input{Capitulos/Agradecimientos}
+\clearpage
+
+%======== Indice ==================
+\tableofcontents
+\thispagestyle{empty}
+\pagebreak
+
+%========Tabla de siglas================
+\addcontentsline{toc}{chapter}{Siglas y abreviaturas}
+\chapter*{Siglas y abreviaturas}
+\begin{center}
+\begin{tabularx}{\textwidth}{|X|X|}
+\arrayrulecolor{Thistle}
+\hline
+\rowcolor{Thistle!20} 
+\textbf{Nombre}  & \textbf{Descripción}  \\
+\hline
+VNA & Analizador Vectorial de Redes\\
+\hline
+UHF & Ultra High Frequency\\
+\hline
+LAC & Laboratorio de Comunicaciones\\
+\hline
+ICYTE & Instituto de Investigaciones Científicas y Tecnológicas en Electrónica \\
+\hline
+FI & Frecuencia Intermedia\\
+\hline
+DUT & Device Under Test\\
+\hline
+RF & Radiofrecuencia \\
+\hline
+PCB & Printed Circuit Board \\
+\hline
+FFT & Fast Fourier Transform\\
+\hline
+\\
+\hline
+IA & Inteligencia Artificial\\
+\hline
+
+\end{tabularx}
+\end{center}
+
+
+
+%======= Resumen =======
+\addcontentsline{toc}{chapter}{Resumen}
+\chapter*{Resumen}
+
+El proyecto propone el diseño, implementación, calibración y ensayo de un Analizador Vectorial de Redes (VNA) de un puerto, que opere en una banda de frecuencias UHF (Ultra High Frequency) que va desde los 1,8 hasta los 2,2 GHz, adaptado para operar en conjunto con un sensor de glucemia no invasivo.
+
+El principio de medición se basa en la existencia de una correlación entre la concentración de glucosa en sangre y sus propiedades eléctricas (permitividad relativa y conductividad) \cite{Topsakal}, por lo que es razonable suponer que las variaciones en la composición dieléctrica de una muestra de tejido biológico pueden alterar la distribución de los campos electromagnéticos presentes en un sensor de microondas.
+\thispagestyle{empty}
+\pagebreak
+
+%=========== Introducción ===========
+\chapter{Introducción}
+\input{Capitulos/Introducción}
+\pagebreak
+
+%============= Marco teórico ==========
+\chapter{Marco teórico}
+\input{Capitulos/Marco teórico}
+\pagebreak
+
+%=============== Proyecto ===============
+\chapter{Proyecto}
+\input{Capitulos/Proyecto}
+\pagebreak
+
+%========= Evaluation =========
+\chapter{Resultados}
+\pagebreak
+
+%========== Conclusiones y trabajos futuros ==========
+\chapter{Conclusiones y trabajos futuros}
+\pagebreak
+
+
+%========== Esquemáticos y código ==========
+\chapter{Esquemáticos y código}
+\section{Esquemáticos Altium}
+A continuación se presentan los esquemáticos de los distintos bloques funcionales del sistema, exportados de Altium Designer.  
+\includepdf[
+    pages=-,
+    angle=90,
+    fitpaper=true,
+    addtotoc={
+        1, subsection, 2, Generador de RF incidente (ADF4351), sch:ADFRF,
+        2, subsection, 2, Generador de RF Oscilador Local (ADF4351), sch:ADFOL,
+        3, subsection, 2, Mezclador, sch:mix,
+        4, subsection, 2, Alimentación y CLK, sch:alimentacion,
+        5, subsection, 2, Acoplador Direccional, sch:acop,
+        6, subsection, 2, Amplificadores de FI, sch:amplifi,
+        7, subsection, 2, Atenuadores, sch:atenuadores
+    }
+]{Esquematicos.pdf}
+
+\section{Interfaz de usuario}
+\subsection{Core}
+\label{VNA_core}
+\inputminted[breaklines, linenos]{python}{Codigos/vna_core.py}
+\subsection{Graphical User Interface}
+\label{VNA_gui}
+\inputminted[breaklines, linenos]{python}{Codigos/vna_gui.py}
+
+
+%========== Apéndices ==========
+\addcontentsline{toc}{chapter}{Apéndices}
+\chapter*{Apéndices}
+\setcounter{section}{0}
+\renewcommand{\thesection}{\Alph{section}}
+
+\includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Estudio Preliminar, apend:Estudio_Preliminar}]{Apendices/Estudio Preliminar.pdf}
+
+\includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Plan de Trabajo, apend:PProy}]{Apendices/Pproy.pdf}
+
+\includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Especificación de Requerimientos, apend:ER}]{Apendices/ER.pdf}
+
+\includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Especificación Funcional, apend:EF}]{Apendices/EF.pdf}
+
+\includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Especificación Técnica, apend:ET}]{Apendices/Especificación Técnica.pdf}
+
+\includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Plan de Pruebas, apend:PP}]{Apendices/Plan de pruebas.pdf}
+
+%=========== Bibliografía ===========
+\printbibliography[heading=bibintoc, title={Bibliografía}]
+
+
+\end{document}

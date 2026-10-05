@@ -1,0 +1,651 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{vna\PYGZus{}gui.py}
+\PYG{l+s+sd}{==========}
+\PYG{l+s+sd}{Interfaz grafica (PyQt6) para el VNA casero: permite elegir frecuencia de}
+\PYG{l+s+sd}{inicio/fin/paso, conectar el Arduino, correr la calibracion SOL (short /}
+\PYG{l+s+sd}{open / load) paso a paso, medir un DUT, y visualizar en vivo el modulo y}
+\PYG{l+s+sd}{la fase de S11 junto con el abaco de Smith.}
+
+\PYG{l+s+sd}{Requisitos:}
+\PYG{l+s+sd}{    pip install PyQt6 pyserial sounddevice numpy scipy matplotlib}
+
+\PYG{l+s+sd}{Ejecutar con:}
+\PYG{l+s+sd}{    python vna\PYGZus{}gui.py}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{numpy}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{np}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{PyQt6.QtCore}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Qt}\PYG{p}{,} \PYG{n}{QThread}\PYG{p}{,} \PYG{n}{pyqtSignal}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{PyQt6.QtWidgets}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{p}{(}
+    \PYG{n}{QApplication}\PYG{p}{,} \PYG{n}{QMainWindow}\PYG{p}{,} \PYG{n}{QWidget}\PYG{p}{,} \PYG{n}{QVBoxLayout}\PYG{p}{,} \PYG{n}{QHBoxLayout}\PYG{p}{,}
+    \PYG{n}{QGroupBox}\PYG{p}{,} \PYG{n}{QLabel}\PYG{p}{,} \PYG{n}{QLineEdit}\PYG{p}{,} \PYG{n}{QPushButton}\PYG{p}{,} \PYG{n}{QDoubleSpinBox}\PYG{p}{,}
+    \PYG{n}{QProgressBar}\PYG{p}{,} \PYG{n}{QFileDialog}\PYG{p}{,} \PYG{n}{QMessageBox}\PYG{p}{,} \PYG{n}{QPlainTextEdit}\PYG{p}{,} \PYG{n}{QSplitter}\PYG{p}{,}
+\PYG{p}{)}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib.backends.backend\PYGZus{}qtagg}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{FigureCanvasQTAgg} \PYG{k}{as} \PYG{n}{FigureCanvas}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib.figure}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Figure}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vna\PYGZus{}core}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{core}
+
+
+\PYG{c+c1}{\PYGZsh{} ==================== Hilo de trabajo: corre un barrido sin trabar la GUI ====================}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{SweepWorker}\PYG{p}{(}\PYG{n}{QThread}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Ejecuta core.barrido() en un hilo aparte y reenvia sus resultados como señales Qt.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{n}{punto\PYGZus{}medido} \PYG{o}{=} \PYG{n}{pyqtSignal}\PYG{p}{(}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{float}\PYG{p}{,} \PYG{n+nb}{complex}\PYG{p}{,} \PYG{n+nb}{float}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} i, n, f\PYGZus{}rf, s11, f\PYGZus{}batido}
+    \PYG{n}{terminado} \PYG{o}{=} \PYG{n}{pyqtSignal}\PYG{p}{(}\PYG{n+nb}{object}\PYG{p}{,} \PYG{n+nb}{object}\PYG{p}{)}                      \PYG{c+c1}{\PYGZsh{} freqs (ndarray), s11 (ndarray)}
+    \PYG{n}{abortado} \PYG{o}{=} \PYG{n}{pyqtSignal}\PYG{p}{()}
+    \PYG{n}{error} \PYG{o}{=} \PYG{n}{pyqtSignal}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{ser}\PYG{p}{,} \PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{,} \PYG{n}{config}\PYG{p}{,} \PYG{n}{parent}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{parent}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ser} \PYG{o}{=} \PYG{n}{ser}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{frecuencias\PYGZus{}rf} \PYG{o}{=} \PYG{n}{frecuencias\PYGZus{}rf}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{coef\PYGZus{}filtro} \PYG{o}{=} \PYG{n}{coef\PYGZus{}filtro}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{config} \PYG{o}{=} \PYG{n}{config}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}abortar} \PYG{o}{=} \PYG{k+kc}{False}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{abortar}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}abortar} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{n}{freqs}\PYG{p}{,} \PYG{n}{s11} \PYG{o}{=} \PYG{n}{core}\PYG{o}{.}\PYG{n}{barrido}\PYG{p}{(}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ser}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{coef\PYGZus{}filtro}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{config}\PYG{p}{,}
+                \PYG{n}{on\PYGZus{}point}\PYG{o}{=}\PYG{k}{lambda} \PYG{n}{i}\PYG{p}{,} \PYG{n}{n}\PYG{p}{,} \PYG{n}{f}\PYG{p}{,} \PYG{n}{s}\PYG{p}{,} \PYG{n}{fb}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{punto\PYGZus{}medido}\PYG{o}{.}\PYG{n}{emit}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{n}\PYG{p}{,} \PYG{n}{f}\PYG{p}{,} \PYG{n}{s}\PYG{p}{,} \PYG{n}{fb}\PYG{p}{),}
+                \PYG{n}{should\PYGZus{}abort}\PYG{o}{=}\PYG{k}{lambda}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}abortar}\PYG{p}{,}
+            \PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{terminado}\PYG{o}{.}\PYG{n}{emit}\PYG{p}{(}\PYG{n}{freqs}\PYG{p}{,} \PYG{n}{s11}\PYG{p}{)}
+        \PYG{k}{except} \PYG{n}{core}\PYG{o}{.}\PYG{n}{BarridoAbortado}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{abortado}\PYG{o}{.}\PYG{n}{emit}\PYG{p}{()}
+        \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} noqa: BLE001 \PYGZhy{} se muestra en la GUI}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{error}\PYG{o}{.}\PYG{n}{emit}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{e}\PYG{p}{))}
+
+
+\PYG{c+c1}{\PYGZsh{} ==================== Dibujo del abaco de Smith (fondo estatico) ====================}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{dibujar\PYGZus{}fondo\PYGZus{}smith}\PYG{p}{(}\PYG{n}{ax}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Dibuja el grillado clasico de un abaco de Smith (r y x constantes).\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{ax}\PYG{o}{.}\PYG{n}{clear}\PYG{p}{()}
+    \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}aspect}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}equal\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ax}\PYG{o}{.}\PYG{n}{axis}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}off\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlim}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.15}\PYG{p}{,} \PYG{l+m+mf}{1.15}\PYG{p}{)}
+    \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylim}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.15}\PYG{p}{,} \PYG{l+m+mf}{1.15}\PYG{p}{)}
+    \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Abaco de Smith\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{theta} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{p}{,} \PYG{l+m+mi}{400}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Circulo unitario (|Gamma| = 1)}
+    \PYG{n}{ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{cos}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{),} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sin}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{),} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}black\PYGZdq{}}\PYG{p}{,} \PYG{n}{linewidth}\PYG{o}{=}\PYG{l+m+mf}{1.0}\PYG{p}{)}
+    \PYG{n}{ax}\PYG{o}{.}\PYG{n}{axhline}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}gray\PYGZdq{}}\PYG{p}{,} \PYG{n}{linewidth}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Circulos de resistencia constante (r = 0, 0.2, 0.5, 1, 2, 5)}
+    \PYG{k}{for} \PYG{n}{r} \PYG{o+ow}{in} \PYG{p}{(}\PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{l+m+mf}{0.2}\PYG{p}{,} \PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{,} \PYG{l+m+mf}{2.0}\PYG{p}{,} \PYG{l+m+mf}{5.0}\PYG{p}{):}
+        \PYG{n}{cx} \PYG{o}{=} \PYG{n}{r} \PYG{o}{/} \PYG{p}{(}\PYG{n}{r} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)}
+        \PYG{n}{rad} \PYG{o}{=} \PYG{l+m+mi}{1} \PYG{o}{/} \PYG{p}{(}\PYG{n}{r} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)}
+        \PYG{n}{x} \PYG{o}{=} \PYG{n}{cx} \PYG{o}{+} \PYG{n}{rad} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{cos}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{)}
+        \PYG{n}{y} \PYG{o}{=} \PYG{n}{rad} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sin}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{)}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}gray\PYGZdq{}}\PYG{p}{,} \PYG{n}{linewidth}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Arcos de reactancia constante (x = +/\PYGZhy{} 0.2, 0.5, 1, 2, 5)}
+    \PYG{n}{t} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{p}{,} \PYG{l+m+mi}{800}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{x\PYGZus{}val} \PYG{o+ow}{in} \PYG{p}{(}\PYG{l+m+mf}{0.2}\PYG{p}{,} \PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{,} \PYG{l+m+mf}{2.0}\PYG{p}{,} \PYG{l+m+mf}{5.0}\PYG{p}{):}
+        \PYG{k}{for} \PYG{n}{signo} \PYG{o+ow}{in} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{):}
+            \PYG{n}{xv} \PYG{o}{=} \PYG{n}{signo} \PYG{o}{*} \PYG{n}{x\PYGZus{}val}
+            \PYG{n}{cx}\PYG{p}{,} \PYG{n}{cy} \PYG{o}{=} \PYG{l+m+mf}{1.0}\PYG{p}{,} \PYG{l+m+mf}{1.0} \PYG{o}{/} \PYG{n}{xv}
+            \PYG{n}{rad} \PYG{o}{=} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{l+m+mf}{1.0} \PYG{o}{/} \PYG{n}{xv}\PYG{p}{)}
+            \PYG{n}{gx} \PYG{o}{=} \PYG{n}{cx} \PYG{o}{+} \PYG{n}{rad} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{cos}\PYG{p}{(}\PYG{n}{t}\PYG{p}{)}
+            \PYG{n}{gy} \PYG{o}{=} \PYG{n}{cy} \PYG{o}{+} \PYG{n}{rad} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sin}\PYG{p}{(}\PYG{n}{t}\PYG{p}{)}
+            \PYG{n}{mask} \PYG{o}{=} \PYG{n}{gx} \PYG{o}{**} \PYG{l+m+mi}{2} \PYG{o}{+} \PYG{n}{gy} \PYG{o}{**} \PYG{l+m+mi}{2} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mf}{1.0} \PYG{o}{+} \PYG{l+m+mf}{1e\PYGZhy{}6}
+            \PYG{n}{ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{gx}\PYG{p}{[}\PYG{n}{mask}\PYG{p}{],} \PYG{n}{gy}\PYG{p}{[}\PYG{n}{mask}\PYG{p}{],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}gray\PYGZdq{}}\PYG{p}{,} \PYG{n}{linewidth}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)}
+
+
+\PYG{c+c1}{\PYGZsh{} ==================== Ventana principal ====================}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{MainWindow}\PYG{p}{(}\PYG{n}{QMainWindow}\PYG{p}{):}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{setWindowTitle}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}VNA \PYGZhy{} Control y medición de S11\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{resize}\PYG{p}{(}\PYG{l+m+mi}{1200}\PYG{p}{,} \PYG{l+m+mi}{750}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{config} \PYG{o}{=} \PYG{n}{core}\PYG{o}{.}\PYG{n}{config\PYGZus{}por\PYGZus{}defecto}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ser} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo} \PYG{o}{=} \PYG{k+kc}{None}
+
+        \PYG{c+c1}{\PYGZsh{} Estado de calibracion}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{=} \PYG{l+m+mi}{0}            \PYG{c+c1}{\PYGZsh{} 0 = sin empezar, 1=SHORT, 2=OPEN, 3=LOAD, 4=lista}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}cc} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}ca} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}50} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}freqs} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e11} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}delta\PYGZus{}e} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}disponible} \PYG{o}{=} \PYG{k+kc}{False}
+
+        \PYG{c+c1}{\PYGZsh{} Buffers de la medicion en curso (para graficar en vivo)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}freq} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}mod\PYGZus{}db} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}fase\PYGZus{}deg} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}gamma} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}freqs} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}gamma} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}mod\PYGZus{}db} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}fase\PYGZus{}deg} \PYG{o}{=} \PYG{k+kc}{None}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}armar\PYGZus{}ui}\PYG{p}{()}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{} UI \PYGZhy{}\PYGZhy{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}armar\PYGZus{}ui}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{central} \PYG{o}{=} \PYG{n}{QWidget}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{setCentralWidget}\PYG{p}{(}\PYG{n}{central}\PYG{p}{)}
+        \PYG{n}{layout\PYGZus{}principal} \PYG{o}{=} \PYG{n}{QHBoxLayout}\PYG{p}{(}\PYG{n}{central}\PYG{p}{)}
+
+        \PYG{n}{splitter} \PYG{o}{=} \PYG{n}{QSplitter}\PYG{p}{(}\PYG{n}{Qt}\PYG{o}{.}\PYG{n}{Orientation}\PYG{o}{.}\PYG{n}{Horizontal}\PYG{p}{)}
+        \PYG{n}{layout\PYGZus{}principal}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{splitter}\PYG{p}{)}
+
+        \PYG{n}{panel\PYGZus{}izq} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}armar\PYGZus{}panel\PYGZus{}controles}\PYG{p}{()}
+        \PYG{n}{panel\PYGZus{}der} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}armar\PYGZus{}panel\PYGZus{}graficos}\PYG{p}{()}
+
+        \PYG{n}{splitter}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{panel\PYGZus{}izq}\PYG{p}{)}
+        \PYG{n}{splitter}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{panel\PYGZus{}der}\PYG{p}{)}
+        \PYG{n}{splitter}\PYG{o}{.}\PYG{n}{setStretchFactor}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+        \PYG{n}{splitter}\PYG{o}{.}\PYG{n}{setStretchFactor}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}armar\PYGZus{}panel\PYGZus{}controles}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{panel} \PYG{o}{=} \PYG{n}{QWidget}\PYG{p}{()}
+        \PYG{n}{panel}\PYG{o}{.}\PYG{n}{setMinimumWidth}\PYG{p}{(}\PYG{l+m+mi}{340}\PYG{p}{)}
+        \PYG{n}{panel}\PYG{o}{.}\PYG{n}{setMaximumWidth}\PYG{p}{(}\PYG{l+m+mi}{420}\PYG{p}{)}
+        \PYG{n}{v} \PYG{o}{=} \PYG{n}{QVBoxLayout}\PYG{p}{(}\PYG{n}{panel}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Conexion Arduino \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{n}{gb\PYGZus{}conexion} \PYG{o}{=} \PYG{n}{QGroupBox}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Conexion Arduino\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{f} \PYG{o}{=} \PYG{n}{QVBoxLayout}\PYG{p}{(}\PYG{n}{gb\PYGZus{}conexion}\PYG{p}{)}
+        \PYG{n}{fila\PYGZus{}puerto} \PYG{o}{=} \PYG{n}{QHBoxLayout}\PYG{p}{()}
+        \PYG{n}{fila\PYGZus{}puerto}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{QLabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Puerto:\PYGZdq{}}\PYG{p}{))}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ed\PYGZus{}puerto} \PYG{o}{=} \PYG{n}{QLineEdit}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}COM3\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{fila\PYGZus{}puerto}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ed\PYGZus{}puerto}\PYG{p}{)}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{addLayout}\PYG{p}{(}\PYG{n}{fila\PYGZus{}puerto}\PYG{p}{)}
+
+        \PYG{n}{fila\PYGZus{}baud} \PYG{o}{=} \PYG{n}{QHBoxLayout}\PYG{p}{()}
+        \PYG{n}{fila\PYGZus{}baud}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{QLabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Baudrate:\PYGZdq{}}\PYG{p}{))}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ed\PYGZus{}baudrate} \PYG{o}{=} \PYG{n}{QLineEdit}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}115200\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{fila\PYGZus{}baud}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ed\PYGZus{}baudrate}\PYG{p}{)}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{addLayout}\PYG{p}{(}\PYG{n}{fila\PYGZus{}baud}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}conectar} \PYG{o}{=} \PYG{n}{QPushButton}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Conectar\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}conectar}\PYG{o}{.}\PYG{n}{clicked}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}conectar\PYGZus{}arduino}\PYG{p}{)}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}conectar}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}conexion} \PYG{o}{=} \PYG{n}{QLabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Desconectado\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}conexion}\PYG{p}{)}
+        \PYG{n}{v}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{gb\PYGZus{}conexion}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Barrido \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{n}{gb\PYGZus{}barrido} \PYG{o}{=} \PYG{n}{QGroupBox}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Barrido de frecuencia\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{f2} \PYG{o}{=} \PYG{n}{QVBoxLayout}\PYG{p}{(}\PYG{n}{gb\PYGZus{}barrido}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{sp\PYGZus{}f\PYGZus{}inicio} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}nuevo\PYGZus{}spin}\PYG{p}{(}\PYG{l+m+mf}{1800.0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{6000}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{} MHz\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{sp\PYGZus{}f\PYGZus{}fin} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}nuevo\PYGZus{}spin}\PYG{p}{(}\PYG{l+m+mf}{2200.0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{6000}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{} MHz\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{sp\PYGZus{}f\PYGZus{}paso} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}nuevo\PYGZus{}spin}\PYG{p}{(}\PYG{l+m+mf}{1.0}\PYG{p}{,} \PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{l+m+mi}{1000}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{} MHz\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{f2}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}fila}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}F inicio:\PYGZdq{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{sp\PYGZus{}f\PYGZus{}inicio}\PYG{p}{))}
+        \PYG{n}{f2}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}fila}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}F fin:\PYGZdq{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{sp\PYGZus{}f\PYGZus{}fin}\PYG{p}{))}
+        \PYG{n}{f2}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}fila}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}F paso:\PYGZdq{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{sp\PYGZus{}f\PYGZus{}paso}\PYG{p}{))}
+        \PYG{n}{v}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{gb\PYGZus{}barrido}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Calibracion SOL \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{n}{gb\PYGZus{}cal} \PYG{o}{=} \PYG{n}{QGroupBox}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Calibracion SOL\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{f3} \PYG{o}{=} \PYG{n}{QVBoxLayout}\PYG{p}{(}\PYG{n}{gb\PYGZus{}cal}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}cal} \PYG{o}{=} \PYG{n}{QLabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Sin calibrar\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{f3}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}cal}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}iniciar} \PYG{o}{=} \PYG{n}{QPushButton}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Iniciar calibracion nueva\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}iniciar}\PYG{o}{.}\PYG{n}{clicked}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}iniciar\PYGZus{}calibracion}\PYG{p}{)}
+        \PYG{n}{f3}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}iniciar}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso} \PYG{o}{=} \PYG{n}{QPushButton}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Barrer paso actual\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{o}{.}\PYG{n}{clicked}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}barrer\PYGZus{}paso\PYGZus{}calibracion}\PYG{p}{)}
+        \PYG{n}{f3}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}cargar} \PYG{o}{=} \PYG{n}{QPushButton}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Cargar calibracion desde archivo...\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}cargar}\PYG{o}{.}\PYG{n}{clicked}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}cargar\PYGZus{}calibracion}\PYG{p}{)}
+        \PYG{n}{f3}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}cargar}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}guardar} \PYG{o}{=} \PYG{n}{QPushButton}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Guardar calibracion actual...\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}guardar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}guardar}\PYG{o}{.}\PYG{n}{clicked}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}guardar\PYGZus{}calibracion}\PYG{p}{)}
+        \PYG{n}{f3}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}guardar}\PYG{p}{)}
+
+        \PYG{n}{v}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{gb\PYGZus{}cal}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Medicion DUT \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{n}{gb\PYGZus{}dut} \PYG{o}{=} \PYG{n}{QGroupBox}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Medición del DUT\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{f4} \PYG{o}{=} \PYG{n}{QVBoxLayout}\PYG{p}{(}\PYG{n}{gb\PYGZus{}dut}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir} \PYG{o}{=} \PYG{n}{QPushButton}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Medir DUT\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir}\PYG{o}{.}\PYG{n}{clicked}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}iniciar\PYGZus{}medicion\PYGZus{}dut}\PYG{p}{)}
+        \PYG{n}{f4}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}abortar} \PYG{o}{=} \PYG{n}{QPushButton}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Abortar barrido\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}abortar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}abortar}\PYG{o}{.}\PYG{n}{clicked}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}abortar\PYGZus{}barrido}\PYG{p}{)}
+        \PYG{n}{f4}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}abortar}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{progreso} \PYG{o}{=} \PYG{n}{QProgressBar}\PYG{p}{()}
+        \PYG{n}{f4}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{progreso}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}guardar\PYGZus{}resultados} \PYG{o}{=} \PYG{n}{QPushButton}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Guardar resultados CSV...\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}guardar\PYGZus{}resultados}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}guardar\PYGZus{}resultados}\PYG{o}{.}\PYG{n}{clicked}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}guardar\PYGZus{}resultados}\PYG{p}{)}
+        \PYG{n}{f4}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}guardar\PYGZus{}resultados}\PYG{p}{)}
+
+        \PYG{n}{v}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{gb\PYGZus{}dut}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Log \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{n}{gb\PYGZus{}log} \PYG{o}{=} \PYG{n}{QGroupBox}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Log\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{f5} \PYG{o}{=} \PYG{n}{QVBoxLayout}\PYG{p}{(}\PYG{n}{gb\PYGZus{}log}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{txt\PYGZus{}log} \PYG{o}{=} \PYG{n}{QPlainTextEdit}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{txt\PYGZus{}log}\PYG{o}{.}\PYG{n}{setReadOnly}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n}{f5}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{txt\PYGZus{}log}\PYG{p}{)}
+        \PYG{n}{v}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{gb\PYGZus{}log}\PYG{p}{,} \PYG{n}{stretch}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{panel}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}armar\PYGZus{}panel\PYGZus{}graficos}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{panel} \PYG{o}{=} \PYG{n}{QWidget}\PYG{p}{()}
+        \PYG{n}{v} \PYG{o}{=} \PYG{n}{QVBoxLayout}\PYG{p}{(}\PYG{n}{panel}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Figura módulo + fase (dos subplots apilados)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf} \PYG{o}{=} \PYG{n}{Figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{),} \PYG{n}{facecolor}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}fad7ea\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{211}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{212}\PYG{p}{,} \PYG{n}{sharex}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}preparar\PYGZus{}ejes\PYGZus{}mod\PYGZus{}fase}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{canvas\PYGZus{}mf} \PYG{o}{=} \PYG{n}{FigureCanvas}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Figura abaco de Smith}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}smith} \PYG{o}{=} \PYG{n}{Figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{),} \PYG{n}{facecolor}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}fad7ea\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}smith} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}smith}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{111}\PYG{p}{)}
+        \PYG{n}{dibujar\PYGZus{}fondo\PYGZus{}smith}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}smith}\PYG{p}{)}
+        \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{linea\PYGZus{}smith}\PYG{p}{,)} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}smith}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{([],} \PYG{p}{[],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}deeppink\PYGZdq{}}\PYG{p}{,}
+                                                  \PYG{n}{marker}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}.\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}None\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{canvas\PYGZus{}smith} \PYG{o}{=} \PYG{n}{FigureCanvas}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}smith}\PYG{p}{)}
+
+        \PYG{n}{fila\PYGZus{}graficos} \PYG{o}{=} \PYG{n}{QHBoxLayout}\PYG{p}{()}
+        \PYG{n}{fila\PYGZus{}graficos}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{canvas\PYGZus{}mf}\PYG{p}{,} \PYG{n}{stretch}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+        \PYG{n}{fila\PYGZus{}graficos}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{canvas\PYGZus{}smith}\PYG{p}{,} \PYG{n}{stretch}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+        \PYG{n}{v}\PYG{o}{.}\PYG{n}{addLayout}\PYG{p}{(}\PYG{n}{fila\PYGZus{}graficos}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{panel}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}preparar\PYGZus{}ejes\PYGZus{}mod\PYGZus{}fase}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{clear}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{set\PYGZus{}facecolor}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}fad7ea\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}S11 \PYGZhy{} Módulo\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}|S11| (dB)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{grid}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.3}\PYG{p}{)}
+        \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{linea\PYGZus{}mod}\PYG{p}{,)} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{([],} \PYG{p}{[],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}deeppink\PYGZdq{}}\PYG{p}{,}
+                                              \PYG{n}{marker}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}.\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}None\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{clear}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}facecolor}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}fad7ea\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}S11 \PYGZhy{} Fase\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Frecuencia de RF (MHz)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Fase (grados)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{grid}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.3}\PYG{p}{)}
+        \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{linea\PYGZus{}fase}\PYG{p}{,)} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{([],} \PYG{p}{[],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}darkmagenta\PYGZdq{}}\PYG{p}{,}
+                                                \PYG{n}{marker}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}.\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}None\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf}\PYG{o}{.}\PYG{n}{tight\PYGZus{}layout}\PYG{p}{()}
+
+    \PYG{n+nd}{@staticmethod}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}nuevo\PYGZus{}spin}\PYG{p}{(}\PYG{n}{valor}\PYG{p}{,} \PYG{n}{minimo}\PYG{p}{,} \PYG{n}{maximo}\PYG{p}{,} \PYG{n}{sufijo}\PYG{p}{):}
+        \PYG{n}{sp} \PYG{o}{=} \PYG{n}{QDoubleSpinBox}\PYG{p}{()}
+        \PYG{n}{sp}\PYG{o}{.}\PYG{n}{setDecimals}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}
+        \PYG{n}{sp}\PYG{o}{.}\PYG{n}{setRange}\PYG{p}{(}\PYG{n}{minimo}\PYG{p}{,} \PYG{n}{maximo}\PYG{p}{)}
+        \PYG{n}{sp}\PYG{o}{.}\PYG{n}{setValue}\PYG{p}{(}\PYG{n}{valor}\PYG{p}{)}
+        \PYG{n}{sp}\PYG{o}{.}\PYG{n}{setSuffix}\PYG{p}{(}\PYG{n}{sufijo}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{sp}
+
+    \PYG{n+nd}{@staticmethod}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}fila}\PYG{p}{(}\PYG{n}{etiqueta}\PYG{p}{,} \PYG{n}{widget}\PYG{p}{):}
+        \PYG{n}{w} \PYG{o}{=} \PYG{n}{QWidget}\PYG{p}{()}
+        \PYG{n}{h} \PYG{o}{=} \PYG{n}{QHBoxLayout}\PYG{p}{(}\PYG{n}{w}\PYG{p}{)}
+        \PYG{n}{h}\PYG{o}{.}\PYG{n}{setContentsMargins}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+        \PYG{n}{h}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{QLabel}\PYG{p}{(}\PYG{n}{etiqueta}\PYG{p}{))}
+        \PYG{n}{h}\PYG{o}{.}\PYG{n}{addWidget}\PYG{p}{(}\PYG{n}{widget}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{w}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}log}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{texto}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{txt\PYGZus{}log}\PYG{o}{.}\PYG{n}{appendPlainText}\PYG{p}{(}\PYG{n}{texto}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Conexion \PYGZhy{}\PYGZhy{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}conectar\PYGZus{}arduino}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{puerto} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ed\PYGZus{}puerto}\PYG{o}{.}\PYG{n}{text}\PYG{p}{()}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{n}{baudrate} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ed\PYGZus{}baudrate}\PYG{o}{.}\PYG{n}{text}\PYG{p}{()}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{())}
+        \PYG{k}{except} \PYG{n+ne}{ValueError}\PYG{p}{:}
+            \PYG{n}{QMessageBox}\PYG{o}{.}\PYG{n}{warning}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Baudrate invalido\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}El baudrate debe ser un numero entero.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return}
+
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ser}\PYG{p}{,} \PYG{n}{linea} \PYG{o}{=} \PYG{n}{core}\PYG{o}{.}\PYG{n}{conectar\PYGZus{}arduino}\PYG{p}{(}\PYG{n}{puerto}\PYG{p}{,} \PYG{n}{baudrate}\PYG{p}{)}
+        \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+            \PYG{n}{QMessageBox}\PYG{o}{.}\PYG{n}{critical}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Error de conexion\PYGZdq{}}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{e}\PYG{p}{))}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}conexion}\PYG{o}{.}\PYG{n}{setText}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Error de conexion\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}conexion}\PYG{o}{.}\PYG{n}{setText}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Conectado (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{puerto}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ @ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{baudrate}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{linea}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Arduino: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{linea}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Conectado a }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{puerto}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ @ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{baudrate}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ baud.\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Utilidades \PYGZhy{}\PYGZhy{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}construir\PYGZus{}frecuencias}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{inicio} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{sp\PYGZus{}f\PYGZus{}inicio}\PYG{o}{.}\PYG{n}{value}\PYG{p}{()}
+        \PYG{n}{fin} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{sp\PYGZus{}f\PYGZus{}fin}\PYG{o}{.}\PYG{n}{value}\PYG{p}{()}
+        \PYG{n}{paso} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{sp\PYGZus{}f\PYGZus{}paso}\PYG{o}{.}\PYG{n}{value}\PYG{p}{()}
+        \PYG{k}{return} \PYG{n}{core}\PYG{o}{.}\PYG{n}{generar\PYGZus{}frecuencias}\PYG{p}{(}\PYG{n}{inicio}\PYG{p}{,} \PYG{n}{fin}\PYG{p}{,} \PYG{n}{paso}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}construir\PYGZus{}filtro}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{return} \PYG{n}{core}\PYG{o}{.}\PYG{n}{diseñar\PYGZus{}filtro\PYGZus{}pasabanda}\PYG{p}{(}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{config}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}fs\PYGZus{}audio\PYGZdq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{config}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}f\PYGZus{}centro\PYGZus{}filtro\PYGZdq{}}\PYG{p}{],}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{config}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ancho\PYGZus{}banda\PYGZus{}filtro\PYGZdq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{config}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}numtaps\PYGZus{}filtro\PYGZdq{}}\PYG{p}{],}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{config}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}duracion\PYGZus{}captura\PYGZus{}s\PYGZdq{}}\PYG{p}{],}
+        \PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}validar\PYGZus{}listo\PYGZus{}para\PYGZus{}barrer}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ser} \PYG{o+ow}{is} \PYG{k+kc}{None}\PYG{p}{:}
+            \PYG{n}{QMessageBox}\PYG{o}{.}\PYG{n}{warning}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Sin conexion\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Primero conecta el Arduino.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return} \PYG{k+kc}{False}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None} \PYG{o+ow}{and} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{isRunning}\PYG{p}{():}
+            \PYG{n}{QMessageBox}\PYG{o}{.}\PYG{n}{warning}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Barrido en curso\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Ya hay un barrido corriendo.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return} \PYG{k+kc}{False}
+        \PYG{k}{return} \PYG{k+kc}{True}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}lanzar\PYGZus{}barrido}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{frecuencias}\PYG{p}{,} \PYG{n}{on\PYGZus{}terminado}\PYG{p}{,} \PYG{n}{on\PYGZus{}abortado}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{on\PYGZus{}error}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+        \PYG{n}{coef\PYGZus{}filtro} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}construir\PYGZus{}filtro}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo} \PYG{o}{=} \PYG{n}{SweepWorker}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ser}\PYG{p}{,} \PYG{n}{frecuencias}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{config}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{punto\PYGZus{}medido}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}punto\PYGZus{}generico}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{terminado}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n}{on\PYGZus{}terminado}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{abortado}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n}{on\PYGZus{}abortado} \PYG{o+ow}{or} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}abortado\PYGZus{}generico}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{error}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n}{on\PYGZus{}error} \PYG{o+ow}{or} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}error\PYGZus{}generico}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{progreso}\PYG{o}{.}\PYG{n}{setValue}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}abortar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{start}\PYG{p}{()}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}on\PYGZus{}punto\PYGZus{}generico}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{i}\PYG{p}{,} \PYG{n}{n}\PYG{p}{,} \PYG{n}{f\PYGZus{}rf}\PYG{p}{,} \PYG{n}{s11}\PYG{p}{,} \PYG{n}{f\PYGZus{}batido}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{progreso}\PYG{o}{.}\PYG{n}{setMaximum}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{progreso}\PYG{o}{.}\PYG{n}{setValue}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)}
+        \PYG{n}{mod\PYGZus{}db} \PYG{o}{=} \PYG{l+m+mi}{20} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log10}\PYG{p}{(}\PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{s11}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mf}{1e\PYGZhy{}12}\PYG{p}{)}
+        \PYG{n}{fase\PYGZus{}deg} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{degrees}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{angle}\PYG{p}{(}\PYG{n}{s11}\PYG{p}{))}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}[}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{n}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{] RF=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{f\PYGZus{}rf}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ MHz  batido=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{f\PYGZus{}batido}\PYG{l+s+si}{:}\PYG{l+s+s2}{.1f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ Hz  \PYGZdq{}}
+                  \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}|S11|=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{mod\PYGZus{}db}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ dB  fase=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{fase\PYGZus{}deg}\PYG{l+s+si}{:}\PYG{l+s+s2}{.1f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ deg\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}on\PYGZus{}abortado\PYGZus{}generico}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}abortar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Barrido abortado por el usuario.\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}on\PYGZus{}error\PYGZus{}generico}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{mensaje}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}abortar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n}{QMessageBox}\PYG{o}{.}\PYG{n}{critical}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Error durante el barrido\PYGZdq{}}\PYG{p}{,} \PYG{n}{mensaje}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}ERROR: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{mensaje}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}abortar\PYGZus{}barrido}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None} \PYG{o+ow}{and} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{isRunning}\PYG{p}{():}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{abortar}\PYG{p}{()}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Calibracion \PYGZhy{}\PYGZhy{}}
+
+    \PYG{n}{ETIQUETAS\PYGZus{}PASO\PYGZus{}CAL} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+        \PYG{l+m+mi}{1}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Paso 1/3: conecte SHORT (cortocircuito) y presione \PYGZsq{}Barrer paso actual\PYGZsq{}.\PYGZdq{}}\PYG{p}{,}
+        \PYG{l+m+mi}{2}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Paso 2/3: conecte OPEN (circuito abierto) y presione \PYGZsq{}Barrer paso actual\PYGZsq{}.\PYGZdq{}}\PYG{p}{,}
+        \PYG{l+m+mi}{3}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Paso 3/3: conecte LOAD (50 ohm) y presione \PYGZsq{}Barrer paso actual\PYGZsq{}.\PYGZdq{}}\PYG{p}{,}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}iniciar\PYGZus{}calibracion}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}validar\PYGZus{}listo\PYGZus{}para\PYGZus{}barrer}\PYG{p}{():}
+            \PYG{k}{return}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{=} \PYG{l+m+mi}{1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}cc} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}ca} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}50} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}disponible} \PYG{o}{=} \PYG{k+kc}{False}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}guardar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}cal}\PYG{o}{.}\PYG{n}{setText}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ETIQUETAS\PYGZus{}PASO\PYGZus{}CAL}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}barrer\PYGZus{}paso\PYGZus{}calibracion}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}validar\PYGZus{}listo\PYGZus{}para\PYGZus{}barrer}\PYG{p}{():}
+            \PYG{k}{return}
+        \PYG{n}{frecuencias} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}construir\PYGZus{}frecuencias}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}iniciar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}lanzar\PYGZus{}barrido}\PYG{p}{(}
+            \PYG{n}{frecuencias}\PYG{p}{,}
+            \PYG{n}{on\PYGZus{}terminado}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}paso\PYGZus{}calibracion\PYGZus{}terminado}\PYG{p}{,}
+            \PYG{n}{on\PYGZus{}abortado}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}calibracion\PYGZus{}abortada}\PYG{p}{,}
+        \PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}on\PYGZus{}calibracion\PYGZus{}abortada}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}abortado\PYGZus{}generico}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}iniciar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}on\PYGZus{}paso\PYGZus{}calibracion\PYGZus{}terminado}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{freqs}\PYG{p}{,} \PYG{n}{gm}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}abortar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}iniciar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}freqs} \PYG{o}{=} \PYG{n}{freqs}
+
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}cc} \PYG{o}{=} \PYG{n}{gm}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{=} \PYG{l+m+mi}{2}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}cal}\PYG{o}{.}\PYG{n}{setText}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ETIQUETAS\PYGZus{}PASO\PYGZus{}CAL}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{])}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}ca} \PYG{o}{=} \PYG{n}{gm}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{=} \PYG{l+m+mi}{3}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}cal}\PYG{o}{.}\PYG{n}{setText}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ETIQUETAS\PYGZus{}PASO\PYGZus{}CAL}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{])}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{==} \PYG{l+m+mi}{3}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}50} \PYG{o}{=} \PYG{n}{gm}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}finalizar\PYGZus{}calculo\PYGZus{}calibracion}\PYG{p}{()}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}finalizar\PYGZus{}calculo\PYGZus{}calibracion}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{n} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}freqs}\PYG{p}{)}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}cc}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}ca}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}50}\PYG{p}{)} \PYG{o}{==} \PYG{n}{n}\PYG{p}{):}
+            \PYG{n}{QMessageBox}\PYG{o}{.}\PYG{n}{warning}\PYG{p}{(}
+                \PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Inconsistencia\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}Los tres barridos de calibracion (SHORT/OPEN/LOAD) no tienen la \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}misma cantidad de puntos. Revisa que no se haya abortado ninguno \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}a mitad de camino.\PYGZdq{}}
+            \PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+            \PYG{k}{return}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e11}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}delta\PYGZus{}e} \PYG{o}{=} \PYG{n}{core}\PYG{o}{.}\PYG{n}{calculo\PYGZus{}errores}\PYG{p}{(}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}cc}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}ca}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}gm\PYGZus{}50}\PYG{p}{,} \PYG{n}{n}
+        \PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}disponible} \PYG{o}{=} \PYG{k+kc}{True}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{=} \PYG{l+m+mi}{4}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}cal}\PYG{o}{.}\PYG{n}{setText}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Calibracion lista (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{n}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ puntos).\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}paso}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}guardar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Calibracion SOL calculada correctamente.\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}cargar\PYGZus{}calibracion}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{path}\PYG{p}{,} \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{n}{QFileDialog}\PYG{o}{.}\PYG{n}{getOpenFileName}\PYG{p}{(}
+            \PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Cargar calibracion\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}CSV (*.csv)\PYGZdq{}}
+        \PYG{p}{)}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{path}\PYG{p}{:}
+            \PYG{k}{return}
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{n}{freqs}\PYG{p}{,} \PYG{n}{e00}\PYG{p}{,} \PYG{n}{e11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e} \PYG{o}{=} \PYG{n}{core}\PYG{o}{.}\PYG{n}{cargar\PYGZus{}calibracion\PYGZus{}csv}\PYG{p}{(}\PYG{n}{path}\PYG{p}{)}
+        \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+            \PYG{n}{QMessageBox}\PYG{o}{.}\PYG{n}{critical}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Error al cargar\PYGZdq{}}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{e}\PYG{p}{))}
+            \PYG{k}{return}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}freqs}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e11}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}delta\PYGZus{}e} \PYG{o}{=} \PYG{n}{freqs}\PYG{p}{,} \PYG{n}{e00}\PYG{p}{,} \PYG{n}{e11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}disponible} \PYG{o}{=} \PYG{k+kc}{True}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}paso} \PYG{o}{=} \PYG{l+m+mi}{4}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lbl\PYGZus{}estado\PYGZus{}cal}\PYG{o}{.}\PYG{n}{setText}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Calibracion cargada desde archivo (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{freqs}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ puntos).\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}cal\PYGZus{}guardar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Calibracion cargada de }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}guardar\PYGZus{}calibracion}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}disponible}\PYG{p}{:}
+            \PYG{k}{return}
+        \PYG{n}{path}\PYG{p}{,} \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{n}{QFileDialog}\PYG{o}{.}\PYG{n}{getSaveFileName}\PYG{p}{(}
+            \PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Guardar calibracion\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}calibracion.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}CSV (*.csv)\PYGZdq{}}
+        \PYG{p}{)}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{path}\PYG{p}{:}
+            \PYG{k}{return}
+        \PYG{n}{core}\PYG{o}{.}\PYG{n}{guardar\PYGZus{}calibracion\PYGZus{}csv}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}freqs}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e11}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}delta\PYGZus{}e}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Calibracion guardada en }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Medicion DUT \PYGZhy{}\PYGZhy{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}iniciar\PYGZus{}medicion\PYGZus{}dut}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}validar\PYGZus{}listo\PYGZus{}para\PYGZus{}barrer}\PYG{p}{():}
+            \PYG{k}{return}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}disponible}\PYG{p}{:}
+            \PYG{n}{QMessageBox}\PYG{o}{.}\PYG{n}{warning}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Sin calibracion\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Primero completa o carga una calibracion.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return}
+
+        \PYG{n}{frecuencias} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}construir\PYGZus{}frecuencias}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} Reiniciar buffers y graficos}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}freq}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}mod\PYGZus{}db}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}fase\PYGZus{}deg}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}gamma} \PYG{o}{=} \PYG{p}{[],} \PYG{p}{[],} \PYG{p}{[],} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}preparar\PYGZus{}ejes\PYGZus{}mod\PYGZus{}fase}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{canvas\PYGZus{}mf}\PYG{o}{.}\PYG{n}{draw}\PYG{p}{()}
+        \PYG{n}{dibujar\PYGZus{}fondo\PYGZus{}smith}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}smith}\PYG{p}{)}
+        \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{linea\PYGZus{}smith}\PYG{p}{,)} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}smith}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{([],} \PYG{p}{[],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}deeppink\PYGZdq{}}\PYG{p}{,} \PYG{n}{marker}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}.\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}None\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{canvas\PYGZus{}smith}\PYG{o}{.}\PYG{n}{draw}\PYG{p}{()}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}guardar\PYGZus{}resultados}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}lanzar\PYGZus{}barrido}\PYG{p}{(}
+            \PYG{n}{frecuencias}\PYG{p}{,}
+            \PYG{n}{on\PYGZus{}terminado}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}medicion\PYGZus{}dut\PYGZus{}terminada}\PYG{p}{,}
+            \PYG{n}{on\PYGZus{}abortado}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}medicion\PYGZus{}dut\PYGZus{}abortada}\PYG{p}{,}
+        \PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Reconectamos punto\PYGZus{}medido a un manejador especifico para DUT}
+        \PYG{c+c1}{\PYGZsh{} (ademas del log generico que ya se conecto en \PYGZus{}lanzar\PYGZus{}barrido)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{punto\PYGZus{}medido}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}punto\PYGZus{}dut}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}on\PYGZus{}medicion\PYGZus{}dut\PYGZus{}abortada}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}on\PYGZus{}abortado\PYGZus{}generico}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}indice\PYGZus{}calibracion\PYGZus{}valido}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{i\PYGZus{}1\PYGZus{}based}\PYG{p}{):}
+        \PYG{n}{idx} \PYG{o}{=} \PYG{n}{i\PYGZus{}1\PYGZus{}based} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None} \PYG{o+ow}{and} \PYG{l+m+mi}{0} \PYG{o}{\PYGZlt{}=} \PYG{n}{idx} \PYG{o}{\PYGZlt{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}on\PYGZus{}punto\PYGZus{}dut}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{i}\PYG{p}{,} \PYG{n}{n}\PYG{p}{,} \PYG{n}{f\PYGZus{}rf}\PYG{p}{,} \PYG{n}{s11\PYGZus{}crudo}\PYG{p}{,} \PYG{n}{f\PYGZus{}batido}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} Si hay calibracion punto\PYGZhy{}a\PYGZhy{}punto disponible, corregimos en vivo.}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}indice\PYGZus{}calibracion\PYGZus{}valido}\PYG{p}{(}\PYG{n}{i}\PYG{p}{):}
+            \PYG{n}{idx} \PYG{o}{=} \PYG{n}{i} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}
+            \PYG{n}{gamma} \PYG{o}{=} \PYG{n}{core}\PYG{o}{.}\PYG{n}{correccion\PYGZus{}punto}\PYG{p}{(}
+                \PYG{n}{s11\PYGZus{}crudo}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00}\PYG{p}{[}\PYG{n}{idx}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e11}\PYG{p}{[}\PYG{n}{idx}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}delta\PYGZus{}e}\PYG{p}{[}\PYG{n}{idx}\PYG{p}{]}
+            \PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{gamma} \PYG{o}{=} \PYG{n}{s11\PYGZus{}crudo}  \PYG{c+c1}{\PYGZsh{} fallback: se corrige todo al final}
+
+        \PYG{n}{mod\PYGZus{}db} \PYG{o}{=} \PYG{l+m+mi}{20} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log10}\PYG{p}{(}\PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{gamma}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mf}{1e\PYGZhy{}12}\PYG{p}{)}
+        \PYG{n}{fase\PYGZus{}deg} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{degrees}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{angle}\PYG{p}{(}\PYG{n}{gamma}\PYG{p}{))}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}freq}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{f\PYGZus{}rf}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}mod\PYGZus{}db}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{mod\PYGZus{}db}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}fase\PYGZus{}deg}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{fase\PYGZus{}deg}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}gamma}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{gamma}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{linea\PYGZus{}mod}\PYG{o}{.}\PYG{n}{set\PYGZus{}data}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}freq}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}mod\PYGZus{}db}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{linea\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}data}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}freq}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}fase\PYGZus{}deg}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{ax} \PYG{o+ow}{in} \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{p}{):}
+            \PYG{n}{ax}\PYG{o}{.}\PYG{n}{relim}\PYG{p}{()}
+            \PYG{n}{ax}\PYG{o}{.}\PYG{n}{autoscale\PYGZus{}view}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{canvas\PYGZus{}mf}\PYG{o}{.}\PYG{n}{draw\PYGZus{}idle}\PYG{p}{()}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{linea\PYGZus{}smith}\PYG{o}{.}\PYG{n}{set\PYGZus{}data}\PYG{p}{([}\PYG{n}{g}\PYG{o}{.}\PYG{n}{real} \PYG{k}{for} \PYG{n}{g} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}gamma}\PYG{p}{],}
+                                   \PYG{p}{[}\PYG{n}{g}\PYG{o}{.}\PYG{n}{imag} \PYG{k}{for} \PYG{n}{g} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buf\PYGZus{}gamma}\PYG{p}{])}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{canvas\PYGZus{}smith}\PYG{o}{.}\PYG{n}{draw\PYGZus{}idle}\PYG{p}{()}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}on\PYGZus{}medicion\PYGZus{}dut\PYGZus{}terminada}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{freqs}\PYG{p}{,} \PYG{n}{gm\PYGZus{}dut}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}abortar}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}medir}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{freqs}\PYG{p}{)} \PYG{o}{!=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00}\PYG{p}{):}
+            \PYG{n}{QMessageBox}\PYG{o}{.}\PYG{n}{warning}\PYG{p}{(}
+                \PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Advertencia de consistencia\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}La cantidad de puntos medidos no coincide con la calibracion \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}(revisa el rango de frecuencias). Se muestran los valores \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}corregidos en vivo, pero puede haber un corrimiento de indice.\PYGZdq{}}
+            \PYG{p}{)}
+
+        \PYG{n}{n} \PYG{o}{=} \PYG{n+nb}{min}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{freqs}\PYG{p}{),} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00}\PYG{p}{))}
+        \PYG{n}{gamma\PYGZus{}corregido} \PYG{o}{=} \PYG{n}{core}\PYG{o}{.}\PYG{n}{correccion}\PYG{p}{(}
+            \PYG{n}{gm\PYGZus{}dut}\PYG{p}{[:}\PYG{n}{n}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e00}\PYG{p}{[:}\PYG{n}{n}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}e11}\PYG{p}{[:}\PYG{n}{n}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cal\PYGZus{}delta\PYGZus{}e}\PYG{p}{[:}\PYG{n}{n}\PYG{p}{],} \PYG{n}{n}
+        \PYG{p}{)}
+        \PYG{n}{mod\PYGZus{}db}\PYG{p}{,} \PYG{n}{fase\PYGZus{}deg} \PYG{o}{=} \PYG{n}{core}\PYG{o}{.}\PYG{n}{modulo\PYGZus{}fase}\PYG{p}{(}\PYG{n}{gamma\PYGZus{}corregido}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}freqs} \PYG{o}{=} \PYG{n}{freqs}\PYG{p}{[:}\PYG{n}{n}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}gamma} \PYG{o}{=} \PYG{n}{gamma\PYGZus{}corregido}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}mod\PYGZus{}db} \PYG{o}{=} \PYG{n}{mod\PYGZus{}db}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}fase\PYGZus{}deg} \PYG{o}{=} \PYG{n}{fase\PYGZus{}deg}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{btn\PYGZus{}guardar\PYGZus{}resultados}\PYG{o}{.}\PYG{n}{setEnabled}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Medicion de DUT finalizada: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{n}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ puntos corregidos.\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}guardar\PYGZus{}resultados}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}freqs} \PYG{o+ow}{is} \PYG{k+kc}{None}\PYG{p}{:}
+            \PYG{k}{return}
+        \PYG{n}{path}\PYG{p}{,} \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{n}{QFileDialog}\PYG{o}{.}\PYG{n}{getSaveFileName}\PYG{p}{(}
+            \PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Guardar resultados\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}resultado\PYGZus{}S11.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}CSV (*.csv)\PYGZdq{}}
+        \PYG{p}{)}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{path}\PYG{p}{:}
+            \PYG{k}{return}
+        \PYG{n}{core}\PYG{o}{.}\PYG{n}{guardar\PYGZus{}resultados\PYGZus{}csv}\PYG{p}{(}
+            \PYG{n}{path}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}freqs}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}mod\PYGZus{}db}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ultima\PYGZus{}medicion\PYGZus{}fase\PYGZus{}deg}\PYG{p}{,}
+        \PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}log}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Resultados guardados en }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Cierre \PYGZhy{}\PYGZhy{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{closeEvent}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{event}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None} \PYG{o+ow}{and} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{isRunning}\PYG{p}{():}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{abortar}\PYG{p}{()}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hilo}\PYG{o}{.}\PYG{n}{wait}\PYG{p}{(}\PYG{l+m+mi}{2000}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ser} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None}\PYG{p}{:}
+            \PYG{k}{try}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ser}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+            \PYG{k}{except} \PYG{n+ne}{Exception}\PYG{p}{:}
+                \PYG{k}{pass}
+        \PYG{n}{event}\PYG{o}{.}\PYG{n}{accept}\PYG{p}{()}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{app} \PYG{o}{=} \PYG{n}{QApplication}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{)}
+    \PYG{n}{app}\PYG{o}{.}\PYG{n}{setStyleSheet}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+s2}{        QMainWindow, QWidget, QGroupBox \PYGZob{}background\PYGZhy{}color: \PYGZsh{}fad7ea; \PYGZcb{}\PYGZdq{}\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ventana} \PYG{o}{=} \PYG{n}{MainWindow}\PYG{p}{()}
+    \PYG{n}{ventana}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+    \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{(}\PYG{n}{app}\PYG{o}{.}\PYG{n}{exec}\PYG{p}{())}
+
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+\end{MintedVerbatim}

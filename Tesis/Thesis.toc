@@ -1,0 +1,52 @@
+\contentsline {chapter}{Agradecimientos}{1}{figure.caption.1}%
+\contentsline {chapter}{Siglas y abreviaturas}{4}{chapter*.2}%
+\contentsline {chapter}{Resumen}{4}{chapter*.3}%
+\contentsline {chapter}{\numberline {1}Introducción}{6}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Contexto y motivación}{6}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Partes interesadas}{7}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Objetivos}{7}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Organización del informe}{7}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Marco teórico}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Analizador Vectorial de Redes}{8}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Parámetros distribuidos (S)}{8}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Calibración}{9}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Errores}{9}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Método SOL}{9}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Acoplador Direccional}{10}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Puente resistivo}{10}{subsection.2.4.1}%
+\contentsline {section}{\numberline {2.5}Reglas de diseño en RF}{11}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Heterodinación de señales}{11}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Procesamiento digital de señales}{12}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}Filtros digitales}{12}{subsection.2.7.1}%
+\contentsline {subsubsection}{Diseño de filtros FIR mediante el método del enventanado}{13}{section*.9}%
+\contentsline {subsubsection}{Significado e impacto del parámetro $N_{\text {taps}}$}{14}{section*.10}%
+\contentsline {subsection}{\numberline {2.7.2}Transformada Rápida de Fourier}{14}{subsection.2.7.2}%
+\contentsline {subsection}{\numberline {2.7.3}Estimación del S11}{14}{subsection.2.7.3}%
+\contentsline {chapter}{\numberline {3}Proyecto}{16}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Descripción general del producto}{16}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Hardware}{16}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Firmware}{17}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Software}{17}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Interfaz de usuario}{17}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Resultados}{19}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajos futuros}{20}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Esquemáticos y código}{21}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Esquemáticos Altium}{21}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}\ignorespaces Generador de RF incidente (ADF4351)}{22}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}\ignorespaces Generador de RF Oscilador Local (ADF4351)}{23}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}\ignorespaces Mezclador}{24}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}\ignorespaces Alimentación y CLK}{25}{subsection.6.1.4}%
+\contentsline {subsection}{\numberline {6.1.5}\ignorespaces Acoplador Direccional}{26}{subsection.6.1.5}%
+\contentsline {subsection}{\numberline {6.1.6}\ignorespaces Amplificadores de FI}{27}{subsection.6.1.6}%
+\contentsline {subsection}{\numberline {6.1.7}\ignorespaces Atenuadores}{28}{subsection.6.1.7}%
+\contentsline {section}{\numberline {6.2}Interfaz de usuario}{29}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Core}{29}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Graphical User Interface}{36}{subsection.6.2.2}%
+\contentsline {chapter}{Apéndices}{49}{subsection.6.2.2}%
+\contentsline {section}{\numberline {A}\ignorespaces Estudio Preliminar}{51}{section.6.1}%
+\contentsline {section}{\numberline {B}\ignorespaces Plan de Trabajo}{55}{section.6.2}%
+\contentsline {section}{\numberline {C}\ignorespaces Especificación de Requerimientos}{59}{section.6.3}%
+\contentsline {section}{\numberline {D}\ignorespaces Especificación Funcional}{65}{section.6.4}%
+\contentsline {section}{\numberline {E}\ignorespaces Especificación Técnica}{73}{section.6.5}%
+\contentsline {section}{\numberline {F}\ignorespaces Plan de Pruebas}{85}{section.6.6}%
+\contentsline {chapter}{Bibliografía}{91}{chapter*.14}%
