@@ -3,7 +3,6 @@ El Analizador Vectorial de Redes fue definido en sus inicios como un instrumento
 
 Dependiendo de los dispositivos que se buscan caracterizar, se determina la cantidad de puertos que debe tener el VNA. Un puerto permite medir el parámetro de reflexión. Con dos puertos, se puede medir además el de transmisión. Si posee un solo canal, se puede medir la transmisión inversa y la reflexión en la salida invirtiendo físicamente el dispositivo bajo prueba. Este paso se puede evitar agregando un canal, lo que incrementa el costo del VNA.
 
-Impedancia de entrada/S11 
 
 \section{Parámetros distribuidos (S)}
 Los parámetros distribuidos, también llamados S por su nombre en inglés (\textit{Scattering}) permiten caracterizar redes de dos o más puertos en función de sus ondas entrantes y salientes. Se especifican para una impedancia de referencia y a una frecuencia específica, y son útiles en altas frecuencias porque otros tipos de parámetros (como los Z o los Y) no pueden ser medidos directamente.  
@@ -87,7 +86,7 @@ Una solución compacta, económica y con un ancho de banda teórico infinito es 
     \label{fig:puente_wheatstone}
 \end{figure}
 
-\section{Reglas de diseño en RF}
+\section{Buenas prácticas de diseño en RF}
 Al momento de rutear un PBC (\textit{Printed Circuit Board} - Placa de Circuito Impreso) se deben tener en consideración algunas buenas prácticas que ayudan a mantener la integridad de las señales, la impedancia de las líneas y evitar la interferencia electromagnética, sobre todo cuando se trabaja en RF. 
 
 Se debe garantizar que las pistas cumplan con la impedancia requerida de 50$\Omega$. Esto implica calcular el ancho de la línea usando las ecuaciones de diseño según el tipo de línea o se pueden encontrar calculadoras online o integradas en los software de diseño con este fin. Se deben evitar ángulos rectos, que causan discontinuidades y aumentan la capacitancia parásita. 
@@ -156,38 +155,25 @@ Un retardo de grupo constante asegura que el filtro no introduce distorsión de 
 
 \subsubsection{Diseño de filtros FIR mediante el método del enventanado}
 
-El diseño del filtro FIR se fundamenta en el método del enventanado (\textit{window design method}). Este método consiste en truncar y desplazar la respuesta al impulso ideal de duración infinita, $h_d[n]$ (correspondiente a un filtro pasabanda ideal centrado en $f_{\text{FI}}$), multiplicándola punto a punto por una función ventana finita $w[n]$ de longitud $N_{\text{taps}}$:
+Las forma más simple de diseño de filtros FIR es el llamado método del enventanado (\textit{window design method}) \cite{TDSoppenheim}. Este método consiste en truncar y desplazar la respuesta al impulso ideal de duración infinita, $h_d[n]$ (correspondiente a un filtro pasabanda ideal centrado en $f_{\text{FI}}$), multiplicándola punto a punto por una función ventana finita $w[n]$ de longitud $N_{\text{taps}}$:
 \begin{equation}
     h[n] = h_d[n] \cdot w[n], \quad 0 \le n \le N_{\text{taps}}-1
 \end{equation}
 
-Para la síntesis de la respuesta pasabanda se emplea la ventana de Hamming, definida analíticamente como:
+Una de las posibles ventanas a utilizar es la Hamming, definida  como:
 \begin{equation}
     w[n] = 0{,}54 - 0{,}46 \cos\left( \frac{2\pi n}{N_{\text{taps}} - 1} \right), \quad 0 \le n \le N_{\text{taps}}-1
 \end{equation}
 
-La multiplicación en el dominio del tiempo equivale a la convolución periódica de la respuesta en frecuencia ideal con el espectro de la ventana, $W(e^{j\omega})$. La ventana de Hamming ofrece un compromiso óptimo para el filtrado de Frecuencia Intermedia:
+La multiplicación en el dominio del tiempo equivale a la convolución periódica de la respuesta en frecuencia ideal con el espectro de la ventana, $W(e^{j\omega})$. La ventana de Hamming tiene como características principales:
 \begin{itemize}
-    \item **Atenuación en banda de rechazo:** Proporciona un nivel de lóbulo secundario pico de aproximadamente $-43\text{ dB}$ y una atenuación mínima en la banda de rechazo de $-53\text{ dB}$, atenuando eficazmente interferencias fuera de banda y el ruido térmico.
-    \item **Suavizado del fenómeno de Gibbs:** Elimina las oscilaciones de sobrepico en los bordes de la banda de paso típicas del truncamiento rectangular estricto.
+    \item Atenuación en banda de rechazo: Proporciona un nivel de lóbulo secundario pico de aproximadamente $-41\text{ dB}$ y una atenuación mínima en la banda de rechazo de $-53\text{ dB}$.
+    \item Suavizado del fenómeno de Gibbs: Elimina las oscilaciones de sobrepico en los bordes de la banda de paso típicas del truncamiento rectangular estricto, a cambio de un lóbulo central más ancho.
 \end{itemize}
 
-\subsubsection{Significado e impacto del parámetro $N_{\text{taps}}$}
-
-El parámetro $N_{\text{taps}}$ (\textit{numtaps}) define la longitud temporal de la respuesta impulsional del filtro y rige dos compromisos teóricos fundamentales:
-
-\begin{enumerate}
-    \item **Ancho de la banda de transición ($\Delta f$):** El ancho del área de transición entre la banda de paso y la de rechazo es inversamente proporcional al número de coeficientes. Para la ventana de Hamming, esta relación viene dada aproximadamente por:
-    \begin{equation}
-        \Delta f \approx \frac{3{,}3 \cdot f_s}{N_{\text{taps}}}
-    \end{equation}
-    donde $f_s$ es la frecuencia de muestreo. Un incremento en $N_{\text{taps}}$ estrecha la banda de transición, aumentando la selectividad frecuencial del filtro en torno al tono de $1\text{ kHz}$.
-
-    \item **Duración del régimen transitorio:** Debido a la memoria finita del filtro, la respuesta temporal tarda exactamente $N_{\text{taps}} - 1$ muestras en llenar por completo la línea de retardo. Durante este intervalo, la salida se encuentra en régimen transitorio. Por ende, conocer $N_{\text{taps}}$ establece matemáticamente el número exacto de muestras iniciales que deben ser descartadas en el algoritmo antes de ejecutar la FFT sobre el régimen estacionario.
-\end{enumerate}
 
 \subsection{Transformada Rápida de Fourier}
-Para determinar la amplitud y fase de las señales de FI, las secuencias filtradas en el dominio del tiempo se transforman al dominio de la frecuencia mediante la Transformada Discreta de Fourier (DFT), calculada a través del algoritmo de la Transformada Rápida de Fourier (FFT). Para una secuencia de $N$ muestras, la expresión de análisis viene dada por:
+Para determinar la amplitud y fase de las señales de FI, las secuencias filtradas en el dominio del tiempo se transforman al dominio de la frecuencia mediante la Transformada Discreta de Fourier (DFT), calculada a través del algoritmo de la Transformada Rápida de Fourier (FFT). Para una secuencia de $N$ muestras, la expresión de análisis viene dada por \cite{TDSmanolakis}:
 \begin{equation}
     X[k] = \sum_{n=0}^{N-1} x[n] \, w[n] \, e^{-j \frac{2\pi}{N} k n}, \quad k = 0, 1, \dots, N-1
 \end{equation}
@@ -196,24 +182,5 @@ donde $w[n]$ representa la función de la ventana aplicada a la secuencia tempor
 Dado que la captura se realiza sobre una ventana de observación finita, si la duración del intervalo de adquisición no contiene un número entero exacto de ciclos de la señal, se produce el fenómeno de fuga espectral (\textit{spectral leakage}). Este fenómeno dispersa la energía de la frecuencia fundamental hacia los bins frecuenciales adyacentes, degradando la precisión en la estimación de amplitud y fase. Para mitigar este efecto, se aplica una función de enventanado $w[n]$. La ventana \textit{Flattop} se caracteriza por presentar un lóbulo principal ancho y plano; esta propiedad minimiza el error de estimación de amplitud, mejorando la exactitud en la medición de niveles de tensión.
 
 
-\subsection{Estimación del S11}
-Una vez computadas las transformadas espectrales complejas del canal de referencia, $X_{\text{ref}}[k]$, y del canal de medición, $X_{\text{med}}[k]$, el algoritmo procede a la identificación síncrona del tono heterodino de $1\text{ kHz}$.
-
-En primer lugar, se evalúa el espectro de magnitud del canal de referencia dentro de un rango frecuencial acotado alrededor de $f_{\text{FI}}$ (banda de búsqueda del pico) para determinar el índice del bin que concentra la máxima energía:
-\begin{equation}
-    k_{\text{pico}} = \arg\max_{k \in \text{Banda}} \left| X_{\text{ref}}[k] \right|
-\end{equation}
-
-Obtenido el bin característico $k_{\text{pico}}$, se evalúan los valores complejos de ambas transformadas exactamente en dicha posición espectral, obteniendo los fasores complejos $V_{\text{ref}} = X_{\text{ref}}[k_{\text{pico}}]$ y $V_{\text{med}} = X_{\text{med}}[k_{\text{pico}}]$. El coeficiente de reflexión complejo crudo (no calibrado), $S_{11,\text{raw}}$, para la frecuencia de RF evaluada en el paso del barrido se calcula como el cociente vectorial complejo:
-\begin{equation}
-    S_{11,\text{raw}} = \frac{V_{\text{med}}[k_{\text{pico}}]}{V_{\text{ref}}[k_{\text{pico}}]}
-\end{equation}
-
-A partir del número complejo $S_{11,\text{raw}}$, se extraen directamente el módulo en escala logarítmica y la fase relativa:
-\begin{align}
-    |S_{11,\text{raw}}|_{\text{dB}} &= 20 \log_{10} \left| S_{11,\text{raw}} \right| \\
-    \phi_{S_{11,\text{raw}}} &= \arg\left( S_{11,\text{raw}} \right)
-\end{align}
-Este valor complejo no calibrado sirve como la entrada directa para el posterior algoritmo de corrección de errores vectoriales mediante el modelo de tres términos (SOL).
 
 

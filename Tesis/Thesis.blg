@@ -1,0 +1,21 @@
+[0] Config.pm:329> INFO - This is Biber 2.22
+[0] Config.pm:332> INFO - Logfile is 'Thesis.blg'
+[211] biber-MSWIN64:342> INFO - === 
+[280] Biber.pm:421> INFO - Reading 'Thesis.bcf'
+[498] Biber.pm:1002> INFO - Found 15 citekeys in bib section 0
+[535] Biber.pm:4487> INFO - Processing section 0
+[557] Biber.pm:4680> INFO - Looking for bibtex file 'Bibliografia.bib' for section 0
+[656] bibtex.pm:1713> INFO - LaTeX decoding ...
+[682] bibtex.pm:1519> INFO - Found BibTeX data source 'Bibliografia.bib'
+[887] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[888] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[888] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[888] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[922] bbl.pm:676> INFO - Writing 'Thesis.bbl' with encoding 'UTF-8'
+[933] bbl.pm:779> INFO - Output to Thesis.bbl
+[933] Biber.pm:132> WARN - legacy month field 'November' in entry 'OMS_2024' is not an integer - this will probably not sort properly.
+[933] Biber.pm:132> WARN - legacy year field 's.~f.' in entry 'keysight_778d' is not an integer - this will probably not sort properly.
+[934] Biber.pm:132> WARN - legacy year field 's.~f.' in entry 'minicircuits_zabdc20' is not an integer - this will probably not sort properly.
+[934] Biber.pm:132> WARN - legacy year field 's.~f.' in entry 'altium_via_stitching' is not an integer - this will probably not sort properly.
+[934] Biber.pm:132> WARN - legacy year field 'n.d.' in entry 'AnalogDevices_HMC601' is not an integer - this will probably not sort properly.
+[934] Biber.pm:134> INFO - WARNINGS: 5

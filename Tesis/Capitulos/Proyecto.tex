@@ -1,6 +1,6 @@
 \section{Descripción general del producto}
 
-Como describe la sección 2 de la Especificación de Requerimientos \ref{apend:ER} el sistema debe generar un barrido de frecuencias en el rango de 1,8 a 2,2 GHz. La señal se debe inyectar en el DUT y se debe medir la onda reflejada. Ambas ondas (incidente y reflejada) deben bajarse a una frecuencia intermedia para luego adquirirlas y digitalizarlas con el fin de realizar el procesamiento correspondiente. Un diagrama en bloques detallado del sistema se puede observar en la figura \ref{fig:diagbloques}. Los datos a asumir, requerimientos y pautas de diseño se pueden encontrar en la Especificación de Requerimientos \ref{apend:ER}. 
+Como describe la sección 2 de la Especificación de Requerimientos (\ref{apend:ER}) el sistema debe generar un barrido de frecuencias en el rango de 1,8 a 2,2 GHz. La señal se debe inyectar en el DUT y se debe medir la onda reflejada. Ambas ondas (incidente y reflejada) deben bajarse a una frecuencia intermedia para luego adquirirlas y digitalizarlas con el fin de realizar el procesamiento correspondiente. Un diagrama en bloques detallado del sistema se puede observar en la figura \ref{fig:diagbloques}. Los datos a asumir, requerimientos y pautas de diseño se pueden encontrar en la Especificación de Requerimientos (\ref{apend:ER}). 
 
 \begin{figure}
     \centering
@@ -12,12 +12,42 @@ Como describe la sección 2 de la Especificación de Requerimientos \ref{apend:E
 A continuación, se detalla la solución del hardware, software, firmware e interfaz de usuario.
 
 \section{Hardware}
-El hardware se diseñó en su totalidad en el software Altium Designer, con una licencia estudiantil gracias al programa Altium Student Lab \cite{altium_designer}. Se creó una librería con los esquemáticos, footprints y modelos 3D de los componentes a utilizar. Se dividió el proyecto en esquemáticos que representan los distintos bloques funcionales. En principio se planteó un modelo de 2 capas, con FR4 como dieléctrico de 0,8 mm de espesor.  
+El hardware se diseñó en su totalidad en el software Altium Designer, con una licencia estudiantil gracias al programa Altium Student Lab \cite{altium_designer}. Se creó una librería con los esquemáticos, footprints y modelos 3D de los componentes a utilizar. Se dividió el proyecto en esquemáticos que representan los distintos bloques funcionales, que se pueden observar en el capítulo "Esquemáticos y códigos" (\ref{sec:EsquematicosAltium}). 
+
+\subsection{Generadores de RF}
+Como explica la sección 2.1.2 de la Especificación de Requerimientos (\ref{apend:ER}) se sintetizan con los circuitos integrados (IC - \textit{Integrated Circuits}) ADF4351, un sintetizador de banda ancha con VCO integrado. Uno incide directamente en el acoplador direccional, desviando una parte hacia el mezclador para medir la señal incidente. Su esquemático se puede ver en \ref{sch:ADFRF}. El otro se utiliza como oscilador local para el esquema heterodino (esquemático en \ref{sch:ADFOL}). 
+Algunas consideraciones que se tuvieron en cuenta al    
+
+pad central, filtro pll, etapa de salida (pull-up) y rf vea una unica carga 
+
+inversor fan out menos crosstalk y ringing
+
+\subsection{Implementación en PCB}
+En principio se planteó un modelo de 2 capas, con FR4 como dieléctrico de 0,8 mm de espesor.  
 
 \section{Firmware}
 El firmware se programó en lenguaje C++ en el entorno Arduino IDE. 
 
 \section{Software}
+\subsection{Estimación del S11}
+Una vez computadas las transformadas espectrales complejas del canal de referencia, $X_{\text{ref}}[k]$, y del canal de medición, $X_{\text{med}}[k]$, un algoritmo puede proceder al cálculo del parámetro S11.
+
+En primer lugar, se evalúa el espectro de magnitud del canal de referencia dentro de un rango frecuencial acotado alrededor de $f_{\text{FI}}$ (banda de búsqueda del pico) para determinar el índice del bin que concentra la máxima energía:
+\begin{equation}
+    k_{\text{pico}} = \arg\max_{k \in \text{Banda}} \left| X_{\text{ref}}[k] \right|
+\end{equation}
+
+Obtenido el bin característico $k_{\text{pico}}$, se evalúan los valores complejos de ambas transformadas exactamente en dicha posición espectral, obteniendo los fasores complejos $V_{\text{ref}} = X_{\text{ref}}[k_{\text{pico}}]$ y $V_{\text{med}} = X_{\text{med}}[k_{\text{pico}}]$. El coeficiente de reflexión complejo crudo (no calibrado), $S_{11,\text{raw}}$, para la frecuencia de RF evaluada en el paso del barrido se calcula como el cociente vectorial complejo:
+\begin{equation}
+    S_{11,\text{raw}} = \frac{V_{\text{med}}[k_{\text{pico}}]}{V_{\text{ref}}[k_{\text{pico}}]}
+\end{equation}
+
+A partir del número complejo $S_{11,\text{raw}}$, se extraen directamente el módulo en escala logarítmica y la fase relativa:
+\begin{align}
+    |S_{11,\text{raw}}|_{\text{dB}} &= 20 \log_{10} \left| S_{11,\text{raw}} \right| \\
+    \phi_{S_{11,\text{raw}}} &= \arg\left( S_{11,\text{raw}} \right)
+\end{align}
+Este valor complejo no calibrado sirve como la entrada directa para el posterior algoritmo de corrección de errores vectoriales mediante el modelo de tres términos (SOL).
 
 \section{Interfaz de usuario}
 La interfaz de usuario se programó con PyQt6, mediante un prompt de la inteligencia artificial (IA) Claude, modelo Sonnet 5 Esfuerzo Medio. Se alimentó del software original, que tenía la lógica de medición funcionando, pero que corría secuencialmente y se comunicaba con el usuario a través de la consola. 
