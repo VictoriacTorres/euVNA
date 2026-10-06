@@ -16,7 +16,9 @@
 \usepackage{indentfirst}
 \usepackage{pdfpages}
 \usepackage{amsmath}
-
+\usepackage{comment}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
 %Bibliografia
 \usepackage[style=numeric, backend=biber]{biblatex}
 \addbibresource{Bibliografia.bib}
@@ -185,7 +187,9 @@ El principio de medición se basa en la existencia de una correlación entre la 
 \chapter{Esquemáticos y código}
 \section{Esquemáticos Altium}
 \label{sec:EsquematicosAltium}
-A continuación se presentan los esquemáticos de los distintos bloques funcionales del sistema, exportados de Altium Designer.  
+A continuación se presentan los esquemáticos de los distintos bloques funcionales del sistema, exportados de Altium Designer. 
+
+\begin{comment}
 \includepdf[
     pages=-,
     angle=90,
@@ -200,6 +204,7 @@ A continuación se presentan los esquemáticos de los distintos bloques funciona
         7, subsection, 2, Atenuadores, sch:atenuadores
     }
 ]{Esquematicos.pdf}
+\end{comment}
 
 \section{Interfaz de usuario}
 \subsection{Core}
@@ -216,6 +221,7 @@ A continuación se presentan los esquemáticos de los distintos bloques funciona
 \setcounter{section}{0}
 \renewcommand{\thesection}{\Alph{section}}
 
+\begin{comment}
 \includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Estudio Preliminar, apend:Estudio_Preliminar}]{Apendices/Estudio Preliminar.pdf}
 
 \includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Plan de Trabajo, apend:PProy}]{Apendices/Pproy.pdf}
@@ -228,6 +234,7 @@ A continuación se presentan los esquemáticos de los distintos bloques funciona
 
 \includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Plan de Pruebas, apend:PP}]{Apendices/Plan de pruebas.pdf}
 
+\end{comment}
 %=========== Bibliografía ===========
 \printbibliography[heading=bibintoc, title={Bibliografía}]
 

@@ -4,13 +4,13 @@ El Analizador Vectorial de Redes fue definido en sus inicios como un instrumento
 Dependiendo de los dispositivos que se buscan caracterizar, se determina la cantidad de puertos que debe tener el VNA. Un puerto permite medir el parámetro de reflexión. Con dos puertos, se puede medir además el de transmisión. Si posee un solo canal, se puede medir la transmisión inversa y la reflexión en la salida invirtiendo físicamente el dispositivo bajo prueba. Este paso se puede evitar agregando un canal, lo que incrementa el costo del VNA.
 
 
-\section{Parámetros distribuidos (S)}
-Los parámetros distribuidos, también llamados S por su nombre en inglés (\textit{Scattering}) permiten caracterizar redes de dos o más puertos en función de sus ondas entrantes y salientes. Se especifican para una impedancia de referencia y a una frecuencia específica, y son útiles en altas frecuencias porque otros tipos de parámetros (como los Z o los Y) no pueden ser medidos directamente.  
+\section{Parámetros de dispersión (S)}
+Los parámetros de dispersión, también llamados S por su nombre en inglés (\textit{Scattering}) permiten caracterizar redes de dos o más puertos en función de sus ondas entrantes y salientes. Se especifican para una impedancia de referencia y a una frecuencia específica, y son útiles en altas frecuencias porque otros tipos de parámetros (como los Z o los Y) no pueden ser medidos directamente.  
 
  \begin{figure}[H]
     \centering
     \includegraphics[trim={0 0cm 0.0cm  0 0cm},clip,width=6cm]{Imagenes/par_S.png}
-    \caption{Parámetros S}
+    \caption{Parámetros S en una red de dos puertos}
     \label{parS}
  \end{figure}
 
@@ -20,17 +20,29 @@ Según las ondas incidentes $a_{1}$ y $a_{2}$ y las reflejadas $b_{1}$ y $b_{2}$
 $S_{11} = \left. \frac{b_1}{a_1} \right|_{a_2=0}$; $S_{12} = \left. \frac{b_1}{a_2} \right|_{a_1=0}$; $S_{21} = \left. \frac{b_2}{a_1} \right|_{a_2=0}$; $S_{22} = \left. \frac{b_2}{a_2} \right|_{a_1=0}$
 \\
 
-Para lograr que las $a$ sean iguales a 0, el puerto al que pertenecen debe estar adaptado, garantizando que no haya ninguna señal incidente. El parámetro $S_{11}$ se conoce como el coeficiente de reflexión en el puerto 1 cuando el puerto 2 está adaptado.
+Para lograr que las $a$ sean iguales a 0, el puerto al que pertenecen debe estar adaptado, garantizando que no haya ninguna señal incidente. 
 
-\section{Calibración}
-\subsection{Errores}
+\subsection{Parámetro S11}
+El parámetro $S_{11}$ se conoce como el coeficiente de reflexión. Se puede definir en función de las ondas incidente y reflejada, o en función de la impedancia característica del sistema $Z_{0}$ y la impedancia de carga (es decir, del sistema bajo prueba):
+\begin{equation}
+    S_{11}(DUT) = \Gamma = \frac{Z_{L}-Z_{0}}{Z_{L}+Z_{0}}
+\end{equation}
+
+Expresado en dB, se expresa:
+
+\begin{equation}
+    S_{11}(DUT)[dB]= 20 . log(|\Gamma|)
+\end{equation}
+
+\subsection{Calibración S11}
+\subsubsection{Errores}
 Los errores que pueden aparecer en una medición se pueden dividir en dos grandes clases: los errores sistemáticos y los aleatorios. Los primeros se pueden corregir, mientras que los segundos se encuentran en toda medición y están fuera del control del usuario.
 
 En el caso de dispositivos electrónicos algunos errores sitemáticos son los producidos por variaciones en la potencia de salida de los generadores, pérdidas de inserción en materiales conductores y conectores, desfasajes ocasionados por diferencias en longitudes eléctricos o retardos en los circuitos integrados, reflexiones generadas por desadaptación de impedancias y deriva térmica. Algunos errores aleatorios pueden ser ruido térmico, de cuantización e interferencia electromagnética.
 
-La calibración en un VNA permite corregir los errores sistemáticos, excluyendo el ruido por deriva térmica. Este se puede corregir solo si la calibración se realiza inmediatamente antes de la medición.
+La calibración en un VNA permite corregir los errores sistemáticos, excluyendo: comportamientos alineales; repetitividad en conectores; errores en las cargas de calibración; y deriva térmica. Este último se puede corregir solo si la calibración se realiza inmediatamente antes de la medición.
 
-\subsection{Método SOL}
+\subsubsection{Método SOL}
 En VNAs de un puerto se pueden simplificar los errores a un modelo de tres términos que describen la directividad, adaptación del puerto y errores de seguimiento (variaciones de amplitud y fase en función de la frecuencia)\cite{Rytting}. Usando tres cargas distintas de valores conocidos, se puede formar un sistema de tres ecuaciones con tres incógnitas y resolver para obtener los términos del error:
 
 \begin{subequations}\label{eq:sistema_calibracion}
@@ -41,11 +53,11 @@ En VNAs de un puerto se pueden simplificar los errores a un modelo de tres térm
 \end{align}
 \end{subequations}
 
-Donde $\Gamma_{\text{M}}$ es el parámetro de reflexión medido para cada carga, y $\Delta_e=e_{00}e_{11}-(e_{10}e_{01})$. Los términos del error se pueden observar en la figura \ref{errorescalibracion}. 
+Donde $\Gamma_{\text{M}}$ es el parámetro de reflexión medido para cada carga, $e_{00}$ es la directividad, $e_{11}$ la adaptación del puerto, $e_{10}e_{01}$ el error de seguimiento (\textit{tracking}) y $\Delta_e=e_{00}e_{11}-(e_{10}e_{01})$. Los términos del error se pueden observar en la figura \ref{errorescalibracion}. 
 
  \begin{figure}[H]
     \centering
-    \includegraphics[trim={0 0cm 0.0cm  0 0cm},clip,width=\linewidth]{Imagenes/errorescalibracion.png}
+    \includegraphics[trim={0 0cm 0.0cm  0 0cm},clip,width=0.6\linewidth]{Imagenes/errorescalibracion.png}
     \caption{Términos de error para un VNA de un puerto}
     \label{errorescalibracion}
  \end{figure}
@@ -68,9 +80,9 @@ Luego el $\Gamma$ real se calcula como:
 
  
 \section{Acoplador Direccional}
-En la mayoría de diseños en electrónica, el acoplamiento electromagnético entre líneas de transmisión se considera ruido porque interfiere con la señal que se busca transmitir. Una excepción es el caso de acopladores, donde el acoplamiento es un parámetro de diseño que permite medir la señal de una línea con un alto aislamiento, es decir, sin interrumpir su paso. Además cuando se dispone de un par de lineas acopladas, se puede verificar que en uno de sus puertos la señal incidente se anula, generando un punto que permite medir la onda reflejada. 
+En la mayoría de diseños en electrónica, el acoplamiento electromagnético entre líneas de transmisión se considera indeseable porque interfiere con la señal que se busca transmitir. Una excepción es el caso de acopladores, donde el acoplamiento es un parámetro de diseño que permite medir la señal de una línea con un alto aislamiento, es decir, sin interrumpir su paso. Además se pueden diseñar un par de lineas acopladas que verifiquen que en uno de sus puertos la señal incidente se anula, generando un punto que permite medir la onda reflejada. 
 
-Las principales propiedades que caracterizan un acoplador son la directividad, el aislamiento, el acoplamiento y la pérdida de inserción \cite{acopladores_minicircuits}. La directividad mide la capacidad de separar las ondas que se propagan en distintas direcciones. El aislamiento, la potencia que llega a la carga desacoplada. El acoplamiento indica la potencia que se entrega al puerto acoplado. La pérdida de inserción tiene en cuenta cuánta potencia que se debería transmitir se pierde por ser entregada a los puertos acoplados y aislados, y tiene en cuenta las pérdidas en los materiales (dieléctrico y resistividad de las pistas). 
+Las principales propiedades que caracterizan un acoplador son la directividad, el aislamiento, el acoplamiento y la pérdida de inserción \cite{acopladores_minicircuits}. La directividad mide la capacidad de separar las ondas que se propagan en distintas direcciones. El aislamiento, la potencia que llega al puerto desacoplado. El acoplamiento indica la proporción de potencia que se entrega al puerto acoplado. La pérdida de inserción muestra cuánta potencia (que se debería transmitir) se pierde por ser entregada a los puertos acoplados y aislados, y las pérdidas en los materiales (dieléctrico y resistividad de las pistas). 
 
 Un acoplador ideal es un dispositivo pasivo, que posee directividad y aislamiento infinitos. 
 
@@ -86,10 +98,12 @@ Una solución compacta, económica y con un ancho de banda teórico infinito es 
     \label{fig:puente_wheatstone}
 \end{figure}
 
+\textcolor{pink}{Para una aplicación de reflectometría, la magnitud de la impedancia de entrada al dispositivo bajo prueba haría las veces del Zx a caracterizar en este esquema simplificado.  esto, además de la capacidad de lograr directividad y ancho de banda elevados, lo vuelve una alternativa muy conveniente a la hora de implementar un VNA que funcione con buena sensibilidad en un rango amplio de frecuencias.}
+
 \section{Buenas prácticas de diseño en RF}
 Al momento de rutear un PBC (\textit{Printed Circuit Board} - Placa de Circuito Impreso) se deben tener en consideración algunas buenas prácticas que ayudan a mantener la integridad de las señales, la impedancia de las líneas y evitar la interferencia electromagnética, sobre todo cuando se trabaja en RF. 
 
-Se debe garantizar que las pistas cumplan con la impedancia requerida de 50$\Omega$. Esto implica calcular el ancho de la línea usando las ecuaciones de diseño según el tipo de línea o se pueden encontrar calculadoras online o integradas en los software de diseño con este fin. Se deben evitar ángulos rectos, que causan discontinuidades y aumentan la capacitancia parásita. 
+Se debe garantizar que las pistas cumplan con la impedancia requerida de 50$\Omega$. Esto implica calcular el ancho de la línea usando las ecuaciones de diseño según el tipo de línea y las características de los materiales a utilizar (generalmente brindadas por el fabricante de PCB). Se pueden encontrar calculadoras online o integradas en los software de diseño con este fin. Se deben evitar ángulos rectos, que causan discontinuidades y aumentan la capacitancia parásita. 
 
 El plano de masa que se encuentra debajo de las pistas de RF debe ser continuo, para que la corriente de retorno pueda seguir el camino de menor inductancia. Por esta razón no se recomienda rutear en el plano inferior al de las rutas de RF, pero si se necesita hacerlo no se deben atravesar las regiones donde en la capa superior haya trazos de RF.
 
@@ -103,13 +117,39 @@ Los trazos deben ser lo más cortos posible, para minimizar la atenuación de la
 \section{Heterodinación de señales}
 Las señales que se intentan medir en un VNA son de naturaleza analógica, por lo que para realizar el cálculo del parámetro de reflexión o S11 primero se debe poder medir su amplitud y fase. Existen integrados que pueden obtener la magnitud de una onda de RF como el HMC601 \cite{AnalogDevices_HMC601} pero se pierde información de la fase. Por eso se busca una forma de bajar la frecuencia de la señal para poder adquirirla de forma digital.
 
-Un esquema heterodino se basa en la combinación de una señal de RF de interés con otra señal generada localmente por un oscilador local (OL o LO por sus siglas en inglés) desplazada en frecuencia un valor constante, llamado frecuencia intermedia (FI). Es posible demostrar matemáticamente que cuando se multiplican idealmente en el dominio del tiempo dos señales sinusoidales, a la salida existen componentes espectrales en la suma y diferencia de las frecuencias originales. Mediante un filtrado se puede aislar la componente diferencia, logrando así trasladar la información de la señal de RF hacia la FI. 
+Un esquema heterodino se basa en la combinación de una señal de RF de interés con otra señal generada localmente por un oscilador local (OL o LO por sus siglas en inglés) desplazada en frecuencia un valor constante, llamado frecuencia intermedia (FI). 
+
+Cuando se multiplican idealmente en el dominio del tiempo dos señales sinusoidales $v_{RF}(t)= A_{RF}\cos(2\pi f_{RF}t)$ y $v_{OL}(t)= A_{LO}\cos(2\pi(f_{RF}+f_{IF})t)$ (suponiendo que tienen la misma fase inicial), a la salida existen componentes espectrales en la suma y diferencia de las frecuencias originales:
+
+\begin{subequations}
+\begin{align}
+v_{mix}(t) &= k \cdot v_{RF}(t) \cdot v_{LO}(t) \\
+v_{mix}(t) &= k A_{RF} A_{LO}\cos(2\pi f_{RF}t)\cos(2\pi (f_{RF}+f_{IF})t) \\
+\end{align}
+\end{subequations}
+
+Reescribiendo con la identidad trigonométrica $\cos(\alpha)\cos(\beta) = \frac{1}{2}\left[\cos(\alpha-\beta)+\cos(\alpha+\beta)\right]$ entonces:
+\begin{subequations}
+\begin{align}
+v_{mix}(t) &= \frac{k A_{RF} A_{LO}}{2}\left[\underbrace{\cos\left(
+2\pi f_{FI}t\right)}_{\text{Componente Resta (FI)}}
+\right.\left.+\underbrace{ \cos\left(2\pi(2 f_{RF}+f_{FI})t\right)
+}_{\text{Componente Suma (Alta Frecuencia)}} \right]
+\end{align}
+\end{subequations}
+
+Mediante un filtrado se puede aislar la componente diferencia, logrando así trasladar la información de la señal de RF hacia la FI:
+
+\begin{equation}
+v_{\text{IF}}(t) = \frac{k A_{\text{RF}}A_{LO}}{2} \cos\left(2\pi f_{\text{IF}} t\right)
+\end{equation}
+
 Utilizando un mezclador doble se pueden heterodinar dos señales con un solo oscilador local, como muestra la figura \ref{fig:mixer} . De esta forma obtenienen las señales incidente y reflejada, conservando su amplitud y fase, en una frecuencia de audio que facilite su adquisición y procesamiento.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{Imagenes/mixer.png}
-    \caption{heterodinación}
+    \caption{Heterodinación de señales}
     \label{fig:mixer}
 \end{figure}
 
