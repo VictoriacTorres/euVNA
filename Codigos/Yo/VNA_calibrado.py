@@ -33,16 +33,41 @@ from matplotlib.lines import Line2D
 from scipy.signal import firwin, lfilter
 from scipy.signal.windows import get_window
 
-
 # ==================== Configuración: Arduino / barrido de RF ====================
 
-PUERTO = "COM3"          # Windows: "COM3", "COM5", etc. Linux/Mac: "/dev/ttyACM0"
+PUERTO = "COM3"      
 BAUDRATE = 115200
 
 F_INICIO_MHZ = 1800.000
 F_FIN_MHZ = 2200.000
 F_PASO_MHZ = 1.000
 OFFSET_MHZ=0.010 # Frecuencia de audio
+FS_AUDIO = 44100
+DURACION_CAPTURA_S = 1
+DESCARTE_S = 0.300
+# ==================== Salidas ====================
+CARPETA_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Archivos csv resultados-calibracion")
+ARCHIVO_CSV = os.path.join(CARPETA_CSV, f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_50cal_6oct.csv")
+NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
+archivo_calibracion = os.path.join( CARPETA_CSV,f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - 6oct.csv")
+
+# ==================== Configuración: adquisición de audio ====================
+# Índice del dispositivo de audio a usar (line-in). None = dispositivo de
+# entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
+#   python -c "import sounddevice as sd; print(sd.query_devices())"
+# y poné acá el índice que corresponda a tu placa de sonido / line-in.
+DISPOSITIVO_AUDIO = None
+
+# ==================== Configuración: filtro FIR + FFT ====================
+F_CENTRO_FILTRO = 10000       # Hz, tono de batido esperado
+ANCHO_BANDA_FILTRO = 200     # Hz
+NUMTAPS_FILTRO = 1001        # debe ser menor que la cantidad de muestras por captura
+VENTANA_FFT = "flattop"
+# Banda donde se busca el pico del tono de batido (Hz)
+BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2,
+                        F_CENTRO_FILTRO + ANCHO_BANDA_FILTRO / 2)
+# ==================================================================
+
 FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221.00, 226.00, 256.00, 260.00, 280.00, 
                              285.00, 291.00, 320.00, 347.00, 353.00, 354.00, 359.00, 360.00, 365.00, 366.00, 371.00, 
                              372.00, 378.00, 379.00, 385.00, 386.00, 392.00, 393.00, 400.00, 401.00, 408.00, 409.00, 
@@ -67,46 +92,6 @@ FRECUENCIAS_EXCLUIDAS_MHZ = [200.00, 204.00, 208.00, 212.00, 216.00, 217.00, 221
                              1833.00, 1854.00, 1858.00, 1910.00, 1937.00, 2018.00, 2150.00, 2158.00, 2166.00, 2190.00, 2235.00, 2236.00, 
                              2237.00, 2238.00, 2239.00, 2240.00, 2241.00, 2279.00, 2280.00, 2281.00, 2283.00, 2284.00, 
                              2324.00, 2325.00, 2327.00, 2328.00, 2329.00, 2370.00, 2374.00, 2421.00, 2463.00]
-
-# ==================== Salidas ====================
-
-CARPETA_CSV = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "Archivos csv resultados-calibracion"
-)
-ARCHIVO_CSV = os.path.join(
-    CARPETA_CSV,
-    f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_calibrado.csv"
-)
-NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
-archivo_calibracion = os.path.join(
-    CARPETA_CSV,
-    f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - 1oct.csv"
-)
-
-# ==================== Configuración: adquisición de audio ====================
-FS_AUDIO = 44100
-DURACION_CAPTURA_S = 1
-DESCARTE_S = 0.300
-# Índice del dispositivo de audio a usar (line-in). None = dispositivo de
-# entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
-#   python -c "import sounddevice as sd; print(sd.query_devices())"
-# y poné acá el índice que corresponda a tu placa de sonido / line-in.
-DISPOSITIVO_AUDIO = None
-
-# ==================== Configuración: filtro FIR + FFT ====================
-
-F_CENTRO_FILTRO = 10000       # Hz, tono de batido esperado
-ANCHO_BANDA_FILTRO = 200     # Hz
-NUMTAPS_FILTRO = 63        # debe ser menor que la cantidad de muestras por captura
-
-VENTANA_FFT = "flattop"
-
-# Banda donde se busca el pico del tono de batido (Hz)
-BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2,
-                        F_CENTRO_FILTRO + ANCHO_BANDA_FILTRO / 2)
-
-
 # ==================== Calibración ====================
 def calculo_errores (GM_CC, GM_CA, GM_50, n):
     e_00=np.empty(n,dtype=complex)   #inicializo un vector de long n vacio con valores complejos
