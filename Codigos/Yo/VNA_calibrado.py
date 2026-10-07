@@ -43,11 +43,11 @@ F_FIN_MHZ = 2200.000
 F_PASO_MHZ = 1.000
 OFFSET_MHZ=0.010 # Frecuencia de audio
 FS_AUDIO = 44100
-DURACION_CAPTURA_S = 1
-DESCARTE_S = 0.300
+DURACION_CAPTURA_S = 0.6
+DESCARTE_S = 0.250
 # ==================== Salidas ====================
 CARPETA_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Archivos csv resultados-calibracion")
-ARCHIVO_CSV = os.path.join(CARPETA_CSV, f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_50cal_6oct.csv")
+ARCHIVO_CSV = os.path.join(CARPETA_CSV, f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_50Rvieja_7oct.csv")
 NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
 archivo_calibracion = os.path.join( CARPETA_CSV,f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - 6oct.csv")
 
