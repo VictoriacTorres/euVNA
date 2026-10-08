@@ -36,9 +36,9 @@ from scipy.signal.windows import get_window
 PUERTO = "COM3"          # Windows: "COM3", "COM5", etc. Linux/Mac: "/dev/ttyACM0"
 BAUDRATE = 115200
 
-F_INICIO_MHZ = 1700.000
-F_FIN_MHZ = 2300.000
-F_PASO_MHZ = 1.000
+F_INICIO_MHZ = 1914.000
+F_FIN_MHZ = 1920.000
+F_PASO_MHZ = 0.500
 FRECUENCIAS_EXCLUIDAS_MHZ = [] #400.00,  550.0, 560.0, 800.0, 1700.0, 1100.0, 1600.0, 1240.0, 720.0, 1540.0, 1570.0, 550.0, 850.0
 # ==================== Configuración: adquisición de audio ====================
 
@@ -65,8 +65,8 @@ BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2,
 
 # ==================== Salida ====================
 
-ARCHIVO_CSV = "S11_sincalibracion_sinsaltear_10k.csv"
-ARCHIVO_FIGURA = "S11_sincalibracion_sinsaltear_10k.pkl"
+ARCHIVO_CSV = "S11_sincalibracion_nueva_8oct.csv"
+ARCHIVO_FIGURA = "S11_sincalibracion_nueva_8oct.pkl"
 
 # ==================== Arduino / serial ====================
 

@@ -1,0 +1,6 @@
+PyQt6
+pyserial
+sounddevice
+numpy
+scipy
+matplotlib
