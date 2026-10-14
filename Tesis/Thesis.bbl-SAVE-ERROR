@@ -116,6 +116,35 @@
       \verb https://www.altium.com
       \endverb
     \endentry
+    \entry{software_ADIsimPLL}{software}{}{}
+      \name{author}{1}{}{%
+        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
+           family={{Analog Devices}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \field{extraname}{1}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{ADIsimPLL}
+      \field{type}{Herramienta de diseño}
+      \field{version}{5.9}
+      \verb{urlraw}
+      \verb https://www.analog.com/en/lp/resources/adisimpll.html
+      \endverb
+      \verb{url}
+      \verb https://www.analog.com/en/lp/resources/adisimpll.html
+      \endverb
+    \endentry
     \entry{AnalogDevices_HMC601}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
@@ -130,6 +159,7 @@
       \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
       \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
       \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \field{extraname}{2}
       \field{sortinit}{A}
       \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
       \field{labelnamesource}{author}
@@ -137,6 +167,50 @@
       \field{howpublished}{\url{https://www.analog.com/en/products/hmc601.html}}
       \field{title}{HMC601 75 dB logarithmic detector/controller}
       \field{year}{n.d.}
+    \endentry
+    \entry{datasheet_ADF4351}{manual}{}{}
+      \name{author}{1}{}{%
+        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
+           family={{Analog Devices}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \field{extraname}{3}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sintetizador de RF ADF4351}
+      \field{type}{Datasheet}
+      \verb{urlraw}
+      \verb https://www.analog.com/media/en/technical-documentation/data-sheets/ADF4351.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.analog.com/media/en/technical-documentation/data-sheets/ADF4351.pdf
+      \endverb
+    \endentry
+    \entry{ecs2200x_datasheet}{manual}{}{}
+      \list{organization}{1}{%
+        {ECS Inc. International}%
+      }
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labeltitlesource}{title}
+      \field{note}{Cristal oscilador 10MHz}
+      \field{title}{ECS-2200X Series SMD Clock Oscillator Datasheet}
+      \verb{urlraw}
+      \verb https://ecsxtal.com/store/pdf/ecs-2200x.pdf
+      \endverb
+      \verb{url}
+      \verb https://ecsxtal.com/store/pdf/ecs-2200x.pdf
+      \endverb
     \endentry
     \entry{Tektronix}{misc}{}{}
       \name{author}{1}{}{%

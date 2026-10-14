@@ -12,20 +12,51 @@ Como describe la sección 2 de la Especificación de Requerimientos (\ref{apend:
 A continuación, se detalla la solución del hardware, software, firmware e interfaz de usuario.
 
 \section{Hardware}
-El hardware se diseñó en su totalidad en el software Altium Designer, con una licencia estudiantil gracias al programa Altium Student Lab \cite{altium_designer}. Se creó una librería con los esquemáticos, footprints y modelos 3D de los componentes a utilizar. Se dividió el proyecto en esquemáticos que representan los distintos bloques funcionales, que se pueden observar en el capítulo "Esquemáticos y códigos" (\ref{sec:EsquematicosAltium}). 
+El hardware se diseñó en su totalidad en el software Altium Designer, con una licencia estudiantil gracias al programa Altium Student Lab \cite{altium_designer}. Se creó una librería con los esquemáticos, footprints y modelos 3D de los componentes a utilizar. Se dividió el proyecto en esquemáticos que representan los distintos bloques funcionales, que se pueden observar en el capítulo "Esquemáticos y códigos" (\ref{sec:EsquematicosAltium}). Se puede encontrar una descripción general de cada bloque en la Especificación Técnica (\ref{apend:ET}).
 
-\subsection{Generadores de RF}
-Como explica la sección 2.1.2 de la Especificación de Requerimientos (\ref{apend:ER}) se sintetizan con los circuitos integrados (IC - \textit{Integrated Circuits}) ADF4351, un sintetizador de banda ancha con VCO integrado. Uno incide directamente en el acoplador direccional, desviando una parte hacia el mezclador para medir la señal incidente. Su esquemático se puede ver en \ref{sch:ADFRF}. El otro se utiliza como oscilador local para el esquema heterodino (esquemático en \ref{sch:ADFOL}). 
-Algunas consideraciones que se tuvieron en cuenta al    
+\subsection{Oscilador}
+La referencia para los generadores de RF se compone de un oscilador a cristal ECS-2200BX-100 \cite{ecs2200x_datasheet} 
 
-pad central, filtro pll, etapa de salida (pull-up) y rf vea una unica carga 
+el inversor permite no solo aumentar el fan-out (dividiendo la señal en dos caminos sin degradarla) sino realizar un reacondicionamiento. De esta manera se reduce el crosstalk (aislando las entradas de los generadores entre sí) y el ringing (oscilaciones de reflexión), garantizando flancos más limpios y rápidos. 
 
 inversor fan out menos crosstalk y ringing
+\subsection{Generadores de RF}
+Como explica la sección 2.1.2 de la Especificación Técnica (\ref{apend:ET}) se sintetizan con los circuitos integrados (IC - \textit{Integrated Circuits}) ADF4351, un sintetizador de banda ancha con VCO integrado, con frecuencia de salida configurable de 40 a 4400 MHz y potencia de salida máxima de 5dBm \cite{datasheet_ADF4351}. El hardware posee dos; uno incide directamente en el acoplador direccional, desviando una parte de su potencia hacia el mezclador para medir la señal incidente. El esquemático de su implementación se puede ver en \ref{sch:ADFRF}. El otro se utiliza como oscilador local para el esquema heterodino (esquemático en \ref{sch:ADFOL}).
+
+El diagrama en bloques del chip se puede observar en la figura \ref{fig:diagADF}:
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Imagenes/diagADF.png}
+    \caption{Diagrama en bloques del integrado ADF4351}
+    \label{fig:diagADF}
+\end{figure}
+
+
+Algunas consideraciones que se tuvieron en cuenta al momento de diseñar y rutear fueron:
+
+\begin{itemize}
+    \item Tensión de alimentación (Vcc) de 3,3 V, ya que soporta de 3 a 3,6 V. Esta tensión debe ir a pines que se encuentran distribuidos en todos los lados del integrado, por lo que al estar ingresando con señales de RF se debe tener especial cuidado en el ruteo para mantener la integridad de las señales.
+    \item El pad central expuesto del IC debe ser soldado a un pad GND (tierra) de al menos su mismo tamaño por razones térmicas, por indicación del datasheet \cite{datasheet_ADF4351}. Además, se sugiere colocar vías para mejorar el comportamiento térmico.
+    \item La salida de RF es de colector abierto, por lo que para funcionar necesitan una etapa de pull-up: la forma más sencilla (y de banda ancha) de hacerlo es con una resistencia de 50 $\Omega$ a $V_{VCO}$ . De esta forma la salida del circuito es una potencia que equivale al valor registrado en el registro 4 (R4) (ver sección firmware \ref{sec:Firmware}). Por la misma razón, por usarse en modo desbalanceado, la salida de la rama que se deja sin usar debe terminarse en una resistencia de 50 $\Omega$. En este caso, se coloca una línea de transmisión hacia un conector SMA para mediciones auxiliares que en caso de no utilizarse, debe adaptarse.
+    \item Es importante que la señal  $V_{TUNE}$, una continua que es la entrada de control del VCO, esté libre de ruido, ya que determina la frecuencia de salida y es vital para el correcto enganche.
+    \item La hoja de datos recomienda poner capacitores de desacople lo más cerca posible de los pines $V_{P}$, $AV_{DD}$, $V_{VCO}$, $TEMP$, $V_{COM}$, $V_{REF}$, $DV_{DD}$, y $SDV_{DD}$.
+    \item Los pines que se utilizan para programar el integrado son una entrada de alta impedancia CMOS, con un límite máximo de 3,6 V. Para protegerlas por incompatibilidad de niveles lógicos, se utilizan atenuadores en cada una de las entradas (CLK, CE, LE, DATA)\ref{sch:atenuadores}.
+    \item Se coloca un LED en la salida de detección de enganche, para visualizar rápidamente si el integrado está enganchado.  
+\end{itemize}
+
+\subsubsection{Filtro externo de lazo de control}
+El filtro de lazo se diseña en la aplicación del fabricante, Analog Devices, ADISIMPLL 5.9 \cite{software_ADIsimPLL}. Se busca que cumpla con un margen de fase mínimo de 45° para preservar la estabilidad del sistema, y que el ancho de banda sea lo mayor posible para disminuir el tiempo de enganche, a costa de un incremento en el ruido que ingresa al lazo que proviene de la referencia, del detector de fase y la bomba de carga.  
+\textcolor{magenta}{AGREGAR FIGURAS}
+
+
+
 
 \subsection{Implementación en PCB}
 En principio se planteó un modelo de 2 capas, con FR4 como dieléctrico de 0,8 mm de espesor.  
 
 \section{Firmware}
+\label{sec:Firmware}
 El firmware se programó en lenguaje C++ en el entorno Arduino IDE. 
 
 \section{Software}
