@@ -47,9 +47,9 @@ DURACION_CAPTURA_S = 0.6
 DESCARTE_S = 0.250
 # ==================== Salidas ====================
 CARPETA_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Archivos csv resultados-calibracion")
-ARCHIVO_CSV = os.path.join(CARPETA_CSV, f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_50Rvieja_7oct.csv")
+ARCHIVO_CSV = os.path.join(CARPETA_CSV, f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_sensorvacio_14oct.csv")
 NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
-archivo_calibracion = os.path.join( CARPETA_CSV,f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - 6oct.csv")
+archivo_calibracion = os.path.join( CARPETA_CSV,f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - 14oct.csv")
 
 # ==================== Configuración: adquisición de audio ====================
 # Índice del dispositivo de audio a usar (line-in). None = dispositivo de
@@ -268,9 +268,9 @@ def barrido(ser,frecuencias_rf, coef_filtro, nombre_medida="", calibracion=None)
     resultados_s11_complejo = []
     
     for i, f_rf in enumerate(frecuencias_rf):
-        if any(abs(f_rf - fx) < 1e-6 for fx in FRECUENCIAS_EXCLUIDAS_MHZ):
+        """if any(abs(f_rf - fx) < 1e-6 for fx in FRECUENCIAS_EXCLUIDAS_MHZ):
             print(f"[{i + 1}/{len(frecuencias_rf)}] {f_rf:.3f} MHz -- excluida, se saltea.")
-            continue
+            continue"""
 
         respuesta = setear_frecuencia(ser, f_rf)
     
