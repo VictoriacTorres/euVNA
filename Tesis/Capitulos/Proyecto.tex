@@ -14,12 +14,7 @@ A continuación, se detalla la solución del hardware, software, firmware e inte
 \section{Hardware}
 El hardware se diseñó en su totalidad en el software Altium Designer, con una licencia estudiantil gracias al programa Altium Student Lab \cite{altium_designer}. Se creó una librería con los esquemáticos, footprints y modelos 3D de los componentes a utilizar. Se dividió el proyecto en esquemáticos que representan los distintos bloques funcionales, que se pueden observar en el capítulo "Esquemáticos y códigos" (\ref{sec:EsquematicosAltium}). Se puede encontrar una descripción general de cada bloque en la Especificación Técnica (\ref{apend:ET}).
 
-\subsection{Oscilador}
-La referencia para los generadores de RF se compone de un oscilador a cristal ECS-2200BX-100 \cite{ecs2200x_datasheet} 
 
-el inversor permite no solo aumentar el fan-out (dividiendo la señal en dos caminos sin degradarla) sino realizar un reacondicionamiento. De esta manera se reduce el crosstalk (aislando las entradas de los generadores entre sí) y el ringing (oscilaciones de reflexión), garantizando flancos más limpios y rápidos. 
-
-inversor fan out menos crosstalk y ringing
 \subsection{Generadores de RF}
 Como explica la sección 2.1.2 de la Especificación Técnica (\ref{apend:ET}) se sintetizan con los circuitos integrados (IC - \textit{Integrated Circuits}) ADF4351, un sintetizador de banda ancha con VCO integrado, con frecuencia de salida configurable de 40 a 4400 MHz y potencia de salida máxima de 5dBm \cite{datasheet_ADF4351}. El hardware posee dos; uno incide directamente en el acoplador direccional, desviando una parte de su potencia hacia el mezclador para medir la señal incidente. El esquemático de su implementación se puede ver en \ref{sch:ADFRF}. El otro se utiliza como oscilador local para el esquema heterodino (esquemático en \ref{sch:ADFOL}).
 
@@ -38,7 +33,7 @@ Algunas consideraciones que se tuvieron en cuenta al momento de diseñar y rutea
 \begin{itemize}
     \item Tensión de alimentación (Vcc) de 3,3 V, ya que soporta de 3 a 3,6 V. Esta tensión debe ir a pines que se encuentran distribuidos en todos los lados del integrado, por lo que al estar ingresando con señales de RF se debe tener especial cuidado en el ruteo para mantener la integridad de las señales.
     \item El pad central expuesto del IC debe ser soldado a un pad GND (tierra) de al menos su mismo tamaño por razones térmicas, por indicación del datasheet \cite{datasheet_ADF4351}. Además, se sugiere colocar vías para mejorar el comportamiento térmico.
-    \item La salida de RF es de colector abierto, por lo que para funcionar necesitan una etapa de pull-up: la forma más sencilla (y de banda ancha) de hacerlo es con una resistencia de 50 $\Omega$ a $V_{VCO}$ . De esta forma la salida del circuito es una potencia que equivale al valor registrado en el registro 4 (R4) (ver sección firmware \ref{sec:Firmware}). Por la misma razón, por usarse en modo desbalanceado, la salida de la rama que se deja sin usar debe terminarse en una resistencia de 50 $\Omega$. En este caso, se coloca una línea de transmisión hacia un conector SMA para mediciones auxiliares que en caso de no utilizarse, debe adaptarse.
+    \item La salida de RF es de colector abierto, por lo que para funcionar necesitan una etapa de pull-up: la forma más sencilla (y de banda ancha) de hacerlo es con una resistencia de 50 $\Omega$ a $V_{VCO}$. De esta forma la salida del circuito es una potencia que equivale al valor registrado en el registro 4 (R4) (ver sección firmware \ref{sec:Firmware}). Por la misma razón, por usarse en modo desbalanceado, la salida de la rama que se deja sin usar debe terminarse en una resistencia de 50 $\Omega$. En este caso, se coloca una línea de transmisión hacia un conector SMA para mediciones auxiliares que en caso de no utilizarse, debe adaptarse.
     \item Es importante que la señal  $V_{TUNE}$, una continua que es la entrada de control del VCO, esté libre de ruido, ya que determina la frecuencia de salida y es vital para el correcto enganche.
     \item La hoja de datos recomienda poner capacitores de desacople lo más cerca posible de los pines $V_{P}$, $AV_{DD}$, $V_{VCO}$, $TEMP$, $V_{COM}$, $V_{REF}$, $DV_{DD}$, y $SDV_{DD}$.
     \item Los pines que se utilizan para programar el integrado son una entrada de alta impedancia CMOS, con un límite máximo de 3,6 V. Para protegerlas por incompatibilidad de niveles lógicos, se utilizan atenuadores en cada una de las entradas (CLK, CE, LE, DATA)\ref{sch:atenuadores}.
@@ -46,14 +41,33 @@ Algunas consideraciones que se tuvieron en cuenta al momento de diseñar y rutea
 \end{itemize}
 
 \subsubsection{Filtro externo de lazo de control}
-El filtro de lazo se diseña en la aplicación del fabricante, Analog Devices, ADISIMPLL 5.9 \cite{software_ADIsimPLL}. Se busca que cumpla con un margen de fase mínimo de 45° para preservar la estabilidad del sistema, y que el ancho de banda sea lo mayor posible para disminuir el tiempo de enganche, a costa de un incremento en el ruido que ingresa al lazo que proviene de la referencia, del detector de fase y la bomba de carga.  
-\textcolor{magenta}{AGREGAR FIGURAS}
+El filtro de lazo se diseña en la aplicación del fabricante, Analog Devices, ADISIMPLL 5.9 \cite{software_ADIsimPLL}. Se busca que cumpla con un margen de fase mínimo de 45° para preservar la estabilidad del sistema, y que el ancho de banda sea lo mayor posible para disminuir el tiempo de enganche, a costa de un incremento en el ruido que ingresa al lazo que proviene de la referencia, del detector de fase y la bomba de carga.
 
+El esquema final se puede observar en el entorno del software en la figura \ref{fig:esqadisim}.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Imagenes/adisim1.png}
+    \caption{Diseño del filtro de lazo externo}
+    \label{fig:esqadisim}
+\end{figure}
 
+La respuesta en frecuencia de todo el sistema (ADF4351 con el filtro diseñado), simulada para 2 GHz, se muestra en la figura \ref{bodesadisim} 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Imagenes/adisimbodes.png}
+    \caption{Respuesta en frecuencia de los generadores}
+    \label{fig:bodesadisim}
+\end{figure}
+
+\subsection{Oscilador}
+La referencia para los generadores de RF se compone de un oscilador a cristal ECS-2200BX-100 \cite{ecs2200x_datasheet} que proporciona una salida cuadrada y un buffer con salida open drain 74LVC2G07W6-7 \cite{datasheet_74lvc2g07}. Este permite no solo aumentar el fan-out (dividiendo la señal en dos caminos sin degradarla) sino realizar un reacondicionamiento. De esta manera se reduce el crosstalk (aislando las entradas de los generadores entre sí) y el ringing (oscilaciones de reflexión), garantizando flancos más limpios y rápidos. Se colocan dos resistencias de 47 $\Omega$ para absorber las ondas reflejadas existan en la línea debido a que la entrada de referencia de los ADF es de alta impedancia y limitar la corriente de conmutación (ayudando a reducir el ruido de alta frecuencia). \ref{sch:alimentacion}
+
+\subsection{Mezclador}
+ 
 
 
 \subsection{Implementación en PCB}
-En principio se planteó un modelo de 2 capas, con FR4 como dieléctrico de 0,8 mm de espesor.  
+En principio se planteó un modelo de 2 capas, que se puede observar en la figura \ref{fig}. Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 mm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de un puente. Se implementó con postes y cables de arduino, pero no es la manera óptima porque es sensible a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, y tiene un tamaño de 8,7 x 7,8 mm\textsuperscript{2}.  
 
 \section{Firmware}
 \label{sec:Firmware}
