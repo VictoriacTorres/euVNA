@@ -30,6 +30,23 @@
       \verb https://www.freestylelibre.com.ar/
       \endverb
     \endentry
+    \entry{datasheet_74lvc2g07}{manual}{}{}
+      \list{organization}{1}{%
+        {Diodes Incorporated}%
+      }
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labeltitlesource}{title}
+      \field{note}{Datasheet}
+      \field{number}{DS35162}
+      \field{title}{{74LVC2G07}: Dual Buffers with Open Drain Outputs}
+      \verb{urlraw}
+      \verb https://www.diodes.com/assets/Datasheets/74LVC2G07.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.diodes.com/assets/Datasheets/74LVC2G07.pdf
+      \endverb
+    \endentry
     \entry{altium_caps_desacople}{online}{}{}
       \name{author}{1}{}{%
         {{hash=1ba7008bb3db3642bcf4e2feae38fb57}{%

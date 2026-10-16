@@ -1,15 +1,15 @@
 # Fdb version 4
-["biber Thesis"] 0 "Thesis.bcf" "Thesis.bbl" "Thesis" 1792087798.12101 -1
+["biber Thesis"] 1792183597.32068 "Thesis.bcf" "Thesis.bbl" "Thesis" 1792183644.10925 0
   "Bibliografia.bib" 1792086534 4985 487171c08a236b627f790a2ab959f3ae ""
-  "Thesis.bcf" 1792087797 110097 f90e4e1300125391dfae25c0381aaa45 "pdflatex"
+  "Thesis.bcf" 1792183643 110097 f90e4e1300125391dfae25c0381aaa45 "pdflatex"
   (generated)
   "Thesis.bbl"
   "Thesis.blg"
   (rewritten before read)
-["pdflatex"] 1792087786.55537 "c:/Users/David Petruzzi/Desktop/euVNA/euVNA/Tesis/Thesis.tex" "Thesis.pdf" "Thesis" 1792087798.12252 0
+["pdflatex"] 1792183633.07494 "c:/Users/David Petruzzi/Desktop/euVNA/euVNA/Tesis/Thesis.tex" "Thesis.pdf" "Thesis" 1792183644.11064 0
   "Capitulos/Introducción.tex" 1791214198 5143 aeaf649988fc681e51c88df440c7c447 ""
-  "Capitulos/Marco teórico.tex" 1791997979 20781 828f3e4c5eb20ee99723122c0ba20f18 ""
-  "Capitulos/Proyecto.tex" 1792087773 11779 5057ffa37bfce3a48acc5926633792f8 ""
+  "Capitulos/Marco teórico.tex" 1792183580 21807 d04bbe81725f0e6f1f7ac3ffeb979577 ""
+  "Capitulos/Proyecto.tex" 1792181491 11823 a4c5fca483073ca2cacd420e19d824a0 ""
   "Codigos/vna_core.py" 1791214198 13707 25f4d2f5b680d31e1c4fcbc925a18550 ""
   "Codigos/vna_gui.py" 1791214198 24503 a81f1fb45bc1ee6f9488b0602dcad168 ""
   "Imagenes/Logo.png" 1791214198 28030 ebd047409b5d0782effc94b226eb349f ""
@@ -24,12 +24,12 @@
   "Imagenes/mixer.png" 1791214198 29761 c8af42fc03c7380673f5e2ba3a6005ed ""
   "Imagenes/par_S.png" 1791214198 16716 ceca203d022e600148c48c18747bd942 ""
   "Imagenes/puente_wheatstone.png" 1791214198 44762 d61753552fa52257497bd51189c2dad1 ""
-  "Thesis.aux" 1792087797 13355 791343257a5ff79d65c2e9f21bf953c9 "pdflatex"
-  "Thesis.bbl" 1792086540 23225 ba64a93fc638676651fe179b7b962d9c "biber Thesis"
-  "Thesis.out" 1792087797 6792 ae85d88ef80992289c74e3d09209cbf0 "pdflatex"
-  "Thesis.run.xml" 1792087797 2321 7cf3d6461b9e1de2aaa30e825675d316 "pdflatex"
+  "Thesis.aux" 1792183643 13417 238bebc8c3fa7b0640f84cd0ee81cb4d "pdflatex"
+  "Thesis.bbl" 1792183609 23827 e1e980fb7dccdcaec5dfa1c054936155 "biber Thesis"
+  "Thesis.out" 1792183643 6792 ae85d88ef80992289c74e3d09209cbf0 "pdflatex"
+  "Thesis.run.xml" 1792183643 2321 6b0ff29c670a2d085c14fc6bc7c181c6 "pdflatex"
   "Thesis.tex" 1792081836 7126 c1dd1f7b04b965e80eceb9e41ebe4349 ""
-  "Thesis.toc" 1792087797 3603 9ed088147811f1bcbbc03cde55fe14da "pdflatex"
+  "Thesis.toc" 1792183643 3603 7d466a73d28ab5d66a76784f779c9867 "pdflatex"
   "_minted/4F81AFEB8C8A46C4E95DA063F73C6162.highlight.minted" 1792081854 41824 bfd24e8c8d97829a18622835eb11e6ad ""
   "_minted/EBAEBBDECD443B10D8D4FFA1346FBD01.highlight.minted" 1792081858 74854 9f064ac52c5735346463021540bd26e8 ""
   "_minted/_85210CA57B5B2982CA05FE6F9EFFDB41.index.minted" 1792081866 329 2774dd48856da11a3e92f99143c22a31 ""

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.1)  15 OCT 2026 15:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.1)  16 OCT 2026 17:47
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -885,15 +885,15 @@ Package pdftex.def Info: Imagenes/errorescalibracion.png  used on input line 60.
 <Imagenes/puente_wheatstone.png, id=340, 513.92pt x 384.43625pt>
 File: Imagenes/puente_wheatstone.png Graphic file (type png)
 <use Imagenes/puente_wheatstone.png>
-Package pdftex.def Info: Imagenes/puente_wheatstone.png  used on input line 96.
+Package pdftex.def Info: Imagenes/puente_wheatstone.png  used on input line 123.
 (pdftex.def)             Requested size: 227.62206pt x 170.27287pt.
- [11 <./Imagenes/puente_wheatstone.png (PNG copy)>]
-<Imagenes/mixer.png, id=350, 478.78876pt x 317.68687pt>
+ [11 <./Imagenes/puente_wheatstone.png (PNG copy)>] [12]
+<Imagenes/mixer.png, id=371, 478.78876pt x 317.68687pt>
 File: Imagenes/mixer.png Graphic file (type png)
 <use Imagenes/mixer.png>
-Package pdftex.def Info: Imagenes/mixer.png  used on input line 153.
+Package pdftex.def Info: Imagenes/mixer.png  used on input line 180.
 (pdftex.def)             Requested size: 227.62206pt x 151.0337pt.
- [12] [13 <./Imagenes/mixer.png>] [14]) [15]
+ [13 <./Imagenes/mixer.png>] [14]) [15]
 Capítulo 3.
 (./Capitulos/Proyecto.tex
 
@@ -902,7 +902,7 @@ LaTeX Warning: Reference `apend:ER' on page 16 undefined on input line 3.
 
 LaTeX Warning: Reference `apend:ER' on page 16 undefined on input line 3.
 
-<Imagenes/diagbloques.png, id=397, 513.92pt x 326.21875pt>
+<Imagenes/diagbloques.png, id=402, 513.92pt x 326.21875pt>
 File: Imagenes/diagbloques.png Graphic file (type png)
 <use Imagenes/diagbloques.png>
 Package pdftex.def Info: Imagenes/diagbloques.png  used on input line 7.
@@ -922,7 +922,7 @@ LaTeX Warning: Reference `sch:ADFRF' on page 17 undefined on input line 19.
 
 LaTeX Warning: Reference `sch:ADFOL' on page 17 undefined on input line 19.
 
-<Imagenes/diagADF.png, id=408, 621.07031pt x 356.0803pt>
+<Imagenes/diagADF.png, id=413, 621.07031pt x 356.0803pt>
 File: Imagenes/diagADF.png Graphic file (type png)
 <use Imagenes/diagADF.png>
 Package pdftex.def Info: Imagenes/diagADF.png  used on input line 25.
@@ -931,7 +931,7 @@ Package pdftex.def Info: Imagenes/diagADF.png  used on input line 25.
 
 LaTeX Warning: Reference `sch:atenuadores' on page 18 undefined on input line 39.
 
-<Imagenes/adisim1.png, id=420, 657.2053pt x 389.95688pt>
+<Imagenes/adisim1.png, id=425, 657.2053pt x 389.95688pt>
 File: Imagenes/adisim1.png Graphic file (type png)
 <use Imagenes/adisim1.png>
 Package pdftex.def Info: Imagenes/adisim1.png  used on input line 49.
@@ -939,14 +939,11 @@ Package pdftex.def Info: Imagenes/adisim1.png  used on input line 49.
 
 LaTeX Warning: Reference `bodesadisim' on page 18 undefined on input line 54.
 
-<Imagenes/adisimbodes.png, id=421, 705.38531pt x 281.55188pt>
+<Imagenes/adisimbodes.png, id=426, 705.38531pt x 281.55188pt>
 File: Imagenes/adisimbodes.png Graphic file (type png)
 <use Imagenes/adisimbodes.png>
 Package pdftex.def Info: Imagenes/adisimbodes.png  used on input line 57.
 (pdftex.def)             Requested size: 364.19667pt x 145.36815pt.
-
-LaTeX Warning: Citation 'datasheet_74lvc2g07' on page 18 undefined on input line 63.
-
 
 LaTeX Warning: Reference `sch:alimentacion' on page 18 undefined on input line 63.
 
@@ -954,8 +951,11 @@ LaTeX Warning: Reference `sch:alimentacion' on page 18 undefined on input line 6
 
 LaTeX Warning: Reference `fig' on page 19 undefined on input line 70.
 
+
+LaTeX Warning: Reference `fig' on page 19 undefined on input line 70.
+
 [19]
-<Imagenes/d_flujo_interfaz.png, id=444, 607.068pt x 932.0421pt>
+<Imagenes/d_flujo_interfaz.png, id=452, 607.068pt x 932.0421pt>
 File: Imagenes/d_flujo_interfaz.png Graphic file (type png)
 <use Imagenes/d_flujo_interfaz.png>
 Package pdftex.def Info: Imagenes/d_flujo_interfaz.png  used on input line 108.
@@ -974,10 +974,10 @@ Excluding 'comment' comment.
 \pydata@fh@0=\write8
 \openout8 = `_85210CA57B5B2982CA05FE6F9EFFDB41.data.minted'.
 
-runsystem(latexminted config  --timestamp 20261015150947 85210CA57B5B2982CA05FE6F9EFFDB41)...executed.
+runsystem(latexminted config  --timestamp 20261016174713 85210CA57B5B2982CA05FE6F9EFFDB41)...executed.
 
  (./_85210CA57B5B2982CA05FE6F9EFFDB41.config.minted)
-runsystem(latexminted cleanconfig  --timestamp 20261015150947 85210CA57B5B2982CA05FE6F9EFFDB41)...executed.
+runsystem(latexminted cleanconfig  --timestamp 20261016174713 85210CA57B5B2982CA05FE6F9EFFDB41)...executed.
 
  (./_minted/emacs.style.minted) (./_minted/4F81AFEB8C8A46C4E95DA063F73C6162.highlight.minted
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
@@ -1004,28 +1004,23 @@ LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
 (rerunfilecheck)             Checksum: AE85D88EF80992289C74E3D09209CBF0;6792.
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                Thesis
-(biblatex)                and rerun LaTeX afterwards.
-
 Package logreq Info: Writing requests to 'Thesis.run.xml'.
 \openout1 = `Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26541 strings out of 467049
- 512087 string characters out of 5410529
- 1479845 words of memory out of 5000000
- 55434 multiletter control sequences out of 15000+600000
+ 26550 strings out of 467049
+ 512345 string characters out of 5410529
+ 1479879 words of memory out of 5000000
+ 55437 multiletter control sequences out of 15000+600000
  648212 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,17n,83p,1305b,1524s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,17n,83p,1305b,1538s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfcc1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfcc2074.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfit1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on Thesis.pdf (48 pages, 1214208 bytes).
+Output written on Thesis.pdf (48 pages, 1224341 bytes).
 PDF statistics:
- 755 PDF objects out of 1000 (max. 8388607)
- 620 compressed objects within 7 object streams
- 150 named destinations out of 1000 (max. 500000)
+ 764 PDF objects out of 1000 (max. 8388607)
+ 629 compressed objects within 7 object streams
+ 156 named destinations out of 1000 (max. 500000)
  425 words of extra memory for PDF output out of 10000 (max. 10000000)
 

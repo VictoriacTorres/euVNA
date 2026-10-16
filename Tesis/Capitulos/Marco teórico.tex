@@ -89,7 +89,34 @@ Un acoplador ideal es un dispositivo pasivo, que posee directividad y aislamient
 Existen acopladores direccionales como el HP 778d \cite{keysight_778d} que posee una directividad mayor a 36dB y pérdidas por inserción menores a 0,6dB, pero tiene un ancho de banda que permite hacer mediciones entre 100 MHz y 2 GHz, y sus dimensiones físicas y peso hacen que su utilidad se limite a mediciones en laboratorio. Para soluciones integradas hay alternativas comerciales como el ZABDC20-322 de Minicircuits \cite{minicircuits_zabdc20} pero su costo hace que el diseño no sea escalable. 
 
 \subsection{Puente resistivo}
-Una solución compacta, económica y con un ancho de banda teórico infinito es el puente resistivo tipo Wheatstone. Como se puede observar en la figura \ref{fig:puente_wheatstone} es una red simple de comparación de impedancias, formada por cuatro resistencias sobre las cuales se inyecta una señal de referencia en la parte superior. Una de las resistencias es variable (Zx), mientras que el resto son iguales entre sí. Se utiliza un voltímetro para medir la diferencia de potencial entre las ramas. Si la resistencia variable es de 50$\Omega$, el puente queda balanceado y el voltímetro indica un cero. Si es menor a 50$\Omega$, la rama izquierda presenta un voltaje menor a la derecha, mientras que para valores mayores ocurre lo opuesto.  Si la señal incidente es sinusoidal es posible además caracterizar cargas reactivas midiendo el desfasaje de la señal Zx respecto de la incidente. Este es el principio que permite al puente comportarse como un acoplador direccional: la diferencia de potencial entre las ramas es función de la onda reflejada equivalente.  
+Una solución compacta, económica y con un ancho de banda teórico infinito es el puente resistivo tipo Wheatstone. Como se puede observar en la figura \ref{fig:puente_wheatstone} es una red simple de comparación de impedancias, formada por cuatro resistencias sobre las cuales se inyecta una señal de referencia en la parte superior. Una de las resistencias es variable (Zx), mientras que el resto son iguales entre sí. Se utiliza un voltímetro para medir la diferencia de potencial entre las ramas. Si la resistencia variable es de 50$\Omega$, el puente queda balanceado y el voltímetro indica un cero. Si es menor a 50$\Omega$, la rama izquierda presenta un voltaje menor a la derecha, mientras que para valores mayores ocurre lo opuesto.
+La tensión en el nodo de referencia $V\_A$ resulta:
+\begin{equation} 
+    V_{A} = V_{inc} \cdot \frac{Z_{0}}{Z_{0} + Z_{0}} = \frac{V_{inc}}{2}
+\end{equation}
+Mientras que la tensión en el nodo de medición $V\_B$ es: \begin{equation} 
+    V\_B = V\_{inc} \cdot \frac{Z_{x}}{Z_{0} + Z_{x}} 
+\end{equation}
+
+Por lo tanto, la señal desbalanceada o tensión diferencial reflejada $v\_{diff}(t)$ entre ambos nodos se define como: 
+\begin{subequations} 
+    \begin{align}
+        v_{diff}(t) = v_{B}(t) - v_{A}(t) 
+        v_{diff}(t) = v_{inc}(t) \left[ \frac{Z_{x}}{Z_{0} + Z_{x}} - \frac{1}{2} \right] 
+    \end{align} 
+\end{subequations} 
+
+Reescribiendo la resta interna con común denominador $\frac{Z_{x}}{Z_{x} + Z_{0}} - \frac{1}{2} = \frac{1}{2}\left[\frac{Z_{x} - Z_{0}}{Z_{x} + Z_{0}}\right]$ entonces: 
+\begin{equation}
+    v_{diff}(t) =
+    \frac{v_{inc}(t)}{2}
+    \underbrace{
+        \left[\frac{Z_x-Z_0}{Z_x+Z_0}\right]
+    }_{\text{Coeficiente de reflexión }(\Gamma)}
+    = \frac{v_{inc}(t)}{2}\cdot\Gamma
+\end{equation}
+
+Si la señal incidente es sinusoidal es posible además caracterizar cargas reactivas midiendo el desfasaje de la señal Zx respecto de la incidente. Este es el principio que permite al puente comportarse como un acoplador direccional: la diferencia de potencial entre las ramas es función de la onda reflejada equivalente.  
 
 \begin{figure}
     \centering
@@ -98,7 +125,7 @@ Una solución compacta, económica y con un ancho de banda teórico infinito es 
     \label{fig:puente_wheatstone}
 \end{figure}
 
-\textcolor{pink}{Para una aplicación de reflectometría, la magnitud de la impedancia de entrada al dispositivo bajo prueba haría las veces del Zx a caracterizar en este esquema simplificado.  esto, además de la capacidad de lograr directividad y ancho de banda elevados, lo vuelve una alternativa muy conveniente a la hora de implementar un VNA que funcione con buena sensibilidad en un rango amplio de frecuencias.}
+Para una aplicación de reflectometría, la magnitud de la impedancia de entrada al DUT haría las veces del Zx a caracterizar en este esquema simplificado. Esto, además de la capacidad de lograr directividad y ancho de banda elevados, lo vuelve una alternativa muy conveniente a la hora de implementar un VNA que funcione con buena sensibilidad en un rango amplio de frecuencias.
 
 \textcolor{pink}{AGREGAR ECUACIONES}
 
