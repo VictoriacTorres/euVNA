@@ -51,7 +51,7 @@ El esquema final se puede observar en el entorno del software en la figura \ref{
     \label{fig:esqadisim}
 \end{figure}
 
-La respuesta en frecuencia de todo el sistema (ADF4351 con el filtro diseñado), simulada para 2 GHz, se muestra en la figura \ref{bodesadisim} 
+La respuesta en frecuencia de todo el sistema (ADF4351 con el filtro diseñado), simulada para 2 GHz, se muestra en la figura \ref{fig:bodesadisim} 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{Imagenes/adisimbodes.png}
@@ -64,14 +64,55 @@ La referencia para los generadores de RF se compone de un oscilador a cristal EC
 
 \subsection{Mezclador}
  
-El mezclador se implementa con el IC ADL5802, un
+El mezclador se implementa con el IC ADL5802, un mezclador activo de alta linealidad, de dos canales, doble balanceado, con buffers de OL integrados para proveer conversión de frecuencia con alto rango dinámico.
+
+Su función principal es realizar la heterodinación de las señales de radiofrecuencia. Se aplica la señal proveniente del DUT a 
+
+El dispositivo recibe las señales de entrada a través de los puertos de radiofrecuencia (RF) y oscilador local (LO). La señal proveniente del sensor bajo prueba se aplica a la entrada de RF, mientras que la señal del oscilador local se utiliza como referencia para realizar la conversión de frecuencia. Como resultado, se obtienen señales de frecuencia intermedia (FI) que contienen información sobre la relación de fase entre ambas señales.
+
+Las salidas diferenciales del integrado permiten obtener las componentes correspondientes a las señales incidente y reflejada, identificadas como $IF\_INC+$, $IF\_INC-$, $IF\_MED+$ e $IF\_MED-$ en el esquemático. Estas señales se destinan a las etapas posteriores de adquisición y procesamiento.
+
+El circuito incluye componentes pasivos asociados a las entradas y salidas del mezclador, así como capacitores de desacoplamiento de alimentación. La disposición de estos componentes se contempla en el diseño de la placa para favorecer el funcionamiento del circuito a las frecuencias de operación previstas.
+
+\subsection{Acoplador direccional}
+
+\subsection{Amplificadores diferenciales}
+
+\subsection{Alimentación y conectores}
 
 \subsection{Implementación en PCB}
 En principio se planteó un modelo de 2 capas, que se puede observar en la figura \ref{fig}. Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 mm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables de arduino, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 mm\textsuperscript{2} y se lo puede observar en la figura \ref{fig}.  
 
 \section{Firmware}
 \label{sec:Firmware}
-El firmware se programó en lenguaje C++ en el entorno Arduino IDE. 
+El firmware se programó en lenguaje C++ en el entorno Arduino IDE. Se puede leer en la sección ``códigos'' (\ref{codigoFW}). Está desarrollado para un microcontrolador Arduino UNO y se encarga del control, configuración dinámica y sincronización de los sintetizadores ADF4351.
+
+El microcontrolador actúa como un esclavo de ejecución que recibe las órdenes de barrido desde la PC a través de una interfaz serie. Opera a una velocidad de 115200 baudios. Al ser inicializado en la función de arranque (\textit{setup}), configura los pines de control, inicializa el bus SPI y transmite la cadena ``Listo'' para confirmar que el sistema está disponible.
+
+Al recibir una frecuencia $f$, el algoritmo configura el primer sintetizador (ADF1) exactamente en $f$ (canal de RF) y el segundo sintetizador (ADF2) en $f + 0.010\text{ MHz}$ (canal LO), introduciendo de forma automática el desplazamiento constante para la FI. Al finalizar la reconfiguración de ambos integrados, responde a la PC con la cadena ``OK''.
+
+\subsection{Cálculo de registros}
+Para cada valor de frecuencia solicitado, la función ``calcularRegistros'' determina matemáticamente el contenido de los 6 registros de 32 bits (R0 a R5) de cada chip ADF4351 según las especificaciones del fabricante:
+
+\begin{itemize}
+    \item Divisor de Salida de RF (RF Divider):Selecciona el divisor adecuado (1, 2, 4, 8 o 16) según el rango de frecuencia de trabajo (desde menos de 275 MHz hasta más de 2200 MHz) para garantizar que el VCO interno funcione en su rango de 2.2 GHz a 4.4 GHz.
+    \item Frecuencia del Detector de Fase ($f_{\text{PFD}}$): A partir del oscilador de referencia externo de 10 MHz, aplica la división previa por 2 (REF\_DIV2 = true) y el contador R (R\_COUNTER = 10), fijando una frecuencia de comparación en el PFD de 500 kHz ($f_{\text{PFD}} = 0.5\text{ MHz}$).
+    \item Síntesis N-Fraccionario: Divide la frecuencia del VCO por $f_{\text{PFD}}$ para calcular la parte entera (INT) y la parte fraccionaria (FRAC) considerando un módulo fijo MOD = 1000.
+    \item Configuración de Registros Internos:
+    \begin{itemize}
+        \item R0: Almacena los bits correspondientes a `INT` y `FRAC`.
+        \item R1: Configura el \textit{prescaler} en 8/9 y fija el módulo (`MOD`) y la fase (`PHASE`).
+        \item R2: Establece la polaridad positiva del detector de fase, habilita los divisores de referencia y fija la corriente de la bomba de carga (\textit{charge pump}) en 5.00 mA.
+        \item R3: Habilita el modo de enganche rápido (\textit{fast lock}).
+        \item R4: Selecciona el divisor de RF, habilita la salida principal, fija el reloj de selección de banda (\textit{Band Select Divider}) y configura la potencia de salida en +5 dBm.
+        \item R5: Selecciona la operación del pin de enganche (\textit{Lock Detect}). El resto de los bits son un registro de control fijado según recomendación de la hoja de datos.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Transmisión SPI y secuencia de sincronización}
+El envío de los registros hacia los integrados se realiza mediante el bus SPI de hardware y líneas de control independientes. Utiliza pines dedicados para la habilitación Latch Enable (LE) y Chip Enable (CE). Cada registro se envía dividiendo los 32 bits en 4 bytes (MSB primero) sobre la interfaz SPI, generando un pulso positivo de 2 microsegundos en la línea `LE` para almacenar los datos en el integrado. Los registros se escriben en orden inverso, desde R5 hasta R0, debido a que la transferencia del registro R0 actúa como el disparador (\textit{trigger}) que actualiza efectivamente la frecuencia del VCO. 
+
+Para mejorar la coherencia y estabilidad de fase en el canal del Oscilador Local (ADF2), se aplica un procedimiento en dos etapas: se escriben primero los registros R5 a R1, se genera un retardo intencional de 10 milisegundos para permitir la estabilización parcial del lazo, y finalmente se escribe el registro R0 para cerrar la sintonía.
 
 \section{Software}
 
@@ -95,8 +136,6 @@ Las configuraciones iniciales son: Puerto COM, baudrate, frecuencias de inicio, 
 
 La función principal (\textit{main}) genera el vector de frecuencias a partir de las frecuencias de inicio, fin y paso. Luego diseña el filtro pasabanda. Chequea en el directorio si hay algún archivo de calibración cuyo nombre, que está predefinido con las configuraciones de frecuencia coincida con las ingresadas por el usuario. En caso afirmativo, pregunta si se desea utilizar o se prefiere realizar una nueva calibración. Dependiendo de la respuesta del usuario por terminal, entra al bucle de calibración o carga los parámetros desde el archivo. Procede a realizar la conexión con el Arduino. Si se debe calibrar, realiza tres barridos para obtener los valores de $\Gamma_{MED}$ y completar la matriz de calibración. Estos barridos corresponden a cortocircuito, circuito abierto y carga, en ese orden. Una vez que se hacen los barridos calcula los errores y se guardan en el archivo CSV (archivo de texto plano donde los valroes están separados por comas). Realiza el barrido del DUT y cierra el puerto serie. Aplica la corrección, calcula la fase en grados y el módulo en dB y se guardan en vectores separados. Crea un archivo CSV con estos datos y muestra los resultados en gráficos de módulo y fase en función de la frecuencia. 
 
-
-
 \subsection{Flujo de barrido}
 \mbox{}\par\vspace{-\baselineskip}
 \begin{wrapfigure}[]{r}{0.4\textwidth}
@@ -107,7 +146,7 @@ La función principal (\textit{main}) genera el vector de frecuencias a partir d
 \end{wrapfigure}
 La función ``barrido'' se encarga de enviar los datos de la frecuencia a generar, recibir la señal analógica y guardar los resultados en un vector. Su diagrama de flujo se puede ver en la figura \ref{fig:diagflujobarrido}.
 
-Los parámetros que recibe son: el objeto de conexión serial con el Arduino (que da acceso al buffer de transmisión y recepción); el vector de frecuencias a medir, los coeficientes del filtro FIR, un nombre para la medición (para identificar si es un barrido de calibración o de medición), y los errores de calibración si fuese necesario. Devuelve un vector de S11 complejos \textcolor{pink}{(formato binario)}.
+Los parámetros que recibe son: el objeto de conexión serial con el Arduino (que da acceso al buffer de transmisión y recepción); el vector de frecuencias a medir, los coeficientes del filtro FIR, un nombre para la medición (para identificar si es un barrido de calibración o de medición), y los errores de calibración si fuese necesario. Devuelve un vector de S11 complejos (formato binario).
 
 Consiste de un bucle \textit{for} que recorre el vector de frecuencias, seteando cada una en el Arduino con la función ``write'' de la librería ``serial'' para luego leer su respuesta con ``readline''. Si esta comienza en ``error'' aborta el barrido. De otra forma, captura el audio usando la librería ``sounddevice''. Para eso calcula el número de muestras a adquirir como la multiplicación de la frecuencia de muestreo y la duración de la captura. Graba los dos canales, de tipo ``float64'' con la función ``rec''. Descarta la primera parte de la grabación para evitar incluir en el cálculo los transitorios, y guarda dos vectores: ``canal\_ref'' y ``canal\_med''. Por último, mide S11 y la frecuencia en la que se encontró el batido. Para ir mostrando los valores calibrados por terminal a medida que se hace el barrido, realiza la calibración por cada punto, calcula el S11 en módulo y fase y las imprime. 
 
@@ -121,26 +160,31 @@ Consiste de un bucle \textit{for} que recorre el vector de frecuencias, seteando
 
 La función que realiza el cálculo del S11 tiene como parámetros de entrada los vectores de muestras, la frecuencia de muestreo y los coeficientes del filtro. Un diagrama de flujo simplificado se puede observar en la figura \ref{fig:diagflujoS11}. 
 
-Lo primero que hace es aplicar el filtro a cada canal usando la función ``lfilter'' de scipy.signal, BLABLABLA. Luego calcula la FFT con la función ``fft.fft()'' de NumPy. Utiliza una ventana que setea el usuario, que por default es la FlatTop, y que crea la función ``get\_window'' de scipy.signal.windows.REVISAR QUE DEVUELVE EXACTAMENTE calcular\_espectro\_complejo. 
+Lo primero que hace es aplicar el filtro a cada canal usando la función ``lfilter'' de scipy.signal, BLABLABLA. Luego calcula la FFT con la función ``fft.fft()'' de NumPy. Utiliza una ventana que setea el usuario, que por default es la FlatTop, y que crea la función ``get\_window'' de scipy.signal.windows. Descarta la mitad negativa del espectro de frecuencias.
 
-Luego busca el índice del bin frecuencial de mayor magnitud con la función ``searchsorted'' de NumPy dentro de un rango frecuencial acotado alrededor de $f_{\text{FI}}$, en la banda de paso del filtro. Crea un número infinitesimal basado en el pico del espectro para sumarselo al denominador del cálculo del S11, por si el valor de magnitud en la referencia es cero. Por último, calcula S11 como el conjugado de la división de la medición y la reflejada, usando para cada uno el bin donde se encontró el máximo de magnitud.
+Luego busca el índice del bin frecuencial de mayor amplitud (en el canal de referencia) con la función ``searchsorted'' de NumPy dentro de un rango frecuencial acotado alrededor de $f_{\text{FI}}$, en la banda de paso del filtro.
 
-En primer lugar, se evalúa el espectro de magnitud del canal de referencia  (banda de búsqueda del pico) para determinar el índice del bin que concentra la máxima energía:
 \begin{equation}
     k_{\text{pico}} = \arg\max_{k \in \text{Banda}} \left| X_{\text{ref}}[k] \right|
 \end{equation}
 
-Obtenido el bin característico $k_{\text{pico}}$, se evalúan los valores complejos de ambas transformadas exactamente en dicha posición espectral, obteniendo los fasores complejos $V_{\text{ref}} = X_{\text{ref}}[k_{\text{pico}}]$ y $V_{\text{med}} = X_{\text{med}}[k_{\text{pico}}]$. El coeficiente de reflexión complejo crudo (no calibrado), $S_{11,\text{raw}}$, para la frecuencia de RF evaluada en el paso del barrido se calcula como el cociente vectorial complejo:
+Después crea un número infinitesimal basado en el pico del espectro para sumarselo al denominador del cálculo del S11, por si el valor de magnitud en la referencia es cero. Por último, calcula S11 como el conjugado de la división de la medición y la reflejada, usando para cada uno el bin donde se encontró el máximo de magnitud.
 \begin{equation}
     S_{11,\text{raw}} = \frac{V_{\text{med}}[k_{\text{pico}}]}{V_{\text{ref}}[k_{\text{pico}}]}
 \end{equation}
+Este número se almacena como un tipo complex128, un tipo de dato numérico que representa números complejos de doble precisión. Este valor no calibrado sirve como la entrada directa para el posterior algoritmo de corrección de errores vectoriales mediante el modelo de tres términos (SOL).
 
-A partir del número complejo $S_{11,\text{raw}}$, se extraen directamente el módulo en escala logarítmica y la fase relativa:
-\begin{align}
-    |S_{11,\text{raw}}|_{\text{dB}} &= 20 \log_{10} \left| S_{11,\text{raw}} \right| \\
-    \phi_{S_{11,\text{raw}}} &= \arg\left( S_{11,\text{raw}} \right)
-\end{align}
-Este valor complejo no calibrado sirve como la entrada directa para el posterior algoritmo de corrección de errores vectoriales mediante el modelo de tres términos (SOL).
+\subsection{Calibración}
+El software guía al usuario para realizar tres barridos completos utilizando las cargas del método SOL. Almacena en tres vectores (GM\_CC, GM\_CA y GM\_50) las mediciones complejas crudas del cortocircuito, circuito abierto y carga de 50 $\Omega$ respectivamente. Luego, la función ``calculo\_errores'' procesa los datos punto a punto para cada frecuencia del barrido:
+
+\begin{itemize}
+    \item Arma un sistema de ecuaciones lineales  $A \cdot x = B$ con coeficientes complejos, donde A es la matriz cuya fila 1 corresponde a short: $[1, -\text{GM\_CC}[i], 1]$; fila 2 a load: $1$;  y fila 3 a open: $[1, \text{GM\_CA}[i], -1]$. El vector B corresponde a $[\text{GM\_CC}[i], \text{GM\_50}[i], \text{GM\_CA}[i]]$.
+    \item Resuelve el sistema mediante la función ``linalg.solve(A,B)'' de NumPy, que permite obtener las tres incógnitas por cada punto en frecuencia.
+\end{itemize}
+
+Los tres vectores de error se guardan en un archivo CSV, separando las partes reales e imaginarias de cada término con notación científica de 10 dígitos decimales junto con la frecuencia en MHz.
+
+Cuando se ejecuta el barrido, el software aplica la función de corrección inversa sobre cada punto medido según la ecuación \ref{eq:correcciongamma}. Antes de hacerlo, se verifica que el denominador no sea nulo. Si la magnitud es menor a $10^{-15}$, se reemplaza por un valor insignificante ($10^{-15} + j10^{-15}$) para evitar errores de división por cero.
 
 \section{Interfaz de usuario}
 La interfaz de usuario se programó con PyQt6, mediante un prompt de la inteligencia artificial (IA) Claude, modelo Sonnet 5 Esfuerzo Medio. Se alimentó del software original, que tenía la lógica de medición funcionando, pero que corría secuencialmente y se comunicaba con el usuario a través de la consola. 

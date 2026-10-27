@@ -75,7 +75,7 @@ Si las cargas independientes son un circuito abierto, cortocircuito y carga de 5
 Luego el $\Gamma$ real se calcula como:
 
 \begin{equation}
-    \Gamma= \frac{\Gamma_{M}-e_{00}}{\Gamma_{M}e_{11}-\Delta_{e}}
+    \Gamma= \frac{\Gamma_{M}-e_{00}}{\Gamma_{M}e_{11}-\Delta_{e}} \label{eq:correcciongamma}
 \end{equation}
 
  
@@ -90,15 +90,15 @@ Existen acopladores direccionales como el HP 778d \cite{keysight_778d} que posee
 
 \subsection{Puente resistivo}
 Una solución compacta, económica y con un ancho de banda teórico infinito es el puente resistivo tipo Wheatstone. Como se puede observar en la figura \ref{fig:puente_wheatstone} es una red simple de comparación de impedancias, formada por cuatro resistencias sobre las cuales se inyecta una señal de referencia en la parte superior. Una de las resistencias es variable (Zx), mientras que el resto son iguales entre sí. Se utiliza un voltímetro para medir la diferencia de potencial entre las ramas. Si la resistencia variable es de 50$\Omega$, el puente queda balanceado y el voltímetro indica un cero. Si es menor a 50$\Omega$, la rama izquierda presenta un voltaje menor a la derecha, mientras que para valores mayores ocurre lo opuesto.
-La tensión en el nodo de referencia $V\_A$ resulta:
+La tensión en el nodo de referencia $V_A$ resulta:
 \begin{equation} 
     V_{A} = V_{inc} \cdot \frac{Z_{0}}{Z_{0} + Z_{0}} = \frac{V_{inc}}{2}
 \end{equation}
-Mientras que la tensión en el nodo de medición $V\_B$ es: \begin{equation} 
-    V\_B = V\_{inc} \cdot \frac{Z_{x}}{Z_{0} + Z_{x}} 
+Mientras que la tensión en el nodo de medición $V_B$ es: \begin{equation} 
+    V_B = V_{inc} \cdot \frac{Z_{x}}{Z_{0} + Z_{x}} 
 \end{equation}
 
-Por lo tanto, la señal desbalanceada o tensión diferencial reflejada $v\_{diff}(t)$ entre ambos nodos se define como: 
+Por lo tanto, la señal desbalanceada o tensión diferencial reflejada $v_{diff}(t)$ entre ambos nodos se define como: 
 \begin{subequations} 
     \begin{align}
         v_{diff}(t) = v_{B}(t) - v_{A}(t) 
@@ -127,7 +127,6 @@ Si la señal incidente es sinusoidal es posible además caracterizar cargas reac
 
 Para una aplicación de reflectometría, la magnitud de la impedancia de entrada al DUT haría las veces del Zx a caracterizar en este esquema simplificado. Esto, además de la capacidad de lograr directividad y ancho de banda elevados, lo vuelve una alternativa muy conveniente a la hora de implementar un VNA que funcione con buena sensibilidad en un rango amplio de frecuencias.
 
-\textcolor{pink}{AGREGAR ECUACIONES}
 
 \section{Buenas prácticas de diseño en RF}
 Al momento de rutear un PBC (\textit{Printed Circuit Board} - Placa de Circuito Impreso) se deben tener en consideración algunas buenas prácticas que ayudan a mantener la integridad de las señales, la impedancia de las líneas y evitar la interferencia electromagnética, sobre todo cuando se trabaja en RF. 

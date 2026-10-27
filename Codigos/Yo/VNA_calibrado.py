@@ -245,10 +245,6 @@ def barrido(ser,frecuencias_rf, coef_filtro, nombre_medida="", calibracion=None)
     resultados_s11_complejo = []
     
     for i, f_rf in enumerate(frecuencias_rf):
-        """if any(abs(f_rf - fx) < 1e-6 for fx in FRECUENCIAS_EXCLUIDAS_MHZ):
-            print(f"[{i + 1}/{len(frecuencias_rf)}] {f_rf:.3f} MHz -- excluida, se saltea.")
-            continue"""
-
         respuesta = setear_frecuencia(ser, f_rf)
     
         if respuesta.startswith("ERROR"):
