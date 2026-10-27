@@ -12,7 +12,7 @@ Como describe la sección 2 de la Especificación de Requerimientos (\ref{apend:
 A continuación, se detalla la solución del hardware, software, firmware e interfaz de usuario.
 
 \section{Hardware}
-El hardware se diseñó en su totalidad en el software Altium Designer, con una licencia estudiantil gracias al programa Altium Student Lab \cite{altium_designer}. Se creó una librería con los esquemáticos, footprints y modelos 3D de los componentes a utilizar. Se dividió el proyecto en esquemáticos que representan los distintos bloques funcionales, que se pueden observar en el capítulo "Esquemáticos y códigos" (\ref{sec:EsquematicosAltium}). Se puede encontrar una descripción general de cada bloque en la Especificación Técnica (\ref{apend:ET}).
+El hardware se diseñó en su totalidad en el software Altium Designer, con una licencia estudiantil gracias al programa Altium Student Lab \cite{altium_designer}. Se creó una librería con los esquemáticos, footprints y modelos 3D de los componentes a utilizar. Se dividió el proyecto en esquemáticos que representan los distintos bloques funcionales, que se pueden observar en el capítulo ``Esquemáticos y códigos'' (\ref{sec:EsquematicosAltium}). Se puede encontrar una descripción general de cada bloque en la Especificación Técnica (\ref{apend:ET}).
 
 
 \subsection{Generadores de RF}
@@ -64,20 +64,68 @@ La referencia para los generadores de RF se compone de un oscilador a cristal EC
 
 \subsection{Mezclador}
  
-
+El mezclador se implementa con el IC ADL5802, un
 
 \subsection{Implementación en PCB}
-En principio se planteó un modelo de 2 capas, que se puede observar en la figura \ref{fig}. Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 mm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de un puente. Se implementó con postes y cables de arduino, pero no es la manera óptima porque es sensible a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 mm\textsuperscript{2} y se lo puede observar en la figura \ref{fig}.  
+En principio se planteó un modelo de 2 capas, que se puede observar en la figura \ref{fig}. Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 mm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables de arduino, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 mm\textsuperscript{2} y se lo puede observar en la figura \ref{fig}.  
 
 \section{Firmware}
 \label{sec:Firmware}
 El firmware se programó en lenguaje C++ en el entorno Arduino IDE. 
 
 \section{Software}
-\subsection{Estimación del S11}
-Una vez computadas las transformadas espectrales complejas del canal de referencia, $X_{\text{ref}}[k]$, y del canal de medición, $X_{\text{med}}[k]$, un algoritmo puede proceder al cálculo del parámetro S11.
 
-En primer lugar, se evalúa el espectro de magnitud del canal de referencia dentro de un rango frecuencial acotado alrededor de $f_{\text{FI}}$ (banda de búsqueda del pico) para determinar el índice del bin que concentra la máxima energía:
+\begin{wrapfigure}[24]{R}{0.45\textwidth}   % r = derecha, l = izquierda
+  \centering
+  \includegraphics[width=0.4\textwidth,height=0.8\textheight,keepaspectratio]{Imagenes/diagflujo_SW.png}
+  \caption{Diagrama de flujo general del software.}
+  \label{fig:diagflujoSW}
+\end{wrapfigure}
+Como se explica en la sección 4 de la Especificación Técnica \ref{apend:ET} el software se programa en lenguaje Python en el entorno Visual Studio Code. El código se encuentra en la sección \ref{sec:Codigo}. Un diagrama de bloques general se puede ver en la figura \ref{fig:diagflujoSW}. Las funciones principales que cumple son:
+
+\begin{itemize}
+    \item Gestionar el barrido en frecuencia;
+    \item Controlar la adquisición de audio;
+    \item Ejecutar el procesamiento digital de señales en tiempo real;
+    \item Implementar el modelo de calibración SOL de un puerto para obtener el coeficiente de reflexión ($\Gamma$) del DUT;
+    \item Mostrar resultados.
+\end{itemize}
+
+Las configuraciones iniciales son: Puerto COM, baudrate, frecuencias de inicio, fin y paso, offset (es decir, frecuencia de audio a utilizar), frecuencia de muestreo para la adquisición, duración de la captura y su descarte inicial debido al transitorio, los nombres de los archivos de salida, la frecuencia central del filtro FIR (que debe coincidir con la frecuencia de audio), su ancho de banda, numtaps y ventana a utilizar.
+
+La función principal (\textit{main}) genera el vector de frecuencias a partir de las frecuencias de inicio, fin y paso. Luego diseña el filtro pasabanda. Chequea en el directorio si hay algún archivo de calibración cuyo nombre, que está predefinido con las configuraciones de frecuencia coincida con las ingresadas por el usuario. En caso afirmativo, pregunta si se desea utilizar o se prefiere realizar una nueva calibración. Dependiendo de la respuesta del usuario por terminal, entra al bucle de calibración o carga los parámetros desde el archivo. Procede a realizar la conexión con el Arduino. Si se debe calibrar, realiza tres barridos para obtener los valores de $\Gamma_{MED}$ y completar la matriz de calibración. Estos barridos corresponden a cortocircuito, circuito abierto y carga, en ese orden. Una vez que se hacen los barridos calcula los errores y se guardan en el archivo CSV (archivo de texto plano donde los valroes están separados por comas). Realiza el barrido del DUT y cierra el puerto serie. Aplica la corrección, calcula la fase en grados y el módulo en dB y se guardan en vectores separados. Crea un archivo CSV con estos datos y muestra los resultados en gráficos de módulo y fase en función de la frecuencia. 
+
+
+
+\subsection{Flujo de barrido}
+\mbox{}\par\vspace{-\baselineskip}
+\begin{wrapfigure}[]{r}{0.4\textwidth}
+  \centering
+  \includegraphics[width=0.38\textwidth]{Imagenes/diagflujo_SW_barrido.png}
+  \caption{Diagrama de flujo de la función barrido.}
+  \label{fig:diagflujobarrido}
+\end{wrapfigure}
+La función ``barrido'' se encarga de enviar los datos de la frecuencia a generar, recibir la señal analógica y guardar los resultados en un vector. Su diagrama de flujo se puede ver en la figura \ref{fig:diagflujobarrido}.
+
+Los parámetros que recibe son: el objeto de conexión serial con el Arduino (que da acceso al buffer de transmisión y recepción); el vector de frecuencias a medir, los coeficientes del filtro FIR, un nombre para la medición (para identificar si es un barrido de calibración o de medición), y los errores de calibración si fuese necesario. Devuelve un vector de S11 complejos \textcolor{pink}{(formato binario)}.
+
+Consiste de un bucle \textit{for} que recorre el vector de frecuencias, seteando cada una en el Arduino con la función ``write'' de la librería ``serial'' para luego leer su respuesta con ``readline''. Si esta comienza en ``error'' aborta el barrido. De otra forma, captura el audio usando la librería ``sounddevice''. Para eso calcula el número de muestras a adquirir como la multiplicación de la frecuencia de muestreo y la duración de la captura. Graba los dos canales, de tipo ``float64'' con la función ``rec''. Descarta la primera parte de la grabación para evitar incluir en el cálculo los transitorios, y guarda dos vectores: ``canal\_ref'' y ``canal\_med''. Por último, mide S11 y la frecuencia en la que se encontró el batido. Para ir mostrando los valores calibrados por terminal a medida que se hace el barrido, realiza la calibración por cada punto, calcula el S11 en módulo y fase y las imprime. 
+
+\subsection{Estimación del S11}
+\begin{wrapfigure}[24]{R}{0.35\textwidth}   % r = derecha, l = izquierda
+  \centering
+  \includegraphics[width=0.3\textwidth,height=0.6\textheight,keepaspectratio]{Imagenes/diagflujo_SW_calculos11.png}
+  \caption{Diagrama de flujo de la función que calcula S11.}
+  \label{fig:diagflujoS11}
+\end{wrapfigure}
+
+La función que realiza el cálculo del S11 tiene como parámetros de entrada los vectores de muestras, la frecuencia de muestreo y los coeficientes del filtro. Un diagrama de flujo simplificado se puede observar en la figura \ref{fig:diagflujoS11}. 
+
+Lo primero que hace es aplicar el filtro a cada canal usando la función ``lfilter'' de scipy.signal, BLABLABLA. Luego calcula la FFT con la función ``fft.fft()'' de NumPy. Utiliza una ventana que setea el usuario, que por default es la FlatTop, y que crea la función ``get\_window'' de scipy.signal.windows.REVISAR QUE DEVUELVE EXACTAMENTE calcular\_espectro\_complejo. 
+
+Luego busca el índice del bin frecuencial de mayor magnitud con la función ``searchsorted'' de NumPy dentro de un rango frecuencial acotado alrededor de $f_{\text{FI}}$, en la banda de paso del filtro. Crea un número infinitesimal basado en el pico del espectro para sumarselo al denominador del cálculo del S11, por si el valor de magnitud en la referencia es cero. Por último, calcula S11 como el conjugado de la división de la medición y la reflejada, usando para cada uno el bin donde se encontró el máximo de magnitud.
+
+En primer lugar, se evalúa el espectro de magnitud del canal de referencia  (banda de búsqueda del pico) para determinar el índice del bin que concentra la máxima energía:
 \begin{equation}
     k_{\text{pico}} = \arg\max_{k \in \text{Banda}} \left| X_{\text{ref}}[k] \right|
 \end{equation}
@@ -97,11 +145,11 @@ Este valor complejo no calibrado sirve como la entrada directa para el posterior
 \section{Interfaz de usuario}
 La interfaz de usuario se programó con PyQt6, mediante un prompt de la inteligencia artificial (IA) Claude, modelo Sonnet 5 Esfuerzo Medio. Se alimentó del software original, que tenía la lógica de medición funcionando, pero que corría secuencialmente y se comunicaba con el usuario a través de la consola. 
 
-El prompt inicial fue: "Quiero hacer una interfaz de usuario sencilla que me permita comunicarme con este script. que se pueda elegir frecuencias y paso, visualizar modulo y fase de S11 y abaco de smith, que permita hacer calibración. Qué plataforma/lenguaje recomendas, y cuanto tiempo tardaría en ponerla en funcionamiento?". La IA recomendó Python + PyQt6/PySide6, con matplotlib embebido para los gráficos. Dió las razones (reutilizar funciones, permite actualizar el plot en vivo, aprovecha librerías de Python para graficar) y explicó otras alternativas y por qué las descartó. Preguntó si hacía un esqueleto de la app con ventana principal, campos de frecuencia, threading de barrido y gráficos, y se le dió el permiso. Creó dos archivos, un "core" que contiene la misma lógica de cálculo que el código original pero reorganizada en funciones independientes (comunicación serial con Arduino, capura de audio, procesamiento de señal, detección del tono de batido y cálculo de S11 y álgebra de calibración) y un "GUI" (Graphical User Interface) que contiene la parte visual: ventana, botones, campos y gráficos. Este llama a las funciones implementadas en el core.
+El prompt inicial fue: ``Quiero hacer una interfaz de usuario sencilla que me permita comunicarme con este script. que se pueda elegir frecuencias y paso, visualizar modulo y fase de S11 y abaco de smith, que permita hacer calibración. Qué plataforma/lenguaje recomendas, y cuanto tiempo tardaría en ponerla en funcionamiento?''. La IA recomendó Python + PyQt6/PySide6, con matplotlib embebido para los gráficos. Dió las razones (reutilizar funciones, permite actualizar el plot en vivo, aprovecha librerías de Python para graficar) y explicó otras alternativas y por qué las descartó. Preguntó si hacía un esqueleto de la app con ventana principal, campos de frecuencia, threading de barrido y gráficos, y se le dió el permiso. Creó dos archivos, un ``core'' que contiene la misma lógica de cálculo que el código original pero reorganizada en funciones independientes (comunicación serial con Arduino, capura de audio, procesamiento de señal, detección del tono de batido y cálculo de S11 y álgebra de calibración) y un ``GUI'' (Graphical User Interface) que contiene la parte visual: ventana, botones, campos y gráficos. Este llama a las funciones implementadas en el core.
 
 Se agregó la biblioteca PyQt6 para usar ventanas, botones, campos e hilos de ejecución. Se creó una clase (SweepWorker(QThread)) que se encarga de correr el barrido en segundo plano y avisar a la ventana qué se midió para que actualice los gráficos y la barra de progreso sin congelarse entre cada medición. 
 
-La IA generó además el diagrama de flujo que se observa en la figura \ref{fig:d_flujo_interfaz}. Los códigos se encuentran en el capítulo "Esquemáticos y código" \ref{VNA_core}. 
+La IA generó además el diagrama de flujo que se observa en la figura \ref{fig:d_flujo_interfaz}. Los códigos se encuentran en el capítulo ``Esquemáticos y código'' \ref{VNA_core}. 
 
 \begin{figure}
     \centering

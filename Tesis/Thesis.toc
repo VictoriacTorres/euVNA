@@ -31,14 +31,16 @@
 \contentsline {subsection}{\numberline {3.2.4}Implementación en PCB}{19}{subsection.3.2.4}%
 \contentsline {section}{\numberline {3.3}Firmware}{19}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Software}{19}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Estimación del S11}{19}{subsection.3.4.1}%
-\contentsline {section}{\numberline {3.5}Interfaz de usuario}{20}{section.3.5}%
-\contentsline {chapter}{\numberline {4}Resultados}{22}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajos futuros}{23}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Esquemáticos y código}{24}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Esquemáticos Altium}{24}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Interfaz de usuario}{24}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Core}{24}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Graphical User Interface}{31}{subsection.6.2.2}%
-\contentsline {chapter}{Apéndices}{44}{subsection.6.2.2}%
-\contentsline {chapter}{Bibliografía}{46}{chapter*.15}%
+\contentsline {subsection}{\numberline {3.4.1}Flujo de barrido}{20}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Estimación del S11}{21}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Interfaz de usuario}{21}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Resultados}{23}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajos futuros}{24}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Esquemáticos y código}{25}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Esquemáticos Altium}{25}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Software}{25}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Interfaz de usuario}{25}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Core}{25}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Graphical User Interface}{32}{subsection.6.3.2}%
+\contentsline {chapter}{Apéndices}{45}{subsection.6.3.2}%
+\contentsline {chapter}{Bibliografía}{47}{chapter*.18}%
