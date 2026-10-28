@@ -21,7 +21,7 @@
 \setcounter{secnumdepth}{5}
 \setcounter{tocdepth}{5}
 %Bibliografia
-\usepackage[style=numeric, backend=biber]{biblatex}
+\usepackage[style=numeric, backend=biber, sorting=none]{biblatex}
 \addbibresource{Bibliografia.bib}
 
 %Formato codigo
@@ -157,7 +157,12 @@ IA & Inteligencia Artificial\\
 El proyecto propone el diseño, implementación, calibración y ensayo de un Analizador Vectorial de Redes (VNA) de un puerto, que opere en una banda de frecuencias UHF (Ultra High Frequency) que va desde los 1,8 hasta los 2,2 GHz, adaptado para operar en conjunto con un sensor de glucemia no invasivo.
 
 El principio de medición se basa en la existencia de una correlación entre la concentración de glucosa en sangre y sus propiedades eléctricas (permitividad relativa y conductividad) \cite{Topsakal}, por lo que es razonable suponer que las variaciones en la composición dieléctrica de una muestra de tejido biológico pueden alterar la distribución de los campos electromagnéticos presentes en un sensor de microondas.
-\thispagestyle{empty}
+
+La implementación se realiza en una placa de circuito impreso, con circuitos integrados especializados y aplicando técnicas de reflectometría, diseño en radiofrecuencia y manejo de emisiones electromagnéticas.
+
+Se obtienen señales analógicas en la banda de audio para su adquisición en la placa de sonido de una PC. Luego, el análisis de las señales es puramente digital. Se aplica un procesamiento basado en la Transformada Rápida de Fourier (FFT) para obtener el coeficiente de reflexión del sistema bajo prueba en función de la frecuencia.
+
+\thispagestyle{empty} 
 \pagebreak
 
 %=========== Introducción ===========

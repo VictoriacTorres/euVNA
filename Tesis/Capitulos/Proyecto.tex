@@ -81,7 +81,7 @@ El puente diseñado, como se muestra en el esquemático (\ref{sch:acop}), agrega
 
 
 \subsection{Amplificadores diferenciales}
-Al tener salidas diferenciales y de muy poca amplitud, se debe agregar una etapa de acondicionamiento que permita obtener una señal desbalanceada y apta para ser procesada por la placa de sonido de la PC. Esta etapa utiliza amplificadores operacionales MCP6023 de Microchip Technology \cite{}. Se configuran como restadores, permitiendo referir las señales a masa y proveer la ganancia necesaria para trabajar dentro del rango dinámico de la placa de sonido. 
+Al tener salidas diferenciales y de muy poca amplitud, se debe agregar una etapa de acondicionamiento que permita obtener una señal desbalanceada y apta para ser procesada por la placa de sonido de la PC. Esta etapa utiliza amplificadores operacionales MCP6023 de Microchip Technology \cite{mcp602x_datasheet}. Se configuran como restadores, permitiendo referir las señales a masa y proveer la ganancia necesaria para trabajar dentro del rango dinámico de la placa de sonido. 
 
 \subsection{Alimentación y conectores}
 Para alimentar la placa se dispone de una selección (a través de un jumper) de pines para utilizar una fuente de laboratorio o un USB-B para conectarlo a alguna salida de PC o cargador de 5V. Se agrega un regulador de tensión UA78M33CDCYR \cite{datasheet_ua78m} de Texas Instruments que provee los 3,3V necesarios para alimentar a los generadores de RF y oscilador.
