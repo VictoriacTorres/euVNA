@@ -320,6 +320,38 @@
       \field{title}{Applied Digital Signal Processing: Theory and Practice}
       \field{year}{2011}
     \endentry
+    \entry{datasheet_tc1_1_13m}{manual}{}{}
+      \name{author}{1}{}{%
+        {{hash=427174bb5af8de05a7ae7b95b8e37e2b}{%
+           family={{Mini-Circuits}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Mini-Circuits}%
+      }
+      \strng{namehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{fullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{fullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{bibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authorbibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authornamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authorfullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authorfullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \field{extraname}{1}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Rev. G}
+      \field{title}{{TC1-1-13M+ Surface Mount RF Transformer, 50$\Omega$, 4.5 to 3000 MHz}}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://www.minicircuits.com/pdfs/TC1-1-13M+.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.minicircuits.com/pdfs/TC1-1-13M+.pdf
+      \endverb
+    \endentry
     \entry{minicircuits_zabdc20}{online}{}{}
       \name{author}{1}{}{%
         {{hash=427174bb5af8de05a7ae7b95b8e37e2b}{%
@@ -334,6 +366,7 @@
       \strng{authornamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
       \strng{authorfullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
       \strng{authorfullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \field{extraname}{2}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{labelnamesource}{author}
@@ -502,6 +535,38 @@
       \endverb
       \verb{url}
       \verb https://blog.minicircuits.com/directional-couplers-their-operation-and-application/
+      \endverb
+    \endentry
+    \entry{datasheet_ua78m}{manual}{}{}
+      \name{author}{1}{}{%
+        {{hash=67e54b1ee931f3f4bddfefa5fbde5fd8}{%
+           family={{Texas Instruments}},
+           familyi={T\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Texas Instruments Incorporated}%
+      }
+      \strng{namehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{fullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{fullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{bibnamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorbibnamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authornamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorfullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorfullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{2}
+      \field{note}{Rev. V, Document SLVS059V}
+      \field{title}{{UA78M 500-mA, Positive-Voltage Linear Regulator Datasheet}}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://www.ti.com/lit/ds/slvs059v/slvs059v.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.ti.com/lit/ds/slvs059v/slvs059v.pdf
       \endverb
     \endentry
     \entry{Topsakal}{article}{}{}

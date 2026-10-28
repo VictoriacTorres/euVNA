@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bcf:controlfile version="3.11" bltxversion="3.22a" xmlns:bcf="https://sourceforge.net/projects/biblatex">
+<bcf:controlfile version="3.11" bltxversion="3.21" xmlns:bcf="https://sourceforge.net/projects/biblatex">
   <!-- BIBER OPTIONS -->
   <bcf:options component="biber" type="global">
     <bcf:option type="singlevalued">
@@ -2395,3 +2395,5 @@
     <bcf:citekey order="20" intorder="1">software_ADIsimPLL</bcf:citekey>
     <bcf:citekey order="21" intorder="1">ecs2200x_datasheet</bcf:citekey>
     <bcf:citekey order="22" intorder="1">datasheet_74lvc2g07</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">datasheet_tc1_1_13m</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">datasheet_ua78m</bcf:citekey>

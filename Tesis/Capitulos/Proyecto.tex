@@ -64,21 +64,29 @@ La referencia para los generadores de RF se compone de un oscilador a cristal EC
 
 \subsection{Mezclador}
  
-El mezclador se implementa con el IC ADL5802, un mezclador activo de alta linealidad, de dos canales, doble balanceado, con buffers de OL integrados para proveer conversión de frecuencia con alto rango dinámico.
+El mezclador se implementa con el IC ADL5802, un mezclador activo de alta linealidad, de dos canales, doble balanceado, con buffers de OL integrados para proveer conversión de frecuencia con alto rango dinámico. Su esquemático se puede observar en \ref{sch:mix}
 
-Su función principal es realizar la heterodinación de las señales de radiofrecuencia. Se aplica la señal proveniente del DUT a 
+Su función principal es realizar la heterodinación de las señales de radiofrecuencia. Se aplica la señal proveniente del DUT a la entrada de RF, y la del ADF4351 que actúa de OL a la entrada correspondiente. 
 
-El dispositivo recibe las señales de entrada a través de los puertos de radiofrecuencia (RF) y oscilador local (LO). La señal proveniente del sensor bajo prueba se aplica a la entrada de RF, mientras que la señal del oscilador local se utiliza como referencia para realizar la conversión de frecuencia. Como resultado, se obtienen señales de frecuencia intermedia (FI) que contienen información sobre la relación de fase entre ambas señales.
+El integrado se alimenta con una tensión continua de 5 V. Sus salidas en FI son de colector abierto con una impedancia diferencial de 200 $\Omega$, por lo que se colocan resistencias de pull-up de 50 $\Omega$ conectadas a la línea de 5 V para su correcta polarización. 
 
-Las salidas diferenciales del integrado permiten obtener las componentes correspondientes a las señales incidente y reflejada, identificadas como $IF\_INC+$, $IF\_INC-$, $IF\_MED+$ e $IF\_MED-$ en el esquemático. Estas señales se destinan a las etapas posteriores de adquisición y procesamiento.
+Las salidas diferenciales del integrado permiten obtener las componentes correspondientes a las señales incidente y reflejada, identificadas como $IF\_INC+$, $IF\_INC-$, $IF\_MED+$ e $IF\_MED-$ en el esquemático. A la salida de cada canal se integran filtros pasabajo RC simples, calculados para atenuar la componente suma de alta frecuencia ($2f_{\text{RF}} + f_{\text{FI}}$) y dejar pasar únicamente las señales diferenciales de baja frecuencia correspondientes a la FI. Estas señales se destinan a las etapas posteriores de adquisición y procesamiento.
 
-El circuito incluye componentes pasivos asociados a las entradas y salidas del mezclador, así como capacitores de desacoplamiento de alimentación. La disposición de estos componentes se contempla en el diseño de la placa para favorecer el funcionamiento del circuito a las frecuencias de operación previstas.
+Se disponen capacitores de desacople en la alimentación y un divisor resistivo en la entrada VSET, que es el control de polarización para alto IP3 (lo que mejora la linealidad de entrada). Se aplica entre 4 y 5 V para mejorar la performance de IP3, y entre 2 y 3 V para mejorar la figura de ruido. Actualmente el valor está seteado en aproximadamente 4,1V. 
 
 \subsection{Acoplador direccional}
+Basado en el puente de Wheatstone explicado en el marco teórico, permite dirigir la señal generada hacia el sensor, mientras que una parte de la señal reflejada por la carga se obtiene mediante el puerto acoplado. De esta manera, es posible acceder a ambas señales sin necesidad de interrumpir directamente el camino principal de transmisión.
+
+El puente diseñado, como se muestra en el esquemático (\ref{sch:acop}), agrega dos transformadores de RF TC1-1-13M+ \cite{datasheet_tc1_1_13m} en cascada, que permiten medir la señal reflejada de manera desbalanceada y filtrar el ruido de modo común que provocaría usar solo uno. Las resistencias de 68$\Omega$ logran que la impedancia vista desde el puerto de salida (J1) sea 50$\Omega$. 
+
 
 \subsection{Amplificadores diferenciales}
+Al tener salidas diferenciales y de muy poca amplitud, se debe agregar una etapa de acondicionamiento que permita obtener una señal desbalanceada y apta para ser procesada por la placa de sonido de la PC. Esta etapa utiliza amplificadores operacionales MCP6023 de Microchip Technology \cite{}. Se configuran como restadores, permitiendo referir las señales a masa y proveer la ganancia necesaria para trabajar dentro del rango dinámico de la placa de sonido. 
 
 \subsection{Alimentación y conectores}
+Para alimentar la placa se dispone de una selección (a través de un jumper) de pines para utilizar una fuente de laboratorio o un USB-B para conectarlo a alguna salida de PC o cargador de 5V. Se agrega un regulador de tensión UA78M33CDCYR \cite{datasheet_ua78m} de Texas Instruments que provee los 3,3V necesarios para alimentar a los generadores de RF y oscilador.
+
+Los conectores que posee son del tipo SMA para mediciones de RF, conexión con el DUT y entrada de referencia auxiliar; conector de audio analógico para llevar las señales a la placa de sonido de la PC por medio de la entrada line-in, y tiras de pines que por medio de cables puente se conectan con el Arduino para escribir los registros de los generadores de RF. Además se ubican pares de pines para medir la detección de enganche en cada ADF4351.
 
 \subsection{Implementación en PCB}
 En principio se planteó un modelo de 2 capas, que se puede observar en la figura \ref{fig}. Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 mm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables de arduino, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 mm\textsuperscript{2} y se lo puede observar en la figura \ref{fig}.  
