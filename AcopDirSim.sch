@@ -1,6 +1,6 @@
 <QucsStudio Schematic 5.9>
 <Properties>
-View=149.286,-165,1044.61,697.431,0.875,0,189
+View=149.286,-165,1336,697.431,0.875,0,314
 Grid=10,10,1
 DataSet=*.dat
 DataDisplay=*.dpl
@@ -32,10 +32,13 @@ R R9 1 630 310 -18 -53 2 "50 Ω"1"26.85"0"US"0"SMD0603"0
 GND * 1 660 310 0 0 1
 GND * 1 340 310 0 0 3
 R R6 1 370 310 -18 -53 2 "50 Ω"1"26.85"0"US"0"SMD0603"0
-SPfile X1 1 500 390 -26 -59 0 "C:/Users/torre/OneDrive/Escritorio/euVNA/TC1-1-13M+_S4P/UNIT1.S4P"1"2"0"polar"0"linear"0"short"0"none"0"block"0"SOT23"0
 GND * 1 320 520 0 0 3
 R R10 1 350 520 -18 -53 2 "50 Ω"1"26.85"0"US"0"SMD0603"0
 Pac P4 1 440 600 18 -26 0 "4"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
+SPfile X1 1 500 390 -536 -89 6 "C:/Users/torre/OneDrive/Escritorio/euVNA/TC1-1-13M+_S4P/UNIT1.S4P"1"4"0"polar"0"linear"0"short"0"none"0"block"0"SOT23"0
+SPfile X2 1 560 570 -536 -89 6 "C:/Users/torre/OneDrive/Escritorio/euVNA/TC1-1-13M+_S4P/UNIT1.S4P"1"4"0"polar"0"linear"0"short"0"none"0"block"0"SOT23"0
+GND * 1 500 450 0 0 0
+GND * 1 560 630 0 0 0
 </Components>
 <Wires>
 500 -50 520 -50
@@ -56,6 +59,10 @@ Pac P4 1 440 600 18 -26 0 "4"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
 590 310 600 310
 410 260 410 310
 400 310 410 310
+410 360 470 360
+410 310 410 360
+530 360 590 360
+590 310 590 360
 </Wires>
 <Diagrams>
 </Diagrams>
