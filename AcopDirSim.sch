@@ -1,6 +1,6 @@
 <QucsStudio Schematic 5.9>
 <Properties>
-View=149.286,-165,1336,697.431,0.875,0,314
+View=204.421,-165,1320.67,745.807,0.75,0,71
 Grid=10,10,1
 DataSet=*.dat
 DataDisplay=*.dpl
@@ -14,15 +14,13 @@ FrameText3=Revision:
 <Symbol>
 </Symbol>
 <Components>
-Pac P1 1 550 -50 -26 -75 1 "1"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
+Pac P1incidente 1 550 -50 -26 -75 1 "1"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
 GND * 1 580 -50 0 0 1
-Pac P2 1 780 110 18 -26 0 "2"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
 GND * 1 780 140 0 0 0
 R R2 1 590 110 15 -18 1 "50 Ω"1"26.85"0"US"0"SMD0603"0
 R R3 1 500 30 15 -18 1 "10 Ω"1"26.85"0"US"0"SMD0603"0
 R R8 1 780 30 -71 -18 3 "240 Ω"1"26.85"0"US"0"SMD0603"0
 R R1 1 410 110 15 -18 1 "50 Ω"1"26.85"0"US"0"SMD0603"0
-Pac P3 1 300 160 -26 18 3 "3"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
 GND * 1 270 160 0 0 3
 GND * 1 660 160 0 0 1
 R R7 1 620 160 -15 15 2 "50 Ω"1"26.85"0"US"0"SMD0603"0
@@ -32,13 +30,18 @@ R R9 1 630 310 -18 -53 2 "50 Ω"1"26.85"0"US"0"SMD0603"0
 GND * 1 660 310 0 0 1
 GND * 1 340 310 0 0 3
 R R6 1 370 310 -18 -53 2 "50 Ω"1"26.85"0"US"0"SMD0603"0
-GND * 1 320 520 0 0 3
-R R10 1 350 520 -18 -53 2 "50 Ω"1"26.85"0"US"0"SMD0603"0
-Pac P4 1 440 600 18 -26 0 "4"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
-SPfile X1 1 500 390 -536 -89 6 "C:/Users/torre/OneDrive/Escritorio/euVNA/TC1-1-13M+_S4P/UNIT1.S4P"1"4"0"polar"0"linear"0"short"0"none"0"block"0"SOT23"0
-SPfile X2 1 560 570 -536 -89 6 "C:/Users/torre/OneDrive/Escritorio/euVNA/TC1-1-13M+_S4P/UNIT1.S4P"1"4"0"polar"0"linear"0"short"0"none"0"block"0"SOT23"0
 GND * 1 500 450 0 0 0
-GND * 1 560 630 0 0 0
+GND * 1 500 640 0 0 0
+SPfile X1 1 500 390 64 -16 6 "C:/Users/torre/OneDrive/Escritorio/euVNA/TC1-1-13M+_S4P/UNIT1.S4P"0"4"0"polar"0"linear"0"short"0"none"0"block"0"SOT23"0
+SPfile X2 1 500 580 73 -16 6 "C:/Users/torre/OneDrive/Escritorio/euVNA/TC1-1-13M+_S4P/UNIT1.S4P"0"4"0"polar"0"linear"0"short"0"none"0"block"0"SOT23"0
+GND * 1 340 490 0 0 3
+R R10 1 370 490 -18 -53 2 "50 Ω"1"26.85"0"US"0"SMD0603"0
+GND * 1 530 610 0 0 0
+Pac P3acoplado 1 780 110 18 -26 0 "3"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
+Pac Pdirecto 1 300 160 -26 18 3 "2"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
+Pac P4aisl 1 410 650 18 -26 0 "4"1"50 Ω"1"0 dBm"0"1 GHz"0"26.85"0"con_2"0
+GND * 1 410 680 0 0 0
+.SP SP1 1 800 350 0 9 0 "lin"1"0.1 GHz"1"3 GHz"1"301"1"no"0"1"0"2"0"none"0
 </Components>
 <Wires>
 500 -50 520 -50
@@ -63,6 +66,17 @@ GND * 1 560 630 0 0 0
 410 310 410 360
 530 360 590 360
 590 310 590 360
+410 420 470 420
+410 420 410 490
+410 550 470 550
+410 490 410 550
+400 490 410 490
+470 610 480 610
+530 420 590 420
+590 420 590 550
+530 550 590 550
+410 610 470 610
+410 610 410 620
 </Wires>
 <Diagrams>
 </Diagrams>

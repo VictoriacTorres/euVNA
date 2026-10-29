@@ -1,0 +1,39 @@
+<QucsStudio Schematic 5.9>
+<Properties>
+View=-108.891,-148.83,1965.49,939.262,0.845073,0,83
+Grid=10,10,0
+DataSet=*.dat
+DataDisplay=*.sch
+OpenDisplay=1
+showFrame=0
+FrameText0=Title \n @PATH@@FILE@
+FrameText1=Drawn By:
+FrameText2=Date: @DATE@
+FrameText3=Revision:
+</Properties>
+<Symbol>
+</Symbol>
+<Components>
+</Components>
+<Wires>
+</Wires>
+<Diagrams>
+<Rect 100 540 360 220 31 #c0c0c0 1 00 1 0 5e+08 3e+09 1 -10.5217 0.01 -10.4882 1 -1 0.5 1 -1 -1 -1 "" "" "">
+	<Legend 20 -70 1>
+	<"-dB(S[2,1])" "" #a00080 2 3 0 0 0 1 "Pérdida de inserción">
+</Rect>
+<Rect 540 540 360 220 31 #c0c0c0 1 00 1 0 5e+08 3e+09 1 -10.5218 0.01 -10.4883 1 -1 0.5 1 -1 -1 -1 "" "" "">
+	<Legend 20 -200 1>
+	<"-dB(S[4,1])" "" #ff8080 2 3 0 0 0 1 "Aislamiento">
+</Rect>
+<Rect 110 240 360 220 31 #c0c0c0 1 00 1 0 5e+08 3e+09 1 15.87 0.001 15.873 1 -1 0.5 1 -1 -1 -1 "" "" "">
+	<Legend 190 -200 1>
+	<"-dB(S[3,1])" "" #ff00ff 2 3 0 0 0 1 "Acoplamiento">
+</Rect>
+<Rect 540 250 360 220 31 #c0c0c0 1 00 1 0 5e+08 3e+09 1 32 2 38 1 -1 0.5 1 -1 -1 -1 "" "" "">
+	<Legend 10 -200 1>
+	<"dB(S[3,1])-dB(S[4,1])" "" #0000ff 2 3 0 0 0 1 "Directividad">
+</Rect>
+</Diagrams>
+<Paintings>
+</Paintings>
