@@ -571,6 +571,40 @@
       \verb https://www.minicircuits.com/pdfs/TC1-1-13M+.pdf
       \endverb
     \endentry
+    \entry{usimmics}{software}{}{}
+      \name{author}{1}{}{%
+        {{hash=e1c84e489e62b14f694c529673d17a55}{%
+           family={Margraf},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{fullhash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{fullhashraw}{e1c84e489e62b14f694c529673d17a55}
+      \strng{bibnamehash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{authorbibnamehash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{authornamehash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{authorfullhash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{authorfullhashraw}{e1c84e489e62b14f694c529673d17a55}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{10}
+      \field{month}{1}
+      \field{note}{Anteriormente conocido como QucsStudio}
+      \field{title}{uSimmics}
+      \field{version}{5.9}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://dd6um.darc.de/QucsStudio/
+      \endverb
+      \verb{url}
+      \verb https://dd6um.darc.de/QucsStudio/
+      \endverb
+    \endentry
     \entry{mcp602x_datasheet}{manual}{}{}
       \list{organization}{1}{%
         {Microchip Technology Inc.}%

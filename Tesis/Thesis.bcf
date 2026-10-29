@@ -2396,8 +2396,9 @@
     <bcf:citekey order="21" intorder="1">ecs2200x_datasheet</bcf:citekey>
     <bcf:citekey order="22" intorder="1">datasheet_74lvc2g07</bcf:citekey>
     <bcf:citekey order="23" intorder="1">datasheet_tc1_1_13m</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">mcp602x_datasheet</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">datasheet_ua78m</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">usimmics</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">mcp602x_datasheet</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">datasheet_ua78m</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

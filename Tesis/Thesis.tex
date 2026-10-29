@@ -20,6 +20,8 @@
 \usepackage{comment}
 \setcounter{secnumdepth}{5}
 \setcounter{tocdepth}{5}
+\usepackage{subcaption}
+
 %Bibliografia
 \usepackage[style=numeric, backend=biber, sorting=none]{biblatex}
 \addbibresource{Bibliografia.bib}
@@ -122,15 +124,21 @@ VNA & Analizador Vectorial de Redes\\
 \hline
 UHF & Ultra High Frequency\\
 \hline
+CGM & Continous Glucose Monitoring \\
+\hline
 LAC & Laboratorio de Comunicaciones\\
 \hline
 ICYTE & Instituto de Investigaciones Científicas y Tecnológicas en Electrónica \\
+\hline
+UNMDP & Universidad Nacional de Mar del Plata \\
 \hline
 FI & Frecuencia Intermedia\\
 \hline
 DUT & Device Under Test\\
 \hline
 RF & Radiofrecuencia \\
+\hline
+SOL & Short, Open, Load \\
 \hline
 PCB & Printed Circuit Board \\
 \hline
@@ -142,7 +150,17 @@ FFT & Fast Fourier Transform\\
 \hline
 IC & Integrated Circuits\\
 \hline
+VCO & Voltage Controlled Oscillator\\
+\hline
+SMA & SubMiniature version A\\
+\hline
+SPI & Serial Peripheral Interface\\
+\hline
+CSV & Comma-Separated Values\\
+\hline
 IA & Inteligencia Artificial\\
+\hline
+GUI & Graphical User Interface\\
 \hline
 
 \end{tabularx}
@@ -196,7 +214,7 @@ Se obtienen señales analógicas en la banda de audio para su adquisición en la
 \label{sec:EsquematicosAltium}
 A continuación se presentan los esquemáticos de los distintos bloques funcionales del sistema, exportados de Altium Designer. 
 
-\begin{comment}
+%\begin{comment}
 \includepdf[
     pages=-,
     angle=90,
@@ -211,7 +229,7 @@ A continuación se presentan los esquemáticos de los distintos bloques funciona
         7, subsection, 2, Atenuadores, sch:atenuadores
     }
 ]{Esquematicos.pdf}
-\end{comment}
+%\end{comment}
 
 \section{Firmware}
 \label{codigoFW}
@@ -234,7 +252,7 @@ A continuación se presentan los esquemáticos de los distintos bloques funciona
 \setcounter{section}{0}
 \renewcommand{\thesection}{\Alph{section}}
 
-\begin{comment}
+%\begin{comment}
 \includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Estudio Preliminar, apend:Estudio_Preliminar}]{Apendices/Estudio Preliminar.pdf}
 
 \includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Plan de Trabajo, apend:PProy}]{Apendices/Pproy.pdf}
@@ -247,7 +265,7 @@ A continuación se presentan los esquemáticos de los distintos bloques funciona
 
 \includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Plan de Pruebas, apend:PP}]{Apendices/Plan de pruebas.pdf}
 
-\end{comment}
+%\end{comment}
 %=========== Bibliografía ===========
 \printbibliography[heading=bibintoc, title={Bibliografía}]
 

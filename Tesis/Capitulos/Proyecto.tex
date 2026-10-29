@@ -77,25 +77,121 @@ Se disponen capacitores de desacople en la alimentación y un divisor resistivo 
 \subsection{Acoplador direccional}
 Basado en el puente de Wheatstone explicado en el marco teórico, permite dirigir la señal generada hacia el sensor, mientras que una parte de la señal reflejada por la carga se obtiene mediante el puerto acoplado. De esta manera, es posible acceder a ambas señales sin necesidad de interrumpir directamente el camino principal de transmisión.
 
-El puente diseñado, como se muestra en el esquemático (\ref{sch:acop}), agrega dos transformadores de RF TC1-1-13M+ \cite{datasheet_tc1_1_13m} en cascada, que permiten medir la señal reflejada de manera desbalanceada y filtrar el ruido de modo común que provocaría usar solo uno. Las resistencias de 68$\Omega$ logran que la impedancia vista desde el puerto de salida (J1) sea 50$\Omega$. 
+El puente diseñado, como se muestra en el esquemático (\ref{sch:acop}), agrega dos transformadores de RF TC1-1-13M+ \cite{datasheet_tc1_1_13m} en cascada, que permiten medir la señal reflejada de manera desbalanceada y filtrar el ruido de modo común que provocaría usar solo uno. Las resistencias de 68$\Omega$ logran que la impedancia vista desde el puerto de salida (J1) sea 50$\Omega$.
 
+En la figura \ref{fig:esqacopdir} se presentan las curvas de respuesta en frecuencia simuladas para los cuatro parámetros característicos de un acoplador direccional, en el rango de 0,1 a 3 GHz. Como se puede observar, el acoplamiento tiene una respuesta plana en toda la banda, esperable para un puente resistivo, manteniéndose constante alrededor de los 15 dB. La pérdida de inserción tiene valores razonables teniendo en cuenta que las resistencias disipan potencia, oscilando cerca de los 10,5 dB. El aislamiento tiene su máximo nivel de atenuación en la banda de interés (entre 1,8 y 2,2 GHz) pero mantiene un buen nivel en toda la banda, por encima de los 48 dB. La directividad tiene la misma forma, con un pico elevado de 37,3 dB en torno a 1,9 GHz pero manteniéndose sobre los 36,5 dB para las frecuencias de interés. Esto garantiza una muy buena separación entre las ondas incidente y reflejada, reduciendo errores sistemáticos. Es importante aclarar que las simulaciones se realizaron en el software uSimmics v 5.9 \cite{usimmics} y las resistencias utilizadas para simular fueron ideales, por lo que se espera un rendimiento un poco menor en la implementación real, sobre todo por la tolerancia de las resistencias a altas frecuencias. Los transformadores de RF se caracterizaron con datos de sus parámetros S brindados por el fabricante. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Imagenes/param_acop_dir.jpeg}
+    \caption{Parámetros simulados del puente resistivo}
+    \label{fig:esqacopdir}
+\end{figure}
 
 \subsection{Amplificadores diferenciales}
-Al tener salidas diferenciales y de muy poca amplitud, se debe agregar una etapa de acondicionamiento que permita obtener una señal desbalanceada y apta para ser procesada por la placa de sonido de la PC. Esta etapa utiliza amplificadores operacionales MCP6023 de Microchip Technology \cite{mcp602x_datasheet}. Se configuran como restadores, permitiendo referir las señales a masa y proveer la ganancia necesaria para trabajar dentro del rango dinámico de la placa de sonido. 
+Al tener salidas diferenciales y de muy poca amplitud, se debe agregar una etapa de acondicionamiento que permita obtener una señal desbalanceada y apta para ser procesada por la placa de sonido de la PC. Esta etapa utiliza amplificadores operacionales MCP6023 de Microchip Technology \cite{mcp602x_datasheet} de alimentación simple (rail-to-rail). Se configuran como restadores, permitiendo referir las señales a masa y proveer la ganancia necesaria para trabajar dentro del rango dinámico de la placa de sonido. Su esquemático se puede observar en \ref{sch:amplifi}. Aunque allí se usa una ganancia unitaria, en el ensamblado se midió la salida del mezclador y se calculó una ganancia de 8,33 veces para la señal incidente y 55,55 veces para la señal reflejada. De esta forma se aprovecha el rango dinámico de la entrada de la placa de sonido, cuya entrada satura alrededor de 2 Vpp según mediciones realizadas en el laboratorio. Las resistencias utilizadas fueron de 180 $\Omega$ para R53 y R55, y 1200 $\Omega$ para R46 y R48. 
+
+Se agregaron capacitores de bloqueo de continua, y una tensión de referencia de $V_{CC} / 2 $ obtenida mediante un divisor resistivo. De este modo, la señal alterna excursiona alrededor de ese punto de operación y puede ser amplificada sin recortes, sin necesidad de una fuente negativa.
 
 \subsection{Alimentación y conectores}
 Para alimentar la placa se dispone de una selección (a través de un jumper) de pines para utilizar una fuente de laboratorio o un USB-B para conectarlo a alguna salida de PC o cargador de 5V. Se agrega un regulador de tensión UA78M33CDCYR \cite{datasheet_ua78m} de Texas Instruments que provee los 3,3V necesarios para alimentar a los generadores de RF y oscilador.
 
 Los conectores que posee son del tipo SMA para mediciones de RF, conexión con el DUT y entrada de referencia auxiliar; conector de audio analógico para llevar las señales a la placa de sonido de la PC por medio de la entrada line-in, y tiras de pines que por medio de cables puente se conectan con el Arduino para escribir los registros de los generadores de RF. Además se ubican pares de pines para medir la detección de enganche en cada ADF4351.
 
+\subsection{Microcontrolador}
+Como se explica en la sección 2.3 de la Especificación Técnica (\ref{apend:ET}), el microcontrolador se implementa utilizando una placa Arduino Uno que se conecta por medio de cables puente con los pines de control de los ADF4351: CLK, CE, LE y DATA. Actúa como un esclavo de ejecución que recibe las órdenes de barrido desde la PC a través de una interfaz serie. Opera a una velocidad de 115200 baudios.
+
 \subsection{Implementación en PCB}
-En principio se planteó un modelo de 2 capas, que se puede observar en la figura \ref{fig}. Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 mm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables de arduino, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 mm\textsuperscript{2} y se lo puede observar en la figura \ref{fig}.  
+En principio se planteó un modelo de 2 capas, que se puede observar en las figuras \ref{fig:euvnav1}.
+\begin{figure}[htbp]
+    \centering
+    % Primera imagen (Página 1) ocupando el 48% del ancho del texto
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth, page=1]{Imagenes/Screens euVNA v1.pdf}
+        \caption{Frente}
+        \label{fig:euvnav1frente}
+    \end{subfigure}
+    \hfill % Esto agrega un espacio en blanco flexible entre las dos imágenes
+    % Segunda imagen (Página 2) ocupando el otro 48%
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth, page=2]{Imagenes/Screens euVNA v1.pdf}
+        \caption{Dorso}
+        \label{fig:euvnav1dorso}
+    \end{subfigure}
+    
+    \caption{$\epsilon-\mu VNA$ versión 1, frente}
+    \label{fig:euvnav1}
+\end{figure}
+
+Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 mm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables de arduino, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 mm\textsuperscript{2} y se lo puede observar en la figura \ref{fig:euvnav2}. Incorpora además algunas modificaciones en cuanto al ruteo de pines y posición de los transformadores de RF, debido a que no coinciden los pines descriptos en la hoja de datos con el integrado real.  
+
+\begin{figure}[htbp]
+    \centering
+    % Primera imagen (Página 1) ocupando el 48% del ancho del texto
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth, page=1]{Imagenes/Screens euVNA v2.pdf}
+        \caption{Frente}
+        \label{fig:euvnav2frente}
+    \end{subfigure}
+    \hfill % Esto agrega un espacio en blanco flexible entre las dos imágenes
+    % Segunda imagen (Página 2) ocupando el otro 48%
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth, page=2]{Imagenes/Screens euVNA v2.pdf}
+        \caption{Dorso}
+        \label{fig:euvnav2dorso}
+    \end{subfigure}
+    
+    \caption{$\epsilon-\mu VNA$ versión 2}
+    \label{fig:euvnav2}
+\end{figure}
+
+Se pueden observar ambos modelos en 3D en la figura \ref{fig:euvna3d}. 
+\begin{figure}[htbp]
+    \centering
+    % Primera imagen (Página 1) ocupando el 48% del ancho del texto
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imagenes/euVNA v1 3d.png}
+        \caption{Versión 1}
+        \label{fig:euvnav13d}
+    \end{subfigure}
+    \hfill % Esto agrega un espacio en blanco flexible entre las dos imágenes
+    % Segunda imagen (Página 2) ocupando el otro 48%
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imagenes/euVNA3 3d.png}
+        \caption{Versión 2}
+        \label{fig:euvnav23d}
+    \end{subfigure}
+    
+    \caption{$\epsilon-\mu VNA$ modelos 3D}
+    \label{fig:euvna3d}
+\end{figure}
+
+Por último, la placa ensamblada que se utilizó para realizar las pruebas es la de la fgura \ref{fig:fotoplaca}.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{Imagenes/fotoplaca.jpeg}
+    \caption{Ensamble placa final, $\epsilon-\mu VNA v2$}
+    \label{fig:fotoplaca}
+\end{figure}
 
 \section{Firmware}
 \label{sec:Firmware}
-El firmware se programó en lenguaje C++ en el entorno Arduino IDE. Se puede leer en la sección ``códigos'' (\ref{codigoFW}). Está desarrollado para un microcontrolador Arduino UNO y se encarga del control, configuración dinámica y sincronización de los sintetizadores ADF4351.
 
-El microcontrolador actúa como un esclavo de ejecución que recibe las órdenes de barrido desde la PC a través de una interfaz serie. Opera a una velocidad de 115200 baudios. Al ser inicializado en la función de arranque (\textit{setup}), configura los pines de control, inicializa el bus SPI y transmite la cadena ``Listo'' para confirmar que el sistema está disponible.
+\begin{wrapfigure}[20]{R}{0.45\textwidth}   % r = derecha, l = izquierda
+  \centering
+  \includegraphics[width=0.4\textwidth,height=0.5\textheight,keepaspectratio]{Imagenes/diagflujoFW.jpg}
+  \caption{Diagrama de flujo general del firmware.}
+  \label{fig:diagflujoFW}
+\end{wrapfigure}
+El firmware se programó en lenguaje C++ en el entorno Arduino IDE. Se puede leer en la sección ``códigos'' (\ref{codigoFW}). Está desarrollado para un microcontrolador Arduino UNO y se encarga del control, configuración dinámica y sincronización de los sintetizadores ADF4351. Un diagrama de flujos se puede ver en la figura \ref{fig:diagflujoFW}.
+
+ Al ser inicializado en la función de arranque (\textit{setup}), configura los pines de control, inicializa el bus SPI y transmite la cadena ``Listo'' para confirmar que el sistema está disponible.
 
 Al recibir una frecuencia $f$, el algoritmo configura el primer sintetizador (ADF1) exactamente en $f$ (canal de RF) y el segundo sintetizador (ADF2) en $f + 0.010\text{ MHz}$ (canal LO), introduciendo de forma automática el desplazamiento constante para la FI. Al finalizar la reconfiguración de ambos integrados, responde a la PC con la cadena ``OK''.
 
@@ -124,13 +220,13 @@ Para mejorar la coherencia y estabilidad de fase en el canal del Oscilador Local
 
 \section{Software}
 
-\begin{wrapfigure}[24]{R}{0.45\textwidth}   % r = derecha, l = izquierda
+\begin{wrapfigure}[26]{R}{0.45\textwidth}   % r = derecha, l = izquierda
   \centering
   \includegraphics[width=0.4\textwidth,height=0.8\textheight,keepaspectratio]{Imagenes/diagflujo_SW.png}
   \caption{Diagrama de flujo general del software.}
   \label{fig:diagflujoSW}
 \end{wrapfigure}
-Como se explica en la sección 4 de la Especificación Técnica \ref{apend:ET} el software se programa en lenguaje Python en el entorno Visual Studio Code. El código se encuentra en la sección \ref{sec:Codigo}. Un diagrama de bloques general se puede ver en la figura \ref{fig:diagflujoSW}. Las funciones principales que cumple son:
+Como se explica en la sección 4 de la Especificación Técnica \ref{apend:ET} el software se programa en lenguaje Python en el entorno Visual Studio Code. El código se encuentra en la sección \ref{SW}. Un diagrama de bloques general se puede ver en la figura \ref{fig:diagflujoSW}. Las funciones principales que cumple son:
 
 \begin{itemize}
     \item Gestionar el barrido en frecuencia;
@@ -146,9 +242,9 @@ La función principal (\textit{main}) genera el vector de frecuencias a partir d
 
 \subsection{Flujo de barrido}
 \mbox{}\par\vspace{-\baselineskip}
-\begin{wrapfigure}[]{r}{0.4\textwidth}
+\begin{wrapfigure}[22]{r}{0.38\textwidth}
   \centering
-  \includegraphics[width=0.38\textwidth]{Imagenes/diagflujo_SW_barrido.png}
+  \includegraphics[width=0.36\textwidth,height=0.45\textheight,keepaspectratio]{Imagenes/diagflujo_SW_barrido.png}
   \caption{Diagrama de flujo de la función barrido.}
   \label{fig:diagflujobarrido}
 \end{wrapfigure}
@@ -159,13 +255,12 @@ Los parámetros que recibe son: el objeto de conexión serial con el Arduino (qu
 Consiste de un bucle \textit{for} que recorre el vector de frecuencias, seteando cada una en el Arduino con la función ``write'' de la librería ``serial'' para luego leer su respuesta con ``readline''. Si esta comienza en ``error'' aborta el barrido. De otra forma, captura el audio usando la librería ``sounddevice''. Para eso calcula el número de muestras a adquirir como la multiplicación de la frecuencia de muestreo y la duración de la captura. Graba los dos canales, de tipo ``float64'' con la función ``rec''. Descarta la primera parte de la grabación para evitar incluir en el cálculo los transitorios, y guarda dos vectores: ``canal\_ref'' y ``canal\_med''. Por último, mide S11 y la frecuencia en la que se encontró el batido. Para ir mostrando los valores calibrados por terminal a medida que se hace el barrido, realiza la calibración por cada punto, calcula el S11 en módulo y fase y las imprime. 
 
 \subsection{Estimación del S11}
-\begin{wrapfigure}[24]{R}{0.35\textwidth}   % r = derecha, l = izquierda
+\begin{wrapfigure}[25]{R}{0.35\textwidth}   % r = derecha, l = izquierda
   \centering
-  \includegraphics[width=0.3\textwidth,height=0.6\textheight,keepaspectratio]{Imagenes/diagflujo_SW_calculos11.png}
+  \includegraphics[width=0.3\textwidth,height=0.4\textheight,keepaspectratio]{Imagenes/diagflujo_SW_calculos11.png}
   \caption{Diagrama de flujo de la función que calcula S11.}
   \label{fig:diagflujoS11}
 \end{wrapfigure}
-
 La función que realiza el cálculo del S11 tiene como parámetros de entrada los vectores de muestras, la frecuencia de muestreo y los coeficientes del filtro. Un diagrama de flujo simplificado se puede observar en la figura \ref{fig:diagflujoS11}. 
 
 Lo primero que hace es aplicar el filtro a cada canal usando la función ``lfilter'' de scipy.signal, BLABLABLA. Luego calcula la FFT con la función ``fft.fft()'' de NumPy. Utiliza una ventana que setea el usuario, que por default es la FlatTop, y que crea la función ``get\_window'' de scipy.signal.windows. Descarta la mitad negativa del espectro de frecuencias.
