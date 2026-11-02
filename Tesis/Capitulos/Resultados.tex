@@ -1,5 +1,5 @@
 \section{Ensamblado de la placa final}
-    Al terminar el diseño del PCB, se consultaron con proveedores nacionales para la impresión de la placa. Ante la falta de respuesta, se optó por un proveedor internacional, PCBWay \cite{pcbway}. Todo el proceso, desde el envío de los archivos gerber, revisión y cambios, hasta recibir el paquete, llevó aproximadamente 20 días. \textbf{CHEQUEAR}. Las placas recibidas son las que muestra la figura \ref{fig:placassolas}.
+    Al terminar el diseño del PCB, se consultaron con proveedores nacionales para la impresión de la placa. Ante la falta de respuesta, se optó por un proveedor internacional, PCBWay \cite{pcbway}. Todo el proceso, desde el envío de los archivos gerber, revisión y cambios, hasta recibir el paquete, llevó aproximadamente 15 días. Las placas recibidas son las que muestra la figura \ref{fig:placassolas}.
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{Imagenes/placassolas.jpeg}
@@ -51,9 +51,11 @@ Luego se soldaron el resto de componentes, en orden de menor a mayor altura. La 
 \hline
 Rango de frecuencia de trabajo & 1,8 a 2,2 GHz & Ampliable por software\\
 \hline
-Resolución (paso mínimo) en RF & ?? & \\
+Resolución (paso mínimo) en RF & 250 Hz & En la banda de trabajo. Según la hoja de datos del AF4351, el mínimo con este hardware sería 31,25 Hz pero no se han hecho pruebas.\\
 \hline
 Impedancia característica & $50 \Omega$ & -\\
+\hline
+Directividad del acoplador resistivo & >36,5 dB & Para el rango de frecuencia de trabajo \\
 \hline
 Voltaje de alimentación & 5V & Vía USB-B o fuente externa\\
 \hline
@@ -62,8 +64,6 @@ Corriente de alimentación & 350 mA & - \\
 Frecuencia de muestreo & 44,1 kHz & Configurable por software \\
 \hline
 Resolución del ADC (placa de sonido) & 16 bits & Entrada Line-In de la PC \\
-\hline
-Directividad del acoplador resistivo & >36,5 dB & Para el rango de frecuencia de trabajo \\
 \hline
 Baud rate (microcontrolador) & 115200 baudios & Configurable \\ 
 \hline
@@ -93,7 +93,7 @@ Luego se programó la generación de una única señal para cada generador de RF
 
 Con el mismo banco de medición, pero ajustando el programa del Arduino se generaron varios barridos de diferente frecuencia inicial, final y paso para verificar el enganche en toda la banda de interés, para ambos ADF4351.
 
-Luego de comprobar con éxito el funcionamiento de estos subsistemas, se soldó la etapa de FI para avanzar hacia la adquisición. Para probar la placa de sonido, se generaron dos frecuencias separadas en 1, 5 y 10 kHz. Se adquirieron con el software Audacity \cite{audacity376} en modo estéreo, como muestran las figuras \ref{fig:audacity}. Se detectó que la que mejores resultados daba era 10 kHz (figura \subref{fig:grab10k}). 
+Luego de comprobar con éxito el funcionamiento de estos subsistemas, se soldó la etapa de FI para avanzar hacia la adquisición. Para probar la placa de sonido, se generaron dos frecuencias separadas en 1, 5 y 10 kHz. Se adquirieron con el software Audacity \cite{audacity376} en modo estéreo, como muestran las figuras \ref{fig:audacity}. Se eligió como FI de trabajo 10 kHz (figura \subref{fig:grab10k}) porque una mayor FI reduce el ruido de fase y está alejada de las zonas de ruido de baja frecuencia (ruido de red y 1/f), pero los pasa bajos a la salida del mezclador limitan la frecuencia máxima que se puede elegir. 
 
 \begin{figure}[htbp]
     \centering
@@ -112,15 +112,15 @@ Luego de comprobar con éxito el funcionamiento de estos subsistemas, se soldó 
         \caption{Grabación con FI = 5 kHz.}
         \label{fig:grab5k}
     \end{subfigure}
-\begin{comment}
+
     
     \begin{subfigure}[b]{0.8\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{}
+        \includegraphics[width=\textwidth]{Imagenes/grabación 10k.png}
         \caption{Grabación con FI = 10 kHz.}
         \label{fig:grab10k}
     \end{subfigure}
-\end{comment}
+
     \caption{Grabaciones de prueba en Audacity.}
     \label{fig:audacity}
 \end{figure}
@@ -135,29 +135,30 @@ El mismo software tiene una herramienta para graficar el espectro de la señal, 
 \end{figure}
 
 Se procedió a probar una parte del software que aplicara el algoritmo de barrido y extracción del S11 sin calibrar. Las figuras \ref{fig:precalibracion} muestran la medición de una carga de 5O $\Omega$ y un cortocircuito. 
-\begin{comment}
+
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.8\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{}
+        \includegraphics[width=\textwidth]{Imagenes/carga 50 sin calibrar.png}
         \caption{Medición de carga adaptada pre calibración.}
         \label{fig:50precalib}
     \end{subfigure}
 
     \vspace{1em}   % espacio entre subfiguras (opcional)
-
+    
     \begin{subfigure}[b]{0.8\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{}
+        \includegraphics[width=\textwidth]{Imagenes/cortoprecalib.png}
         \caption{Medición de cortocircuito pre calibración.}
         \label{fig:cortoprecalib}
     \end{subfigure}
     \label{fig:precalibracion}
+
 \end{figure}
 
-\end{comment}
-Se puede observar que aunque las mediciones tienen coherencia en cuanto a la forma, los valores de amplitud y fase medidos no son los correctos. Esto se debe a los errores que se mencionaron en la sección \ref{sec:errores}, que se reducen mediante la calibración. 
+
+Se puede observar que aunque las mediciones tienen coherencia en cuanto a la forma (exceptuando algunas regiones), los valores de amplitud y fase medidos no son los correctos. Esto se debe a los errores que se mencionaron en la sección \ref{sec:errores}, que se reducen mediante la calibración. 
 
 
 \section{Mediciones de sistemas bajo prueba}
@@ -165,12 +166,72 @@ Se puede observar que aunque las mediciones tienen coherencia en cuanto a la for
 Por último, se probó el software completo, incluyendo la calibración SOL, para varios DUT:
 
 \subsection{Cortocircuito}
+Es el unico que medi la carga de calibracion porque no tenia otro corto que no sea el de 150.
+\subsubsection{Cortocircuito de 150°}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{Imagenes/medcorto150.png}
+    \caption{Medición de cortocircuito.}
+    \label{fig:med50R}
+\end{figure}
 
 \subsection{Circuito abierto}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{Imagenes/medCA.png}
+    \caption{Medición de 50 $\Omega$.}
+    \label{fig:med50R}
+\end{figure}
+
 \subsection{Adaptación (50 $\Omega$)}
 
-\subsection{Sensor reflexivo}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{Imagenes/med50R.png}
+    \caption{Medición de 50 $\Omega$.}
+    \label{fig:med50R}
+\end{figure}
+
+La siguiente tabla muestra una comparación entre los coeficientes de reflexión teóricos o "reales" y el promedio (aproximado) de los medidos, en módulo [dB] y ángulo [°]:
+\begin{center}
+\begin{tabularx}{\textwidth}{|X|X|X|}
+\arrayrulecolor{Thistle}
+\hline
+\rowcolor{Thistle!20} 
+\textbf{Carga}  & \textbf{$\Gamma_{REAL}$} & \textbf{$\Gamma_{MEDIDO}$}  \\
+\hline
+50 $\Omega$ & - $\inf$ & -32,5 \\
+\hline
+68 $\Omega$ & -16,33 $\angle$ 0 & -15,8 $\angle$ 6 \\
+\hline
+Corto circuto & 0 $\angle$ 180 & \\
+\hline
+Circuito abierto & 0 $\angle$ 0 & 0 $\angle$ 0 \\
+\hline
+Cortocircuito de 150° & 0 $\angle$ 150 & \\
+\end{tabularx}
+\end{center}
+
+\subsection{Sensor resonante}
+Finalmente, para verificar que el sistema está adaptado para operar en conjunto con un sensor de glucemia no invasivo, se utiliza el sensor que resuena alrededor de los 2 GHz. Se mide en principio en vacío, como muestra la figura \ref{fig:sensorvacio}.  
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{Imagenes/sensor_vacio.png}
+    \caption{Medición del sensor de glucemia en vacío.}
+    \label{fig:sensorvacio}
+\end{figure}
+
+Si se introduce en el sensor un dedo, debería moverse la frecuencia de resonancia por lo explicado en el capítulo 1. Se confirma este comportamiento en la figura \ref{fig:sensorlleno}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{Imagenes/sensordedorami_15oct_bueno.png}
+    \caption{Medición del sensor de glucemia con un dedo.}
+    \label{fig:sensorlleno}
+\end{figure}
+
 
 \section{Interfaz de usuario}
 

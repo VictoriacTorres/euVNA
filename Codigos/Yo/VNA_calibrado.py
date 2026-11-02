@@ -43,11 +43,11 @@ F_FIN_MHZ = 2200.000
 F_PASO_MHZ = 1.000
 OFFSET_MHZ=0.010 # Frecuencia de audio
 FS_AUDIO = 44100
-DURACION_CAPTURA_S = 0.6
-DESCARTE_S = 0.250
+DURACION_CAPTURA_S = 0.60
+DESCARTE_S = 0.150
 # ==================== Salidas ====================
 CARPETA_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Archivos csv resultados-calibracion")
-ARCHIVO_CSV = os.path.join(CARPETA_CSV, f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_sensorlleno_15oct_indice.csv")
+ARCHIVO_CSV = os.path.join(CARPETA_CSV, f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_cableaCA_2nov.csv")
 NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
 archivo_calibracion = os.path.join( CARPETA_CSV,f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - 14oct.csv")
 

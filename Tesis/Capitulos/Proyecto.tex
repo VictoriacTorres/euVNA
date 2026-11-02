@@ -16,7 +16,7 @@ El hardware se diseñó en su totalidad en el software Altium Designer, con una 
 
 
 \subsection{Generadores de RF}
-Como explica la sección 2.1.2 de la Especificación Técnica (\ref{apend:ET}) se sintetizan con los circuitos integrados (IC - \textit{Integrated Circuits}) ADF4351, un sintetizador de banda ancha con VCO integrado, con frecuencia de salida configurable de 40 a 4400 MHz y potencia de salida máxima de 5dBm \cite{datasheet_ADF4351}. El hardware posee dos; uno incide directamente en el acoplador direccional, desviando una parte de su potencia hacia el mezclador para medir la señal incidente. El esquemático de su implementación se puede ver en \ref{sch:ADFRF}. El otro se utiliza como oscilador local para el esquema heterodino (esquemático en \ref{sch:ADFOL}).
+Como explica la sección 2.1.2 de la Especificación Técnica (\ref{apend:ET}) los generadores de RF se sintetizan con los circuitos integrados (IC - \textit{Integrated Circuits}) ADF4351. Este es un sintetizador de banda ancha con VCO integrado, con frecuencia de salida configurable de 40 a 4400 MHz y potencia de salida máxima de 5dBm \cite{datasheet_ADF4351}. El hardware posee dos; uno incide directamente en el acoplador direccional, desviando una parte de su potencia hacia el mezclador para medir la señal incidente. El esquemático de su implementación se puede ver en \ref{sch:ADFRF}. El otro se utiliza como oscilador local para el esquema heterodino (esquemático en \ref{sch:ADFOL}). Es relevante mencionar que las salidas de RF no es una sinusoidal pura perfecta, sino que incluye componentes armónicos generados por el VCO y la etapa de salida. La hoja de datos aclara que el segundo armónico se encuentra entre -19 y -20 dBc por debajo de la potencia de la fundamental, mientras que el tercer armónico se encuentra entre -10 dBc y -13 dBc por debajo. 
 
 El diagrama en bloques del chip se puede observar en la figura \ref{fig:diagADF}:
 
@@ -33,10 +33,10 @@ Algunas consideraciones que se tuvieron en cuenta al momento de diseñar y rutea
 \begin{itemize}
     \item Tensión de alimentación (Vcc) de 3,3 V, ya que soporta de 3 a 3,6 V. Esta tensión debe ir a pines que se encuentran distribuidos en todos los lados del integrado, por lo que al estar ingresando con señales de RF se debe tener especial cuidado en el ruteo para mantener la integridad de las señales.
     \item El pad central expuesto del IC debe ser soldado a un pad GND (tierra) de al menos su mismo tamaño por razones térmicas, por indicación del datasheet \cite{datasheet_ADF4351}. Además, se sugiere colocar vías para mejorar el comportamiento térmico.
-    \item La salida de RF es de colector abierto, por lo que para funcionar necesita una etapa de pull-up: la forma más sencilla (y de banda ancha) de hacerlo es con una resistencia de 50 $\Omega$ a $V_{VCO}$. De esta forma la salida del circuito es una potencia que equivale al valor registrado en el registro 4 (R4) (ver sección firmware \ref{sec:Firmware}). Por la misma razón, por usarse en modo desbalanceado, la salida de la rama que se deja sin usar debe terminarse en una resistencia de 50 $\Omega$. En este caso, se coloca una línea de transmisión hacia un conector SMA para mediciones auxiliares que en caso de no utilizarse, debe adaptarse.
+    \item La salida de RF es de colector abierto, por lo que para funcionar necesita una etapa de pull-up: la forma más sencilla (y de banda ancha) de hacerlo es con una resistencia de 50 $\Omega$ a $V_{VCO}$. De esta forma la salida del circuito es una potencia que equivale al valor registrado en el registro 4 (R4) (ver sección firmware \ref{sec:Firmware}). Por la misma razón, por usarse en modo desbalanceado, la salida de la rama que se deja sin usar debe terminarse en una resistencia de 50 $\Omega$. En este caso, se coloca una línea de transmisión hacia un conector SMA para mediciones auxiliares que en caso de no utilizarse, debe adaptarse. Se incluyó en el diseño un pad opcional para soldar una resistencia de 50 $\Omega$ una vez que no se necesiten los conectores.
     \item Es importante que la señal  $V_{TUNE}$, una continua que es la entrada de control del VCO, esté libre de ruido, ya que determina la frecuencia de salida y es vital para el correcto enganche.
     \item La hoja de datos recomienda poner capacitores de desacople lo más cerca posible de los pines $V_{P}$, $AV_{DD}$, $V_{VCO}$, $TEMP$, $V_{COM}$, $V_{REF}$, $DV_{DD}$, y $SDV_{DD}$.
-    \item Los pines que se utilizan para programar el integrado son una entrada de alta impedancia CMOS, con un límite máximo de 3,6 V. Para protegerlas por incompatibilidad de niveles lógicos, se utilizan atenuadores en cada una de las entradas (CLK, CE, LE, DATA)\ref{sch:atenuadores}.
+    \item Los pines que se utilizan para programar el integrado son una entrada de alta impedancia CMOS, con un límite máximo de 3,6 V. Para protegerlas por incompatibilidad de niveles lógicos, se utilizan atenuadores en cada una de las entradas (CLK, CE, LE, DATA) (\ref{sch:atenuadores}).
     \item Se coloca un LED en la salida de detección de enganche, para visualizar rápidamente si el integrado está enganchado.  
 \end{itemize}
 
@@ -60,11 +60,11 @@ La respuesta en frecuencia de todo el sistema (ADF4351 con el filtro diseñado),
 \end{figure}
 
 \subsection{Oscilador}
-La referencia para los generadores de RF se compone de un oscilador a cristal ECS-2200BX-100 \cite{ecs2200x_datasheet} que proporciona una salida cuadrada y un buffer con salida open drain 74LVC2G07W6-7 \cite{datasheet_74lvc2g07}. Este permite no solo aumentar el fan-out (dividiendo la señal en dos caminos sin degradarla) sino realizar un reacondicionamiento. De esta manera se reduce el crosstalk (aislando las entradas de los generadores entre sí) y el ringing (oscilaciones de reflexión), garantizando flancos más limpios y rápidos. Se colocan dos resistencias de 47 $\Omega$ para absorber las ondas reflejadas que existan en la línea debido a que la entrada de referencia de los ADF es de alta impedancia y limitar la corriente de conmutación (ayudando a reducir el ruido de alta frecuencia). \ref{sch:alimentacion}
+La referencia para los generadores de RF se compone de un oscilador a cristal ECS-2200BX-100 \cite{ecs2200x_datasheet} que proporciona una salida cuadrada y un buffer con salida open drain 74LVC2G07W6-7 \cite{datasheet_74lvc2g07}. Este permite no solo aumentar el fan-out (dividiendo la señal en dos caminos sin degradarla) sino realizar un reacondicionamiento. De esta manera se reduce el crosstalk (aislando las entradas de los generadores entre sí) y el ringing (oscilaciones de reflexión), garantizando flancos más limpios y rápidos. Se colocan dos resistencias de 47 $\Omega$ para absorber las ondas reflejadas que existan en la línea debido a que la entrada de referencia de los ADF es de alta impedancia y limitar la corriente de conmutación (ayudando a reducir el ruido de alta frecuencia). El esquemático se encuentra en la sección \ref{sch:alimentacion}.
 
 \subsection{Mezclador}
  
-El mezclador se implementa con el IC ADL5802, un mezclador activo de alta linealidad, de dos canales, doble balanceado, con buffers de OL integrados para proveer conversión de frecuencia con alto rango dinámico. Su esquemático se puede observar en \ref{sch:mix}
+El mezclador se implementa con el IC ADL5802, un mezclador activo de alta linealidad, de dos canales, doble balanceado, con buffers de OL integrados para proveer conversión de frecuencia con alto rango dinámico. Su esquemático se puede observar en la sección \ref{sch:mix}.
 
 Su función principal es realizar la heterodinación de las señales de radiofrecuencia. Se aplica la señal proveniente del DUT a la entrada de RF, y la del ADF4351 que actúa de OL a la entrada correspondiente. 
 
@@ -89,7 +89,7 @@ En la figura \ref{fig:esqacopdir} se presentan las curvas de respuesta en frecue
 \end{figure}
 
 \subsection{Amplificadores diferenciales}
-Al tener salidas diferenciales y de muy poca amplitud, se debe agregar una etapa de acondicionamiento que permita obtener una señal desbalanceada y apta para ser procesada por la placa de sonido de la PC. Esta etapa utiliza amplificadores operacionales MCP6023 de Microchip Technology \cite{mcp602x_datasheet} de alimentación simple (rail-to-rail). Se configuran como restadores, permitiendo referir las señales a masa y proveer la ganancia necesaria para trabajar dentro del rango dinámico de la placa de sonido. Su esquemático se puede observar en \ref{sch:amplifi}. Aunque allí se usa una ganancia unitaria, en el ensamblado se midió la salida del mezclador y se calculó una ganancia de 8,33 veces para la señal incidente y 55,55 veces para la señal reflejada. De esta forma se aprovecha el rango dinámico de la entrada de la placa de sonido, cuya entrada satura alrededor de 2 Vpp según mediciones realizadas en el laboratorio. Las resistencias utilizadas fueron de 180 $\Omega$ para R53 y R55, y 1200 $\Omega$ para R46 y R48. 
+Al tener salidas diferenciales y de muy poca amplitud, se debe agregar una etapa de acondicionamiento que permita obtener una señal desbalanceada y apta para ser procesada por la placa de sonido de la PC. Esta etapa utiliza amplificadores operacionales MCP6023 de Microchip Technology \cite{mcp602x_datasheet} de alimentación simple (rail-to-rail). Se configuran como restadores, permitiendo referir las señales a masa y proveer la ganancia necesaria para trabajar dentro del rango dinámico de la placa de sonido. Su esquemático se puede observar en \ref{sch:amplifi}. Aunque allí se usa una ganancia unitaria, en el ensamblado se midió la salida del mezclador y se calculó una ganancia de 8,33 veces para la señal incidente y 55,55 veces para la señal reflejada. De esta forma se aprovecha mejor el rango dinámico de la entrada de la placa de sonido, cuya entrada satura alrededor de 2 Vpp según mediciones realizadas en el laboratorio. Las resistencias utilizadas fueron de 180 $\Omega$ para R53 y R55, y 1200 $\Omega$ para R46 y R48. 
 
 Se agregaron capacitores de bloqueo de continua, y una tensión de referencia de $V_{CC} / 2 $ obtenida mediante un divisor resistivo. De este modo, la señal alterna excursiona alrededor de ese punto de operación y puede ser amplificada sin recortes, sin necesidad de una fuente negativa.
 
@@ -125,7 +125,7 @@ En principio se planteó un modelo de 2 capas, que se puede observar en las figu
     \label{fig:euvnav1}
 \end{figure}
 
-Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 cm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables de arduino, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 cm\textsuperscript{2} y se lo puede observar en la figura \ref{fig:euvnav2}. Incorpora además algunas modificaciones en cuanto al ruteo de pines y posición de los transformadores de RF, debido a que no coinciden los pines descriptos en la hoja de datos con el integrado real.  
+Tiene FR4 como dieléctrico de 0,73 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 cm\textsuperscript{2}. Sin embargo, el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables de arduino, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 cm\textsuperscript{2} y se lo puede observar en la figura \ref{fig:euvnav2}. Incorpora además algunas modificaciones en cuanto al ruteo de pines y posición de los transformadores de RF, debido a que no coinciden los pines descriptos en la hoja de datos con el integrado real.  
 
 \begin{figure}[htbp]
     \centering
@@ -149,7 +149,8 @@ Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm
     \label{fig:euvnav2}
 \end{figure}
 
-Se pueden observar ambos modelos en 3D en la figura \ref{fig:euvna3d}. 
+Se pueden observar ambos modelos en 3D en la figura \ref{fig:euvna3d}. La versión 2 logró una placa más compacta, con capas adicionales que facilitan el ruteo, reducen las interferencias y mantienen la integridad de las señales, a cambio de una fabricación más compleja y por lo tanto más costosa, que reduce la cantidad de posibles proveedores porque deben ser especializados.
+
 \begin{figure}[htbp]
     \centering
     % Primera imagen (Página 1) ocupando el 48% del ancho del texto
@@ -185,13 +186,13 @@ El firmware se programó en lenguaje C++ en el entorno Arduino IDE. Se puede lee
 
  Al ser inicializado en la función de arranque (\textit{setup}), configura los pines de control, inicializa el bus SPI y transmite la cadena ``Listo'' para confirmar que el sistema está disponible.
 
-Al recibir una frecuencia $f$, el algoritmo configura el primer sintetizador (ADF1) exactamente en $f$ (canal de RF) y el segundo sintetizador (ADF2) en $f + 0.010\text{ MHz}$ (canal LO), introduciendo de forma automática el desplazamiento constante para la FI. Al finalizar la reconfiguración de ambos integrados, responde a la PC con la cadena ``OK''.
+Al recibir una frecuencia $f$, el algoritmo configura el primer sintetizador (ADF1) exactamente en $f$ (canal de RF) y el segundo sintetizador (ADF2) en $f + 0,010\text{ MHz}$ (canal LO), introduciendo de forma automática el desplazamiento constante para la FI. Al finalizar la reconfiguración de ambos integrados, responde a la PC con la cadena ``OK''.
 
 \subsection{Cálculo de registros}
 Para cada valor de frecuencia solicitado, la función ``calcularRegistros'' determina matemáticamente el contenido de los 6 registros de 32 bits (R0 a R5) de cada chip ADF4351 según las especificaciones del fabricante:
 
 \begin{itemize}
-    \item Divisor de Salida de RF (RF Divider):Selecciona el divisor adecuado (1, 2, 4, 8 o 16) según el rango de frecuencia de trabajo (desde menos de 275 MHz hasta más de 2200 MHz) para garantizar que el VCO interno funcione en su rango de 2.2 GHz a 4.4 GHz.
+    \item Divisor de Salida de RF (RF Divider): Selecciona el divisor adecuado (1, 2, 4, 8 o 16) según el rango de frecuencia de trabajo (desde menos de 275 MHz hasta más de 2200 MHz) para garantizar que el VCO interno funcione en su rango de 2.2 GHz a 4.4 GHz.
     \item Frecuencia del Detector de Fase ($f_{\text{PFD}}$): A partir del oscilador de referencia externo de 10 MHz, aplica la división previa por 2 (REF\_DIV2 = true) y el contador R (R\_COUNTER = 10), fijando una frecuencia de comparación en el PFD de 500 kHz ($f_{\text{PFD}} = 0.5\text{ MHz}$).
     \item Síntesis N-Fraccionaria: Divide la frecuencia del VCO por $f_{\text{PFD}}$ para calcular la parte entera (INT) y la parte fraccionaria (FRAC) considerando un módulo fijo MOD = 1000.
     \item Configuración de Registros Internos:
@@ -255,12 +256,13 @@ Consiste en un bucle \textit{for} que recorre el vector de frecuencias, seteando
 \end{wrapfigure}
 La función que realiza el cálculo del S11 tiene como parámetros de entrada los vectores de muestras, la frecuencia de muestreo y los coeficientes del filtro. Un diagrama de flujo simplificado se puede observar en la figura \ref{fig:diagflujoS11}. 
 
-Lo primero que hace es aplicar el filtro a cada canal usando la función ``lfilter'' de scipy.signal, BLABLABLA. Luego calcula la FFT con la función ``fft.fft()'' de NumPy. Utiliza una ventana que setea el usuario, que por default es la FlatTop, y que crea la función ``get\_window'' de scipy.signal.windows. Descarta la mitad negativa del espectro de frecuencias.
+Lo primero que hace es aplicar el filtro a cada canal usando la función ``lfilter'' de scipy.signal. Luego calcula la FFT con la función ``fft.fft()'' de NumPy. Utiliza una ventana que setea el usuario, que por default es la FlatTop, y que crea la función ``get\_window'' de scipy.signal.windows. Descarta la mitad negativa del espectro de frecuencias.
 
-Luego busca el índice del bin frecuencial de mayor amplitud (en el canal de referencia) con la función ``searchsorted'' de NumPy dentro de un rango frecuencial acotado alrededor de $f_{\text{FI}}$, en la banda de paso del filtro.
+Luego busca el índice del bin frecuencial de mayor amplitud (en el canal de referencia) con la función ``searchsorted'' de NumPy dentro de un rango frecuencial acotado alrededor de $f_{\text{FI}}$, en la banda de paso del filtro. La ecuación \ref{eqkpico} representa la búsqueda del índice, donde $X_{\text{ref}}[k]$ es el valor complejo del espectro en el bin discreto de frecuencia $k$, y $\arg\max$ el operador ``argumento del máximo'', que devuelve la posición o índice en el cual se alcanza la amplitud máxima.  
 
 \begin{equation}
     k_{\text{pico}} = \arg\max_{k \in \text{Banda}} \left| X_{\text{ref}}[k] \right|
+    \label{eqkpico}
 \end{equation}
 
 Después crea un número infinitesimal basado en el pico del espectro para sumárselo al denominador del cálculo del S11, por si el valor de magnitud en la referencia es cero. Por último, calcula S11 como el conjugado de la división de la medición y la reflejada, usando para cada uno el bin donde se encontró el máximo de magnitud.
@@ -286,13 +288,13 @@ La interfaz de usuario se programó con PyQt6, mediante un prompt de la intelige
 
 El prompt inicial fue: ``Quiero hacer una interfaz de usuario sencilla que me permita comunicarme con este script. que se pueda elegir frecuencias y paso, visualizar modulo y fase de S11 y abaco de smith, que permita hacer calibración. Qué plataforma/lenguaje recomendas, y cuanto tiempo tardaría en ponerla en funcionamiento?''. La IA recomendó Python + PyQt6/PySide6, con matplotlib embebido para los gráficos. Dio las razones (reutilizar funciones, permite actualizar el plot en vivo, aprovecha librerías de Python para graficar) y explicó otras alternativas y por qué las descartó. Preguntó si hacía un esqueleto de la app con ventana principal, campos de frecuencia, threading de barrido y gráficos, y se le dio el permiso. Creó dos archivos, un ``core'' que contiene la misma lógica de cálculo que el código original pero reorganizada en funciones independientes (comunicación serial con Arduino, captura de audio, procesamiento de señal, detección del tono de batido y cálculo de S11 y álgebra de calibración) y un ``GUI'' (Graphical User Interface) que contiene la parte visual: ventana, botones, campos y gráficos. Este llama a las funciones implementadas en el core.
 
-Se agregó la biblioteca PyQt6 para usar ventanas, botones, campos e hilos de ejecución. Se creó una clase (SweepWorker(QThread)) que se encarga de correr el barrido en segundo plano y avisar a la ventana qué se midió para que actualice los gráficos y la barra de progreso sin congelarse entre cada medición. 
+Se agregó la biblioteca PyQt6 para usar ventanas, botones, campos e hilos de ejecución. Se creó una clase (SweepWorker(QThread)) que se encarga de correr el barrido en segundo plano y avisar a la ventana qué se midió para que actualice los gráficos y la barra de progreso sin congelarse entre c ada medición. 
 
-La IA generó además el diagrama de flujo que se observa en la figura \ref{fig:d_flujo_interfaz}. Los códigos se encuentran en el capítulo ``Esquemáticos y código'' \ref{VNA_core}. 
+La IA generó además el diagrama de flujo que se observa en la figura \ref{fig:d_flujo_interfaz}. Los códigos se encuentran en el capítulo ``Esquemáticos y código'' (\ref{VNA_core}). 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{Imagenes/d_flujo_interfaz.png}
+    \includegraphics[width=0.7\linewidth]{Imagenes/d_flujo_interfaz.png}
     \caption{Diagrama de flujo de la interfaz de usuario}
     \label{fig:d_flujo_interfaz}
 \end{figure}

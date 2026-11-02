@@ -36,14 +36,14 @@ from scipy.signal.windows import get_window
 PUERTO = "COM3"          # Windows: "COM3", "COM5", etc. Linux/Mac: "/dev/ttyACM0"
 BAUDRATE = 115200
 
-F_INICIO_MHZ = 1914.000
-F_FIN_MHZ = 1920.000
-F_PASO_MHZ = 0.500
+F_INICIO_MHZ = 1800.000
+F_FIN_MHZ = 2200.000
+F_PASO_MHZ = 1.000
 FRECUENCIAS_EXCLUIDAS_MHZ = [] #400.00,  550.0, 560.0, 800.0, 1700.0, 1100.0, 1600.0, 1240.0, 720.0, 1540.0, 1570.0, 550.0, 850.0
 # ==================== Configuración: adquisición de audio ====================
 
 FS_AUDIO = 44100
-DURACION_CAPTURA_S = 1.0  # 1 seg
+DURACION_CAPTURA_S = 1.000  # 1 seg
 
 # Índice del dispositivo de audio a usar (line-in). None = dispositivo de
 # entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
@@ -65,8 +65,8 @@ BANDA_BUSQUEDA_PICO = (F_CENTRO_FILTRO - ANCHO_BANDA_FILTRO / 2,
 
 # ==================== Salida ====================
 
-ARCHIVO_CSV = "S11_sincalibracion_nueva_8oct.csv"
-ARCHIVO_FIGURA = "S11_sincalibracion_nueva_8oct.pkl"
+ARCHIVO_CSV = "S11_sincalibracion_corto_3_2nov.csv"
+ARCHIVO_FIGURA = "S11_sincalibracion_corto_3_2nov.pkl"
 
 # ==================== Arduino / serial ====================
 
@@ -114,7 +114,7 @@ def capturar_audio(duracion_s, fs, dispositivo=None):
                         dtype="float64", device=dispositivo)
     sd.wait()
 
-    grabacion=grabacion_con_ruido[int(fs * 0.25):] # recorto el primer milisegundo # 250 milis
+    grabacion=grabacion_con_ruido[int(fs * 0.3):] # recorto el primer milisegundo # 250 milis
     canal_ref = grabacion[:, 0]
     canal_med = grabacion[:, 1]
 
@@ -233,12 +233,12 @@ def guardar_csv(path, freq_rf, modulo_db, fase_deg):
 def graficar_resultado(freq_rf, modulo_db, fase_deg):
     fig, axs = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 
-    axs[0].plot(freq_rf, modulo_db, color="deeppink", linewidth=1, marker=".")
+    axs[0].plot(freq_rf, modulo_db, color="deeppink", marker=".", linestyle = "None")
     axs[0].set_title("S11 - Módulo")
     axs[0].set_ylabel("|S11| (dB)")
     axs[0].grid(True, alpha=0.3)
 
-    axs[1].plot(freq_rf, fase_deg, color="darkmagenta", linewidth=1, marker=".")
+    axs[1].plot(freq_rf, fase_deg, color="darkmagenta", marker=".", linestyle = "None")
     axs[1].set_title("S11 - Fase")
     axs[1].set_xlabel("Frecuencia de RF (MHz)")
     axs[1].set_ylabel("Fase (grados)")
