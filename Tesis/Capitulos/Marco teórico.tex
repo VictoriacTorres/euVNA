@@ -15,10 +15,10 @@ Los parámetros de dispersión, también llamados S por su nombre en inglés (\t
  \end{figure}
 
 Según las ondas incidentes $a_{1}$ y $a_{2}$ y las reflejadas $b_{1}$ y $b_{2}$, los parámetros S se definen como:
-\\
 
+\vspace{\baselineskip}   % una línea vacía exacta
 $S_{11} = \left. \frac{b_1}{a_1} \right|_{a_2=0}$; $S_{12} = \left. \frac{b_1}{a_2} \right|_{a_1=0}$; $S_{21} = \left. \frac{b_2}{a_1} \right|_{a_2=0}$; $S_{22} = \left. \frac{b_2}{a_2} \right|_{a_1=0}$
-\\
+\vspace{\baselineskip}   % una línea vacía exacta
 
 Para lograr que las $a$ sean iguales a 0, el puerto al que pertenecen debe estar adaptado, garantizando que no haya ninguna señal incidente. 
 
@@ -36,11 +36,12 @@ Expresado en dB, se expresa:
 
 \subsection{Calibración S11}
 \subsubsection{Errores}
+\label{sec:errores}
 Los errores que pueden aparecer en una medición se pueden dividir en dos grandes clases: los errores sistemáticos y los aleatorios. Los primeros se pueden corregir, mientras que los segundos se encuentran en toda medición y están fuera del control del usuario.
 
-En el caso de dispositivos electrónicos algunos errores sitemáticos son los producidos por variaciones en la potencia de salida de los generadores, pérdidas de inserción en materiales conductores y conectores, desfasajes ocasionados por diferencias en longitudes eléctricos o retardos en los circuitos integrados, reflexiones generadas por desadaptación de impedancias y deriva térmica. Algunos errores aleatorios pueden ser ruido térmico, de cuantización e interferencia electromagnética.
+En el caso de dispositivos electrónicos algunos errores sistemáticos son los producidos por variaciones en la potencia de salida de los generadores, pérdidas de inserción en materiales conductores y conectores, desfasajes ocasionados por diferencias en longitudes eléctricas o retardos en los circuitos integrados, reflexiones generadas por desadaptación de impedancias y deriva térmica. Algunos errores aleatorios pueden ser ruido térmico, de cuantización e interferencia electromagnética.
 
-La calibración en un VNA permite corregir los errores sistemáticos, excluyendo: comportamientos alineales; repetitividad en conectores; errores en las cargas de calibración; y deriva térmica. Este último se puede corregir solo si la calibración se realiza inmediatamente antes de la medición.
+La calibración en un VNA permite corregir los errores sistemáticos, excluyendo: comportamientos alineales; repetibilidad en conectores; errores en las cargas de calibración; y deriva térmica. Este último se puede corregir solo si la calibración se realiza inmediatamente antes de la medición.
 
 \subsubsection{Método SOL}
 En VNAs de un puerto se pueden simplificar los errores a un modelo de tres términos que describen la directividad, adaptación del puerto y errores de seguimiento (variaciones de amplitud y fase en función de la frecuencia)\cite{Rytting}. Usando tres cargas distintas de valores conocidos, se puede formar un sistema de tres ecuaciones con tres incógnitas y resolver para obtener los términos del error:
@@ -80,7 +81,7 @@ Luego el $\Gamma$ real se calcula como:
 
  
 \section{Acoplador Direccional}
-En la mayoría de diseños en electrónica, el acoplamiento electromagnético entre líneas de transmisión se considera indeseable porque interfiere con la señal que se busca transmitir. Una excepción es el caso de acopladores, donde el acoplamiento es un parámetro de diseño que permite medir la señal de una línea con un alto aislamiento, es decir, sin interrumpir su paso. Además se pueden diseñar un par de lineas acopladas que verifiquen que en uno de sus puertos la señal incidente se anula, generando un punto que permite medir la onda reflejada. 
+En la mayoría de diseños en electrónica, el acoplamiento electromagnético entre líneas de transmisión se considera indeseable porque interfiere con la señal que se busca transmitir. Una excepción es el caso de acopladores, donde el acoplamiento es un parámetro de diseño que permite medir la señal de una línea con un alto aislamiento, es decir, sin interrumpir su paso. Además se pueden diseñar un par de líneas acopladas que verifiquen que en uno de sus puertos la señal incidente se anula, generando un punto que permite medir la onda reflejada. 
 
 Las principales propiedades que caracterizan un acoplador son la directividad, el aislamiento, el acoplamiento y la pérdida de inserción \cite{acopladores_minicircuits}. La directividad mide la capacidad de separar las ondas que se propagan en distintas direcciones. El aislamiento, la potencia que llega al puerto desacoplado. El acoplamiento indica la proporción de potencia que se entrega al puerto acoplado. La pérdida de inserción muestra cuánta potencia (que se debería transmitir) se pierde por ser entregada a los puertos acoplados y aislados, y las pérdidas en los materiales (dieléctrico y resistividad de las pistas). 
 
@@ -129,7 +130,7 @@ Para una aplicación de reflectometría, la magnitud de la impedancia de entrada
 
 
 \section{Buenas prácticas de diseño en RF}
-Al momento de rutear un PBC (\textit{Printed Circuit Board} - Placa de Circuito Impreso) se deben tener en consideración algunas buenas prácticas que ayudan a mantener la integridad de las señales, la impedancia de las líneas y evitar la interferencia electromagnética, sobre todo cuando se trabaja en RF. 
+Al momento de rutear un PCB (\textit{Printed Circuit Board} - Placa de Circuito Impreso) se deben tener en consideración algunas buenas prácticas que ayudan a mantener la integridad de las señales, la impedancia de las líneas y evitar la interferencia electromagnética, sobre todo cuando se trabaja en RF. 
 
 Se debe garantizar que las pistas cumplan con la impedancia requerida de 50$\Omega$. Esto implica calcular el ancho de la línea usando las ecuaciones de diseño según el tipo de línea y las características de los materiales a utilizar (generalmente brindadas por el fabricante de PCB). Se pueden encontrar calculadoras online o integradas en los software de diseño con este fin. Se deben evitar ángulos rectos, que causan discontinuidades y aumentan la capacitancia parásita. 
 
@@ -172,7 +173,7 @@ Mediante un filtrado se puede aislar la componente diferencia, logrando así tra
 v_{\text{IF}}(t) = \frac{k A_{\text{RF}}A_{LO}}{2} \cos\left(2\pi f_{\text{IF}} t\right)
 \end{equation}
 
-Utilizando un mezclador doble se pueden heterodinar dos señales con un solo oscilador local, como muestra la figura \ref{fig:mixer} . De esta forma obtenienen las señales incidente y reflejada, conservando su amplitud y fase, en una frecuencia de audio que facilite su adquisición y procesamiento.
+Utilizando un mezclador doble se pueden heterodinar dos señales con un solo oscilador local, como muestra la figura \ref{fig:mixer} . De esta forma obtienen las señales incidente y reflejada, conservando su amplitud y fase, en una frecuencia de audio que facilite su adquisición y procesamiento.
 
 \begin{figure}
     \centering
@@ -203,7 +204,7 @@ Un filtro IIR se caracteriza por una respuesta al impulso de duración infinita,
 \begin{equation}
     y[n] = \sum_{k=0}^{M} b_k \, x[n-k] + \sum_{k=1}^{N} a_k \, y[n-k]
 \end{equation}
-La presencia de los coeficientes $a_k$ introduce polos en el plano z fuera del origen. Si bien permiten lograr bandas de transición abruptas con órdenes bajos, presentan dos desventajas fundamentales: no garantizan fase lineal en toda la banda de paso y pueden ser inestables si sus polos migran fuera del circulo unitario debido a cuantización de precisión finita.
+La presencia de los coeficientes $a_k$ introduce polos en el plano z fuera del origen. Si bien permiten lograr bandas de transición abruptas con órdenes bajos, presentan dos desventajas fundamentales: no garantizan fase lineal en toda la banda de paso y pueden ser inestables si sus polos migran fuera del círculo unitario debido a cuantización de precisión finita.
 
 Por otro lado, un filtro FIR presenta una respuesta al impulso de duración finita $N_{\text{taps}}$ (comúnmente denominada número de coeficientes o \textit{taps}), siendo $h[n] = 0$ para $n < 0$ y $n \ge N_{\text{taps}}$. Su ecuación en diferencias es puramente no recursiva:
 \begin{equation}
@@ -223,7 +224,7 @@ Un retardo de grupo constante asegura que el filtro no introduce distorsión de 
 
 \subsubsection{Diseño de filtros FIR mediante el método del enventanado}
 
-Las forma más simple de diseño de filtros FIR es el llamado método del enventanado (\textit{window design method}) \cite{TDSoppenheim}. Este método consiste en truncar y desplazar la respuesta al impulso ideal de duración infinita, $h_d[n]$ (correspondiente a un filtro pasabanda ideal centrado en $f_{\text{FI}}$), multiplicándola punto a punto por una función ventana finita $w[n]$ de longitud $N_{\text{taps}}$:
+La forma más simple de diseño de filtros FIR es el llamado método del enventanado (\textit{window design method}) \cite{TDSoppenheim}. Este método consiste en truncar y desplazar la respuesta al impulso ideal de duración infinita, $h_d[n]$ (correspondiente a un filtro pasabanda ideal centrado en $f_{\text{FI}}$), multiplicándola punto a punto por una función ventana finita $w[n]$ de longitud $N_{\text{taps}}$:
 \begin{equation}
     h[n] = h_d[n] \cdot w[n], \quad 0 \le n \le N_{\text{taps}}-1
 \end{equation}

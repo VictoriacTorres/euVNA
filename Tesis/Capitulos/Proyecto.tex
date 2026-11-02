@@ -33,7 +33,7 @@ Algunas consideraciones que se tuvieron en cuenta al momento de diseñar y rutea
 \begin{itemize}
     \item Tensión de alimentación (Vcc) de 3,3 V, ya que soporta de 3 a 3,6 V. Esta tensión debe ir a pines que se encuentran distribuidos en todos los lados del integrado, por lo que al estar ingresando con señales de RF se debe tener especial cuidado en el ruteo para mantener la integridad de las señales.
     \item El pad central expuesto del IC debe ser soldado a un pad GND (tierra) de al menos su mismo tamaño por razones térmicas, por indicación del datasheet \cite{datasheet_ADF4351}. Además, se sugiere colocar vías para mejorar el comportamiento térmico.
-    \item La salida de RF es de colector abierto, por lo que para funcionar necesitan una etapa de pull-up: la forma más sencilla (y de banda ancha) de hacerlo es con una resistencia de 50 $\Omega$ a $V_{VCO}$. De esta forma la salida del circuito es una potencia que equivale al valor registrado en el registro 4 (R4) (ver sección firmware \ref{sec:Firmware}). Por la misma razón, por usarse en modo desbalanceado, la salida de la rama que se deja sin usar debe terminarse en una resistencia de 50 $\Omega$. En este caso, se coloca una línea de transmisión hacia un conector SMA para mediciones auxiliares que en caso de no utilizarse, debe adaptarse.
+    \item La salida de RF es de colector abierto, por lo que para funcionar necesita una etapa de pull-up: la forma más sencilla (y de banda ancha) de hacerlo es con una resistencia de 50 $\Omega$ a $V_{VCO}$. De esta forma la salida del circuito es una potencia que equivale al valor registrado en el registro 4 (R4) (ver sección firmware \ref{sec:Firmware}). Por la misma razón, por usarse en modo desbalanceado, la salida de la rama que se deja sin usar debe terminarse en una resistencia de 50 $\Omega$. En este caso, se coloca una línea de transmisión hacia un conector SMA para mediciones auxiliares que en caso de no utilizarse, debe adaptarse.
     \item Es importante que la señal  $V_{TUNE}$, una continua que es la entrada de control del VCO, esté libre de ruido, ya que determina la frecuencia de salida y es vital para el correcto enganche.
     \item La hoja de datos recomienda poner capacitores de desacople lo más cerca posible de los pines $V_{P}$, $AV_{DD}$, $V_{VCO}$, $TEMP$, $V_{COM}$, $V_{REF}$, $DV_{DD}$, y $SDV_{DD}$.
     \item Los pines que se utilizan para programar el integrado son una entrada de alta impedancia CMOS, con un límite máximo de 3,6 V. Para protegerlas por incompatibilidad de niveles lógicos, se utilizan atenuadores en cada una de las entradas (CLK, CE, LE, DATA)\ref{sch:atenuadores}.
@@ -60,7 +60,7 @@ La respuesta en frecuencia de todo el sistema (ADF4351 con el filtro diseñado),
 \end{figure}
 
 \subsection{Oscilador}
-La referencia para los generadores de RF se compone de un oscilador a cristal ECS-2200BX-100 \cite{ecs2200x_datasheet} que proporciona una salida cuadrada y un buffer con salida open drain 74LVC2G07W6-7 \cite{datasheet_74lvc2g07}. Este permite no solo aumentar el fan-out (dividiendo la señal en dos caminos sin degradarla) sino realizar un reacondicionamiento. De esta manera se reduce el crosstalk (aislando las entradas de los generadores entre sí) y el ringing (oscilaciones de reflexión), garantizando flancos más limpios y rápidos. Se colocan dos resistencias de 47 $\Omega$ para absorber las ondas reflejadas existan en la línea debido a que la entrada de referencia de los ADF es de alta impedancia y limitar la corriente de conmutación (ayudando a reducir el ruido de alta frecuencia). \ref{sch:alimentacion}
+La referencia para los generadores de RF se compone de un oscilador a cristal ECS-2200BX-100 \cite{ecs2200x_datasheet} que proporciona una salida cuadrada y un buffer con salida open drain 74LVC2G07W6-7 \cite{datasheet_74lvc2g07}. Este permite no solo aumentar el fan-out (dividiendo la señal en dos caminos sin degradarla) sino realizar un reacondicionamiento. De esta manera se reduce el crosstalk (aislando las entradas de los generadores entre sí) y el ringing (oscilaciones de reflexión), garantizando flancos más limpios y rápidos. Se colocan dos resistencias de 47 $\Omega$ para absorber las ondas reflejadas que existan en la línea debido a que la entrada de referencia de los ADF es de alta impedancia y limitar la corriente de conmutación (ayudando a reducir el ruido de alta frecuencia). \ref{sch:alimentacion}
 
 \subsection{Mezclador}
  
@@ -125,7 +125,7 @@ En principio se planteó un modelo de 2 capas, que se puede observar en las figu
     \label{fig:euvnav1}
 \end{figure}
 
-Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 mm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables de arduino, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 mm\textsuperscript{2} y se lo puede observar en la figura \ref{fig:euvnav2}. Incorpora además algunas modificaciones en cuanto al ruteo de pines y posición de los transformadores de RF, debido a que no coinciden los pines descriptos en la hoja de datos con el integrado real.  
+Tiene FR4 como dieléctrico de 0,8 mm de espesor, con un espesor total de 0,9 mm, y un tamaño de 10 x 9,5 cm\textsuperscript{2}. Pero el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables de arduino, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 cm\textsuperscript{2} y se lo puede observar en la figura \ref{fig:euvnav2}. Incorpora además algunas modificaciones en cuanto al ruteo de pines y posición de los transformadores de RF, debido a que no coinciden los pines descriptos en la hoja de datos con el integrado real.  
 
 \begin{figure}[htbp]
     \centering
@@ -171,25 +171,17 @@ Se pueden observar ambos modelos en 3D en la figura \ref{fig:euvna3d}.
     \caption{$\epsilon-\mu VNA$ modelos 3D}
     \label{fig:euvna3d}
 \end{figure}
-
-Por último, la placa ensamblada que se utilizó para realizar las pruebas es la de la fgura \ref{fig:fotoplaca}.
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{Imagenes/fotoplaca.jpeg}
-    \caption{Ensamble placa final, $\epsilon-\mu VNA v2$}
-    \label{fig:fotoplaca}
-\end{figure}
+\clearpage
 
 \section{Firmware}
 \label{sec:Firmware}
-
-\begin{wrapfigure}[20]{R}{0.45\textwidth}   % r = derecha, l = izquierda
+\begin{wrapfigure}[20]{R}{0.45\textwidth}
   \centering
-  \includegraphics[width=0.4\textwidth,height=0.5\textheight,keepaspectratio]{Imagenes/diagflujoFW.jpg}
+  \includegraphics[width=0.44\textwidth,height=0.32\textheight,keepaspectratio]{Imagenes/diagflujoFW.jpg}
   \caption{Diagrama de flujo general del firmware.}
   \label{fig:diagflujoFW}
 \end{wrapfigure}
-El firmware se programó en lenguaje C++ en el entorno Arduino IDE. Se puede leer en la sección ``códigos'' (\ref{codigoFW}). Está desarrollado para un microcontrolador Arduino UNO y se encarga del control, configuración dinámica y sincronización de los sintetizadores ADF4351. Un diagrama de flujos se puede ver en la figura \ref{fig:diagflujoFW}.
+El firmware se programó en lenguaje C++ en el entorno Arduino IDE. Se puede leer en la sección ``códigos'' (\ref{codigoFW}). Está desarrollado para un microcontrolador Arduino UNO y se encarga del control, configuración dinámica y sincronización de los sintetizadores ADF4351. Un diagrama de flujo se puede ver en la figura \ref{fig:diagflujoFW}.
 
  Al ser inicializado en la función de arranque (\textit{setup}), configura los pines de control, inicializa el bus SPI y transmite la cadena ``Listo'' para confirmar que el sistema está disponible.
 
@@ -201,7 +193,7 @@ Para cada valor de frecuencia solicitado, la función ``calcularRegistros'' dete
 \begin{itemize}
     \item Divisor de Salida de RF (RF Divider):Selecciona el divisor adecuado (1, 2, 4, 8 o 16) según el rango de frecuencia de trabajo (desde menos de 275 MHz hasta más de 2200 MHz) para garantizar que el VCO interno funcione en su rango de 2.2 GHz a 4.4 GHz.
     \item Frecuencia del Detector de Fase ($f_{\text{PFD}}$): A partir del oscilador de referencia externo de 10 MHz, aplica la división previa por 2 (REF\_DIV2 = true) y el contador R (R\_COUNTER = 10), fijando una frecuencia de comparación en el PFD de 500 kHz ($f_{\text{PFD}} = 0.5\text{ MHz}$).
-    \item Síntesis N-Fraccionario: Divide la frecuencia del VCO por $f_{\text{PFD}}$ para calcular la parte entera (INT) y la parte fraccionaria (FRAC) considerando un módulo fijo MOD = 1000.
+    \item Síntesis N-Fraccionaria: Divide la frecuencia del VCO por $f_{\text{PFD}}$ para calcular la parte entera (INT) y la parte fraccionaria (FRAC) considerando un módulo fijo MOD = 1000.
     \item Configuración de Registros Internos:
     \begin{itemize}
         \item R0: Almacena los bits correspondientes a `INT` y `FRAC`.
@@ -220,7 +212,7 @@ Para mejorar la coherencia y estabilidad de fase en el canal del Oscilador Local
 
 \section{Software}
 
-\begin{wrapfigure}[26]{R}{0.45\textwidth}   % r = derecha, l = izquierda
+\begin{wrapfigure}[23]{R}{0.45\textwidth}   % r = derecha, l = izquierda
   \centering
   \includegraphics[width=0.4\textwidth,height=0.8\textheight,keepaspectratio]{Imagenes/diagflujo_SW.png}
   \caption{Diagrama de flujo general del software.}
@@ -238,11 +230,11 @@ Como se explica en la sección 4 de la Especificación Técnica \ref{apend:ET} e
 
 Las configuraciones iniciales son: Puerto COM, baudrate, frecuencias de inicio, fin y paso, offset (es decir, frecuencia de audio a utilizar), frecuencia de muestreo para la adquisición, duración de la captura y su descarte inicial debido al transitorio, los nombres de los archivos de salida, la frecuencia central del filtro FIR (que debe coincidir con la frecuencia de audio), su ancho de banda, numtaps y ventana a utilizar.
 
-La función principal (\textit{main}) genera el vector de frecuencias a partir de las frecuencias de inicio, fin y paso. Luego diseña el filtro pasabanda. Chequea en el directorio si hay algún archivo de calibración cuyo nombre, que está predefinido con las configuraciones de frecuencia coincida con las ingresadas por el usuario. En caso afirmativo, pregunta si se desea utilizar o se prefiere realizar una nueva calibración. Dependiendo de la respuesta del usuario por terminal, entra al bucle de calibración o carga los parámetros desde el archivo. Procede a realizar la conexión con el Arduino. Si se debe calibrar, realiza tres barridos para obtener los valores de $\Gamma_{MED}$ y completar la matriz de calibración. Estos barridos corresponden a cortocircuito, circuito abierto y carga, en ese orden. Una vez que se hacen los barridos calcula los errores y se guardan en el archivo CSV (archivo de texto plano donde los valroes están separados por comas). Realiza el barrido del DUT y cierra el puerto serie. Aplica la corrección, calcula la fase en grados y el módulo en dB y se guardan en vectores separados. Crea un archivo CSV con estos datos y muestra los resultados en gráficos de módulo y fase en función de la frecuencia. 
+La función principal (\textit{main}) genera el vector de frecuencias a partir de las frecuencias de inicio, fin y paso. Luego diseña el filtro pasabanda. Chequea en el directorio si hay algún archivo de calibración cuyo nombre, que está predefinido con las configuraciones de frecuencia coincida con las ingresadas por el usuario. En caso afirmativo, pregunta si se desea utilizar o se prefiere realizar una nueva calibración. Dependiendo de la respuesta del usuario por terminal, entra al bucle de calibración o carga los parámetros desde el archivo. Procede a realizar la conexión con el Arduino. Si se debe calibrar, realiza tres barridos para obtener los valores de $\Gamma_{MED}$ y completar la matriz de calibración. Estos barridos corresponden a cortocircuito, circuito abierto y carga, en ese orden. Una vez que se hacen los barridos calcula los errores y se guardan en el archivo CSV (archivo de texto plano donde los valores están separados por comas). Realiza el barrido del DUT y cierra el puerto serie. Aplica la corrección, calcula la fase en grados y el módulo en dB y se guardan en vectores separados. Crea un archivo CSV con estos datos y muestra los resultados en gráficos de módulo y fase en función de la frecuencia. 
 
 \subsection{Flujo de barrido}
 \mbox{}\par\vspace{-\baselineskip}
-\begin{wrapfigure}[22]{r}{0.38\textwidth}
+\begin{wrapfigure}[23]{r}{0.38\textwidth}
   \centering
   \includegraphics[width=0.36\textwidth,height=0.45\textheight,keepaspectratio]{Imagenes/diagflujo_SW_barrido.png}
   \caption{Diagrama de flujo de la función barrido.}
@@ -252,10 +244,10 @@ La función ``barrido'' se encarga de enviar los datos de la frecuencia a genera
 
 Los parámetros que recibe son: el objeto de conexión serial con el Arduino (que da acceso al buffer de transmisión y recepción); el vector de frecuencias a medir, los coeficientes del filtro FIR, un nombre para la medición (para identificar si es un barrido de calibración o de medición), y los errores de calibración si fuese necesario. Devuelve un vector de S11 complejos (formato binario).
 
-Consiste de un bucle \textit{for} que recorre el vector de frecuencias, seteando cada una en el Arduino con la función ``write'' de la librería ``serial'' para luego leer su respuesta con ``readline''. Si esta comienza en ``error'' aborta el barrido. De otra forma, captura el audio usando la librería ``sounddevice''. Para eso calcula el número de muestras a adquirir como la multiplicación de la frecuencia de muestreo y la duración de la captura. Graba los dos canales, de tipo ``float64'' con la función ``rec''. Descarta la primera parte de la grabación para evitar incluir en el cálculo los transitorios, y guarda dos vectores: ``canal\_ref'' y ``canal\_med''. Por último, mide S11 y la frecuencia en la que se encontró el batido. Para ir mostrando los valores calibrados por terminal a medida que se hace el barrido, realiza la calibración por cada punto, calcula el S11 en módulo y fase y las imprime. 
+Consiste en un bucle \textit{for} que recorre el vector de frecuencias, seteando cada una en el Arduino con la función ``write'' de la librería ``serial'' para luego leer su respuesta con ``readline''. Si esta comienza en ``error'' aborta el barrido. De otra forma, captura el audio usando la librería ``sounddevice''. Para eso calcula el número de muestras a adquirir como la multiplicación de la frecuencia de muestreo y la duración de la captura. Graba los dos canales, de tipo ``float64'' con la función ``rec''. Descarta la primera parte de la grabación para evitar incluir en el cálculo los transitorios, y guarda dos vectores: ``canal\_ref'' y ``canal\_med''. Por último, mide S11 y la frecuencia en la que se encontró el batido. Para ir mostrando los valores calibrados por terminal a medida que se hace el barrido, realiza la calibración por cada punto, calcula el S11 en módulo y fase y las imprime. 
 
 \subsection{Estimación del S11}
-\begin{wrapfigure}[25]{R}{0.35\textwidth}   % r = derecha, l = izquierda
+\begin{wrapfigure}[21]{R}{0.35\textwidth}   % r = derecha, l = izquierda
   \centering
   \includegraphics[width=0.3\textwidth,height=0.4\textheight,keepaspectratio]{Imagenes/diagflujo_SW_calculos11.png}
   \caption{Diagrama de flujo de la función que calcula S11.}
@@ -271,7 +263,7 @@ Luego busca el índice del bin frecuencial de mayor amplitud (en el canal de ref
     k_{\text{pico}} = \arg\max_{k \in \text{Banda}} \left| X_{\text{ref}}[k] \right|
 \end{equation}
 
-Después crea un número infinitesimal basado en el pico del espectro para sumarselo al denominador del cálculo del S11, por si el valor de magnitud en la referencia es cero. Por último, calcula S11 como el conjugado de la división de la medición y la reflejada, usando para cada uno el bin donde se encontró el máximo de magnitud.
+Después crea un número infinitesimal basado en el pico del espectro para sumárselo al denominador del cálculo del S11, por si el valor de magnitud en la referencia es cero. Por último, calcula S11 como el conjugado de la división de la medición y la reflejada, usando para cada uno el bin donde se encontró el máximo de magnitud.
 \begin{equation}
     S_{11,\text{raw}} = \frac{V_{\text{med}}[k_{\text{pico}}]}{V_{\text{ref}}[k_{\text{pico}}]}
 \end{equation}
@@ -292,7 +284,7 @@ Cuando se ejecuta el barrido, el software aplica la función de corrección inve
 \section{Interfaz de usuario}
 La interfaz de usuario se programó con PyQt6, mediante un prompt de la inteligencia artificial (IA) Claude, modelo Sonnet 5 Esfuerzo Medio. Se alimentó del software original, que tenía la lógica de medición funcionando, pero que corría secuencialmente y se comunicaba con el usuario a través de la consola. 
 
-El prompt inicial fue: ``Quiero hacer una interfaz de usuario sencilla que me permita comunicarme con este script. que se pueda elegir frecuencias y paso, visualizar modulo y fase de S11 y abaco de smith, que permita hacer calibración. Qué plataforma/lenguaje recomendas, y cuanto tiempo tardaría en ponerla en funcionamiento?''. La IA recomendó Python + PyQt6/PySide6, con matplotlib embebido para los gráficos. Dió las razones (reutilizar funciones, permite actualizar el plot en vivo, aprovecha librerías de Python para graficar) y explicó otras alternativas y por qué las descartó. Preguntó si hacía un esqueleto de la app con ventana principal, campos de frecuencia, threading de barrido y gráficos, y se le dió el permiso. Creó dos archivos, un ``core'' que contiene la misma lógica de cálculo que el código original pero reorganizada en funciones independientes (comunicación serial con Arduino, capura de audio, procesamiento de señal, detección del tono de batido y cálculo de S11 y álgebra de calibración) y un ``GUI'' (Graphical User Interface) que contiene la parte visual: ventana, botones, campos y gráficos. Este llama a las funciones implementadas en el core.
+El prompt inicial fue: ``Quiero hacer una interfaz de usuario sencilla que me permita comunicarme con este script. que se pueda elegir frecuencias y paso, visualizar modulo y fase de S11 y abaco de smith, que permita hacer calibración. Qué plataforma/lenguaje recomendas, y cuanto tiempo tardaría en ponerla en funcionamiento?''. La IA recomendó Python + PyQt6/PySide6, con matplotlib embebido para los gráficos. Dio las razones (reutilizar funciones, permite actualizar el plot en vivo, aprovecha librerías de Python para graficar) y explicó otras alternativas y por qué las descartó. Preguntó si hacía un esqueleto de la app con ventana principal, campos de frecuencia, threading de barrido y gráficos, y se le dio el permiso. Creó dos archivos, un ``core'' que contiene la misma lógica de cálculo que el código original pero reorganizada en funciones independientes (comunicación serial con Arduino, captura de audio, procesamiento de señal, detección del tono de batido y cálculo de S11 y álgebra de calibración) y un ``GUI'' (Graphical User Interface) que contiene la parte visual: ventana, botones, campos y gráficos. Este llama a las funciones implementadas en el core.
 
 Se agregó la biblioteca PyQt6 para usar ventanas, botones, campos e hilos de ejecución. Se creó una clase (SweepWorker(QThread)) que se encarga de correr el barrido en segundo plano y avisar a la ventana qué se midió para que actualice los gráficos y la barra de progreso sin congelarse entre cada medición. 
 

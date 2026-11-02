@@ -658,6 +658,173 @@
       \verb https://www.ti.com/lit/ds/slvs059v/slvs059v.pdf
       \endverb
     \endentry
+    \entry{pcbway}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=71d71d3dd67f1a6a9917134613f38635}{%
+           family={{PCBWay}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Shenzhen PCBWay Technology Co., Ltd.}%
+      }
+      \strng{namehash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{fullhash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{fullhashraw}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{bibnamehash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{authorbibnamehash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{authornamehash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{authorfullhash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{authorfullhashraw}{71d71d3dd67f1a6a9917134613f38635}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Printed Circuit Board Fabrication and Assembly Services}
+      \verb{urlraw}
+      \verb https://www.pcbway.com
+      \endverb
+      \verb{url}
+      \verb https://www.pcbway.com
+      \endverb
+    \endentry
+    \entry{optoelectronics_2810_manual}{manual}{}{}
+      \name{author}{1}{}{%
+        {{hash=5289511ee36ed236f4be25b1e87cd23d}{%
+           family={{Optoelectronics, Inc.}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Optoelectronics, Inc.}%
+      }
+      \strng{namehash}{5289511ee36ed236f4be25b1e87cd23d}
+      \strng{fullhash}{5289511ee36ed236f4be25b1e87cd23d}
+      \strng{fullhashraw}{5289511ee36ed236f4be25b1e87cd23d}
+      \strng{bibnamehash}{5289511ee36ed236f4be25b1e87cd23d}
+      \strng{authorbibnamehash}{5289511ee36ed236f4be25b1e87cd23d}
+      \strng{authornamehash}{5289511ee36ed236f4be25b1e87cd23d}
+      \strng{authorfullhash}{5289511ee36ed236f4be25b1e87cd23d}
+      \strng{authorfullhashraw}{5289511ee36ed236f4be25b1e87cd23d}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Frecuencímetro portátil de mano (10\,Hz--3\,GHz)}
+      \field{title}{Model 2810 Handi-Counter Frequency Counter Operation Manual}
+      \field{year}{1998}
+    \endentry
+    \entry{kenwood_pa36_3a}{manual}{}{}
+      \name{author}{1}{}{%
+        {{hash=fb6b17dad843bc2733669b758461f081}{%
+           family={{Kenwood Corporation}},
+           familyi={K\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Kenwood Corporation}%
+      }
+      \strng{namehash}{fb6b17dad843bc2733669b758461f081}
+      \strng{fullhash}{fb6b17dad843bc2733669b758461f081}
+      \strng{fullhashraw}{fb6b17dad843bc2733669b758461f081}
+      \strng{bibnamehash}{fb6b17dad843bc2733669b758461f081}
+      \strng{authorbibnamehash}{fb6b17dad843bc2733669b758461f081}
+      \strng{authornamehash}{fb6b17dad843bc2733669b758461f081}
+      \strng{authorfullhash}{fb6b17dad843bc2733669b758461f081}
+      \strng{authorfullhashraw}{fb6b17dad843bc2733669b758461f081}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Modelo PA36-3A (0--36\,V / 0--3\,A)}
+      \field{title}{PA Series Regulated DC Power Supply Instruction Manual}
+      \field{year}{1995}
+    \endentry
+    \entry{rigol_rsa3030n}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=daaaffd1ab8ee7f6da285c9b5eb662c6}{%
+           family={{RIGOL Technologies, Inc.}},
+           familyi={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{daaaffd1ab8ee7f6da285c9b5eb662c6}
+      \strng{fullhash}{daaaffd1ab8ee7f6da285c9b5eb662c6}
+      \strng{fullhashraw}{daaaffd1ab8ee7f6da285c9b5eb662c6}
+      \strng{bibnamehash}{daaaffd1ab8ee7f6da285c9b5eb662c6}
+      \strng{authorbibnamehash}{daaaffd1ab8ee7f6da285c9b5eb662c6}
+      \strng{authornamehash}{daaaffd1ab8ee7f6da285c9b5eb662c6}
+      \strng{authorfullhash}{daaaffd1ab8ee7f6da285c9b5eb662c6}
+      \strng{authorfullhashraw}{daaaffd1ab8ee7f6da285c9b5eb662c6}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{RSA3030N 3\,GHz Real-Time Spectrum Analyzer}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://www.rigolna.com/products/spectrum-analyzers/rsa3000/
+      \endverb
+      \verb{url}
+      \verb https://www.rigolna.com/products/spectrum-analyzers/rsa3000/
+      \endverb
+    \endentry
+    \entry{hp8496b_manual}{manual}{}{}
+      \name{author}{1}{}{%
+        {{hash=15f5515f16e696265f4b03de2cf08a7d}{%
+           family={{Hewlett-Packard Company}},
+           familyi={H\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Hewlett-Packard Company}%
+      }
+      \strng{namehash}{15f5515f16e696265f4b03de2cf08a7d}
+      \strng{fullhash}{15f5515f16e696265f4b03de2cf08a7d}
+      \strng{fullhashraw}{15f5515f16e696265f4b03de2cf08a7d}
+      \strng{bibnamehash}{15f5515f16e696265f4b03de2cf08a7d}
+      \strng{authorbibnamehash}{15f5515f16e696265f4b03de2cf08a7d}
+      \strng{authornamehash}{15f5515f16e696265f4b03de2cf08a7d}
+      \strng{authorfullhash}{15f5515f16e696265f4b03de2cf08a7d}
+      \strng{authorfullhashraw}{15f5515f16e696265f4b03de2cf08a7d}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Atenuador de paso manual 0--110\,dB, DC--18\,GHz}
+      \field{title}{HP 8496B Manual Step Attenuator Operating and Service Manual}
+      \field{year}{1998}
+      \verb{urlraw}
+      \verb https://www.keysight.com/us/en/assets/9018-01300/user-manuals/9018-01300.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.keysight.com/us/en/assets/9018-01300/user-manuals/9018-01300.pdf
+      \endverb
+    \endentry
+    \entry{audacity376}{software}{}{}
+      \name{author}{1}{}{%
+        {{hash=6eeddaff647b4d5744923fa08c6973af}{%
+           family={{Audacity Team}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Muse Group}%
+      }
+      \strng{namehash}{6eeddaff647b4d5744923fa08c6973af}
+      \strng{fullhash}{6eeddaff647b4d5744923fa08c6973af}
+      \strng{fullhashraw}{6eeddaff647b4d5744923fa08c6973af}
+      \strng{bibnamehash}{6eeddaff647b4d5744923fa08c6973af}
+      \strng{authorbibnamehash}{6eeddaff647b4d5744923fa08c6973af}
+      \strng{authornamehash}{6eeddaff647b4d5744923fa08c6973af}
+      \strng{authorfullhash}{6eeddaff647b4d5744923fa08c6973af}
+      \strng{authorfullhashraw}{6eeddaff647b4d5744923fa08c6973af}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Audacity}
+      \field{version}{3.7.6}
+      \verb{urlraw}
+      \verb https://www.audacityteam.org/
+      \endverb
+      \verb{url}
+      \verb https://www.audacityteam.org/
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

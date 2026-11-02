@@ -6,12 +6,27 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{fancyhdr}
+
+%Configuración general
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[R]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
 \usepackage{ragged2e}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
 \usepackage{tabularx} 
 \usepackage{url}
+\usepackage{caption}
 \usepackage{subcaption}
 \usepackage{amsmath,amssymb}
 \usepackage{indentfirst}
@@ -20,11 +35,16 @@
 \usepackage{comment}
 \setcounter{secnumdepth}{5}
 \setcounter{tocdepth}{5}
-\usepackage{subcaption}
+
 
 %Bibliografia
 \usepackage[style=numeric, backend=biber, sorting=none]{biblatex}
 \addbibresource{Bibliografia.bib}
+\usepackage{hyperref}
+\usepackage{xurl}   % después de hyperref
+\setcounter{biburlnumpenalty}{100}
+\setcounter{biburlucpenalty}{100}
+\setcounter{biburllcpenalty}{100}
 
 %Formato codigo
 \usepackage{minted}
@@ -33,11 +53,13 @@
 
 \numberwithin{equation}{section}
 \renewcommand{\contentsname}{Índice}
+% Portada
 \fancypagestyle{firstpage}{
-\fancyhf{}
-\lhead{{\includegraphics[width=5cm]{Imagenes/fi.jpg}}}
-\rhead{{\includegraphics[width=5cm]{Imagenes/UNMDP_BW.jpg}}}
-\renewcommand{\headrulewidth}{0pt} }
+    \fancyhf{}
+    \lhead{\includegraphics[width=5cm]{Imagenes/fi.jpg}}
+    \rhead{\includegraphics[width=5cm]{Imagenes/UNMDP_BW.jpg}}
+    \renewcommand{\headrulewidth}{0pt}
+}
 \captionsetup[figure]{name={Figura}}
 
 \newcommand{\Thesis}{Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
@@ -96,18 +118,18 @@
 \end{titlepage}
 \pagestyle{empty}
 \pagenumbering{arabic}
+\pagestyle{fancy}
 \renewcommand{\chaptername}{Capítulo}
 
 %=============== Agradecimientos ===============
 \addcontentsline{toc}{chapter}{Agradecimientos}
 {\Huge\bfseries Agradecimientos\par}
 \vspace{1.5cm}
-%\input{Capitulos/Agradecimientos}
-\clearpage
+\input{Capitulos/Agradecimientos}
+\pagebreak
 
 %======== Indice ==================
 \tableofcontents
-\thispagestyle{empty}
 \pagebreak
 
 %========Tabla de siglas================
@@ -126,6 +148,8 @@ UHF & Ultra High Frequency\\
 \hline
 CGM & Continous Glucose Monitoring \\
 \hline
+CONICET & Consejo Nacional de Investigaciones Científicas y Técnicas \\
+\hline
 LAC & Laboratorio de Comunicaciones\\
 \hline
 ICYTE & Instituto de Investigaciones Científicas y Tecnológicas en Electrónica \\
@@ -142,6 +166,14 @@ SOL & Short, Open, Load \\
 \hline
 PCB & Printed Circuit Board \\
 \hline
+SMD & Surface-Mount Device \\
+\hline
+USB & Universal Serial Bus \\
+\hline
+CPU & Central Processing Unit \\
+\hline
+CLK & Clock (señal de reloj) \\
+\hline
 OL & Oscilador Local \\
 \hline
 FIR & Finite Impulse Response\\
@@ -152,6 +184,8 @@ IC & Integrated Circuits\\
 \hline
 VCO & Voltage Controlled Oscillator\\
 \hline
+PFD & Phase Frequency Detector \\
+\hline
 SMA & SubMiniature version A\\
 \hline
 SPI & Serial Peripheral Interface\\
@@ -161,6 +195,10 @@ CSV & Comma-Separated Values\\
 IA & Inteligencia Artificial\\
 \hline
 GUI & Graphical User Interface\\
+\hline
+QFN & Quad Flat No-Lead \\
+\hline
+ADC & Analog-to-Digital Converter\\
 \hline
 
 \end{tabularx}
@@ -179,8 +217,7 @@ El principio de medición se basa en la existencia de una correlación entre la 
 La implementación se realiza en una placa de circuito impreso, con circuitos integrados especializados y aplicando técnicas de reflectometría, diseño en radiofrecuencia y manejo de emisiones electromagnéticas.
 
 Se obtienen señales analógicas en la banda de audio para su adquisición en la placa de sonido de una PC. Luego, el análisis de las señales es puramente digital. Se aplica un procesamiento basado en la Transformada Rápida de Fourier (FFT) para obtener el coeficiente de reflexión del sistema bajo prueba en función de la frecuencia.
-
-\thispagestyle{empty} 
+ 
 \pagebreak
 
 %=========== Introducción ===========
@@ -200,10 +237,12 @@ Se obtienen señales analógicas en la banda de audio para su adquisición en la
 
 %========= Evaluation =========
 \chapter{Resultados}
+\input{Capitulos/Resultados.tex}
 \pagebreak
 
 %========== Conclusiones y trabajos futuros ==========
 \chapter{Conclusiones y trabajos futuros}
+\input{Capitulos/Conclusiones.tex}
 \pagebreak
 
 

@@ -18,215 +18,116 @@
 
 
 \refsection{0}
-  \datalist[entry]{nty/global//global/global/global}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{Topsakal}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=0abcc272bdb5589d64ebf0092ffcf5c1}{%
+           family={Topsakal},
+           familyi={T\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=3ac222562f949ba318818844b64ed14c}{%
+           family={Karacolak},
+           familyi={K\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=eec4426d09b53039a1feb38e7dddefb9}{%
+           family={Moreland},
+           familyi={M\bibinitperiod},
+           given={E.\bibnamedelimi C.},
+           giveni={E\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \strng{namehash}{ce0ac304fff48fa18b036524dc580d48}
+      \strng{fullhash}{ce0ac304fff48fa18b036524dc580d48}
+      \strng{fullhashraw}{ce0ac304fff48fa18b036524dc580d48}
+      \strng{bibnamehash}{ce0ac304fff48fa18b036524dc580d48}
+      \strng{authorbibnamehash}{ce0ac304fff48fa18b036524dc580d48}
+      \strng{authornamehash}{ce0ac304fff48fa18b036524dc580d48}
+      \strng{authorfullhash}{ce0ac304fff48fa18b036524dc580d48}
+      \strng{authorfullhashraw}{ce0ac304fff48fa18b036524dc580d48}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the XXXth URSI General Assembly and Scientific Symposium}
+      \field{title}{Glucose-dependent dielectric properties of blood plasma.}
+      \field{year}{2011}
+      \verb{doi}
+      \verb 10.1109/URSIGASS.2011.6051324
+      \endverb
+    \endentry
+    \entry{OMS_2016}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=8179b1fdebe9235e54501d2878c47e1b}{%
+           family={Organization.},
+           familyi={O\bibinitperiod},
+           given={World\bibnamedelima Health},
+           giveni={W\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{fullhash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{fullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{bibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authorbibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authornamehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authorfullhash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authorfullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Sitio Web Oficial}
+      \field{title}{Global report on diabetes.}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://www.who.int/publications/i/item/9789241565257
+      \endverb
+      \verb{url}
+      \verb https://www.who.int/publications/i/item/9789241565257
+      \endverb
+    \endentry
+    \entry{OMS_2024}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=8179b1fdebe9235e54501d2878c47e1b}{%
+           family={Organization.},
+           familyi={O\bibinitperiod},
+           given={World\bibnamedelima Health},
+           giveni={W\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{fullhash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{fullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{bibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authorbibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authornamehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authorfullhash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authorfullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Sitio Web Oficial}
+      \field{month}{11}
+      \field{title}{Diabetes.}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://www.who.int/news-room/fact-sheets/detail/diabetes
+      \endverb
+      \verb{url}
+      \verb https://www.who.int/news-room/fact-sheets/detail/diabetes
+      \endverb
+    \endentry
     \entry{Freestylelibre}{misc}{}{}
-      \field{sortinit}{}
-      \field{sortinithash}{495dc9894017a8b12cafa9c619d10c0c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{howpublished}{Sitio Web Oficial}
       \verb{urlraw}
       \verb https://www.freestylelibre.com.ar/
       \endverb
       \verb{url}
       \verb https://www.freestylelibre.com.ar/
-      \endverb
-    \endentry
-    \entry{datasheet_74lvc2g07}{manual}{}{}
-      \list{organization}{1}{%
-        {Diodes Incorporated}%
-      }
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
-      \field{labeltitlesource}{title}
-      \field{note}{Datasheet}
-      \field{number}{DS35162}
-      \field{title}{{74LVC2G07}: Dual Buffers with Open Drain Outputs}
-      \verb{urlraw}
-      \verb https://www.diodes.com/assets/Datasheets/74LVC2G07.pdf
-      \endverb
-      \verb{url}
-      \verb https://www.diodes.com/assets/Datasheets/74LVC2G07.pdf
-      \endverb
-    \endentry
-    \entry{altium_caps_desacople}{online}{}{}
-      \name{author}{1}{}{%
-        {{hash=1ba7008bb3db3642bcf4e2feae38fb57}{%
-           family={{Altium}},
-           familyi={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{fullhash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{fullhashraw}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{bibnamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{authorbibnamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{authornamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{authorfullhash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{authorfullhashraw}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \field{extraname}{1}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{month}{12}
-      \field{title}{Consideraciones para el diseño de {PCB} de alta velocidad: Prácticas recomendadas para la colocación y el enrutamiento de condensadores de desacoplo}
-      \field{year}{2020}
-      \verb{urlraw}
-      \verb https://resources.altium.com/es/p/high-speed-pcb-design-considerations-bypass-capacitor-place-and-route-tips
-      \endverb
-      \verb{url}
-      \verb https://resources.altium.com/es/p/high-speed-pcb-design-considerations-bypass-capacitor-place-and-route-tips
-      \endverb
-    \endentry
-    \entry{altium_via_stitching}{online}{}{}
-      \name{author}{1}{}{%
-        {{hash=1ba7008bb3db3642bcf4e2feae38fb57}{%
-           family={{Altium}},
-           familyi={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{fullhash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{fullhashraw}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{bibnamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{authorbibnamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{authornamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{authorfullhash}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \strng{authorfullhashraw}{1ba7008bb3db3642bcf4e2feae38fb57}
-      \field{extraname}{2}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Via Stitching and Via Shielding in {PCB} Design}
-      \field{year}{s.~f.}
-      \verb{urlraw}
-      \verb https://www.altium.com/documentation/altium-designer/via-stitching-via-shielding-pcb
-      \endverb
-      \verb{url}
-      \verb https://www.altium.com/documentation/altium-designer/via-stitching-via-shielding-pcb
-      \endverb
-    \endentry
-    \entry{altium_designer}{software}{}{}
-      \name{author}{1}{}{%
-        {{hash=1da5dad821da4d39416530d9c285f8ef}{%
-           family={{Altium Limited}},
-           familyi={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{1da5dad821da4d39416530d9c285f8ef}
-      \strng{fullhash}{1da5dad821da4d39416530d9c285f8ef}
-      \strng{fullhashraw}{1da5dad821da4d39416530d9c285f8ef}
-      \strng{bibnamehash}{1da5dad821da4d39416530d9c285f8ef}
-      \strng{authorbibnamehash}{1da5dad821da4d39416530d9c285f8ef}
-      \strng{authornamehash}{1da5dad821da4d39416530d9c285f8ef}
-      \strng{authorfullhash}{1da5dad821da4d39416530d9c285f8ef}
-      \strng{authorfullhashraw}{1da5dad821da4d39416530d9c285f8ef}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{note}{Licencia educativa}
-      \field{title}{Altium Designer}
-      \field{version}{26.1.1}
-      \field{year}{2026}
-      \verb{urlraw}
-      \verb https://www.altium.com
-      \endverb
-      \verb{url}
-      \verb https://www.altium.com
-      \endverb
-    \endentry
-    \entry{software_ADIsimPLL}{software}{}{}
-      \name{author}{1}{}{%
-        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
-           family={{Analog Devices}},
-           familyi={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \field{extraname}{1}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{ADIsimPLL}
-      \field{type}{Herramienta de diseño}
-      \field{version}{5.9}
-      \verb{urlraw}
-      \verb https://www.analog.com/en/lp/resources/adisimpll.html
-      \endverb
-      \verb{url}
-      \verb https://www.analog.com/en/lp/resources/adisimpll.html
-      \endverb
-    \endentry
-    \entry{AnalogDevices_HMC601}{misc}{}{}
-      \name{author}{1}{}{%
-        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
-           family={{Analog Devices}},
-           familyi={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \field{extraname}{2}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.analog.com/en/products/hmc601.html}}
-      \field{title}{HMC601 75 dB logarithmic detector/controller}
-      \field{year}{n.d.}
-    \endentry
-    \entry{datasheet_ADF4351}{manual}{}{}
-      \name{author}{1}{}{%
-        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
-           family={{Analog Devices}},
-           familyi={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
-      \field{extraname}{3}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Sintetizador de RF ADF4351}
-      \field{type}{Datasheet}
-      \verb{urlraw}
-      \verb https://www.analog.com/media/en/technical-documentation/data-sheets/ADF4351.pdf
-      \endverb
-      \verb{url}
-      \verb https://www.analog.com/media/en/technical-documentation/data-sheets/ADF4351.pdf
-      \endverb
-    \endentry
-    \entry{ecs2200x_datasheet}{manual}{}{}
-      \list{organization}{1}{%
-        {ECS Inc. International}%
-      }
-      \field{sortinit}{E}
-      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
-      \field{labeltitlesource}{title}
-      \field{note}{Cristal oscilador 10MHz}
-      \field{title}{ECS-2200X Series SMD Clock Oscillator Datasheet}
-      \verb{urlraw}
-      \verb https://ecsxtal.com/store/pdf/ecs-2200x.pdf
-      \endverb
-      \verb{url}
-      \verb https://ecsxtal.com/store/pdf/ecs-2200x.pdf
       \endverb
     \endentry
     \entry{Tektronix}{misc}{}{}
@@ -245,8 +146,8 @@
       \strng{authornamehash}{64fa723ea4023a23c19efdc355c4c6f1}
       \strng{authorfullhash}{64fa723ea4023a23c19efdc355c4c6f1}
       \strng{authorfullhashraw}{64fa723ea4023a23c19efdc355c4c6f1}
-      \field{sortinit}{I}
-      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Vector Network Analysis: A Practical Introduction.}
@@ -256,6 +157,65 @@
       \endverb
       \verb{url}
       \verb https://download.tek.com/document/70W_60918_0_Tek_VNA_PR1.pdf?_gl=1*wh717q*_gcl_au*MjQyMjEyMTE5LjE3ODk0ODkzMjU.*_ga*NjkwMjAxNzcxLjE3ODk0ODkzMjU.*_ga_1HMYS1JH9M*czE3OTAxODY4MjkkbzIkZzAkdDE3OTAxODY4MzIkajU3JGwwJGgwJGRFXzVmVFRzOGMwbmFqaG8zXzY5VjdXYVRUVWRWTDAybkh3
+      \endverb
+    \endentry
+    \entry{Rytting}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=9d5285e0ae376df8f716c1017a7bb170}{%
+           family={Rytting},
+           familyi={R\bibinitperiod},
+           given={Hewlett\bibnamedelimb Packard\bibnamedelima Inc.},
+           giveni={H\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim I\bibinitperiod},
+           suffix={D.},
+           suffixi={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{9d5285e0ae376df8f716c1017a7bb170}
+      \strng{fullhash}{9d5285e0ae376df8f716c1017a7bb170}
+      \strng{fullhashraw}{9d5285e0ae376df8f716c1017a7bb170}
+      \strng{bibnamehash}{9d5285e0ae376df8f716c1017a7bb170}
+      \strng{authorbibnamehash}{9d5285e0ae376df8f716c1017a7bb170}
+      \strng{authornamehash}{9d5285e0ae376df8f716c1017a7bb170}
+      \strng{authorfullhash}{9d5285e0ae376df8f716c1017a7bb170}
+      \strng{authorfullhashraw}{9d5285e0ae376df8f716c1017a7bb170}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{HP}
+      \field{title}{Network analyzer error models and calibration methods}
+      \field{year}{1998}
+    \endentry
+    \entry{acopladores_minicircuits}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a23d40c2d3cd20d162852ea02414c90}{%
+           family={Sengal},
+           familyi={S\bibinitperiod},
+           given={Urvashi},
+           giveni={U\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Mini-Circuits}%
+      }
+      \strng{namehash}{7a23d40c2d3cd20d162852ea02414c90}
+      \strng{fullhash}{7a23d40c2d3cd20d162852ea02414c90}
+      \strng{fullhashraw}{7a23d40c2d3cd20d162852ea02414c90}
+      \strng{bibnamehash}{7a23d40c2d3cd20d162852ea02414c90}
+      \strng{authorbibnamehash}{7a23d40c2d3cd20d162852ea02414c90}
+      \strng{authornamehash}{7a23d40c2d3cd20d162852ea02414c90}
+      \strng{authorfullhash}{7a23d40c2d3cd20d162852ea02414c90}
+      \strng{authorfullhashraw}{7a23d40c2d3cd20d162852ea02414c90}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{10}
+      \field{title}{Directional Couplers: Their Operation and Application}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://blog.minicircuits.com/directional-couplers-their-operation-and-application/
+      \endverb
+      \verb{url}
+      \verb https://blog.minicircuits.com/directional-couplers-their-operation-and-application/
       \endverb
     \endentry
     \entry{keysight_778d}{online}{}{}
@@ -272,18 +232,123 @@
       \strng{authornamehash}{0a1dc9ba6382e13835002ad4d9099b4e}
       \strng{authorfullhash}{0a1dc9ba6382e13835002ad4d9099b4e}
       \strng{authorfullhashraw}{0a1dc9ba6382e13835002ad4d9099b4e}
-      \field{sortinit}{K}
-      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{778D Coaxial Dual-Directional Coupler, 100~{MHz} to 2~{GHz}}
-      \field{year}{s.~f.}
       \verb{urlraw}
       \verb https://www.keysight.com/us/en/product/778D/coaxial-dualdirectional-coupler-100-mhz-to-2-ghz.html
       \endverb
       \verb{url}
       \verb https://www.keysight.com/us/en/product/778D/coaxial-dualdirectional-coupler-100-mhz-to-2-ghz.html
       \endverb
+    \endentry
+    \entry{minicircuits_zabdc20}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=427174bb5af8de05a7ae7b95b8e37e2b}{%
+           family={{Mini-Circuits}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{fullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{fullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{bibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authorbibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authornamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authorfullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authorfullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{ZABDC20-322H-S+} Coaxial Directional Coupler}
+      \verb{urlraw}
+      \verb https://www.minicircuits.com/WebStore/dashboard.html?model=ZABDC20-322H-S%2B
+      \endverb
+      \verb{url}
+      \verb https://www.minicircuits.com/WebStore/dashboard.html?model=ZABDC20-322H-S%2B
+      \endverb
+    \endentry
+    \entry{altium_via_stitching}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=1ba7008bb3db3642bcf4e2feae38fb57}{%
+           family={{Altium}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{fullhash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{fullhashraw}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{bibnamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{authorbibnamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{authornamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{authorfullhash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{authorfullhashraw}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Via Stitching and Via Shielding in {PCB} Design}
+      \field{year}{s.~f.}
+      \verb{urlraw}
+      \verb https://www.altium.com/documentation/altium-designer/via-stitching-via-shielding-pcb
+      \endverb
+      \verb{url}
+      \verb https://www.altium.com/documentation/altium-designer/via-stitching-via-shielding-pcb
+      \endverb
+    \endentry
+    \entry{altium_caps_desacople}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=1ba7008bb3db3642bcf4e2feae38fb57}{%
+           family={{Altium}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{fullhash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{fullhashraw}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{bibnamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{authorbibnamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{authornamehash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{authorfullhash}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \strng{authorfullhashraw}{1ba7008bb3db3642bcf4e2feae38fb57}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{title}{Consideraciones para el diseño de {PCB} de alta velocidad: Prácticas recomendadas para la colocación y el enrutamiento de condensadores de desacoplo}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://resources.altium.com/es/p/high-speed-pcb-design-considerations-bypass-capacitor-place-and-route-tips
+      \endverb
+      \verb{url}
+      \verb https://resources.altium.com/es/p/high-speed-pcb-design-considerations-bypass-capacitor-place-and-route-tips
+      \endverb
+    \endentry
+    \entry{AnalogDevices_HMC601}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
+           family={{Analog Devices}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.analog.com/en/products/hmc601.html}}
+      \field{title}{HMC601 75 dB logarithmic detector/controller}
     \endentry
     \entry{TDSmanolakis}{book}{}{}
       \name{author}{2}{}{%
@@ -312,73 +377,13 @@
       \strng{authornamehash}{76c48cdd4d2aa56aa945e90040ef3014}
       \strng{authorfullhash}{76c48cdd4d2aa56aa945e90040ef3014}
       \strng{authorfullhashraw}{76c48cdd4d2aa56aa945e90040ef3014}
-      \field{sortinit}{M}
-      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{isbn}{978-0-521-11002-0}
       \field{title}{Applied Digital Signal Processing: Theory and Practice}
       \field{year}{2011}
-    \endentry
-    \entry{datasheet_tc1_1_13m}{manual}{}{}
-      \name{author}{1}{}{%
-        {{hash=427174bb5af8de05a7ae7b95b8e37e2b}{%
-           family={{Mini-Circuits}},
-           familyi={M\bibinitperiod}}}%
-      }
-      \list{organization}{1}{%
-        {Mini-Circuits}%
-      }
-      \strng{namehash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{fullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{fullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{bibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{authorbibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{authornamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{authorfullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{authorfullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \field{extraname}{1}
-      \field{sortinit}{M}
-      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{note}{Rev. G}
-      \field{title}{{TC1-1-13M+ Surface Mount RF Transformer, 50$\Omega$, 4.5 to 3000 MHz}}
-      \field{year}{2023}
-      \verb{urlraw}
-      \verb https://www.minicircuits.com/pdfs/TC1-1-13M+.pdf
-      \endverb
-      \verb{url}
-      \verb https://www.minicircuits.com/pdfs/TC1-1-13M+.pdf
-      \endverb
-    \endentry
-    \entry{minicircuits_zabdc20}{online}{}{}
-      \name{author}{1}{}{%
-        {{hash=427174bb5af8de05a7ae7b95b8e37e2b}{%
-           family={{Mini-Circuits}},
-           familyi={M\bibinitperiod}}}%
-      }
-      \strng{namehash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{fullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{fullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{bibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{authorbibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{authornamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{authorfullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \strng{authorfullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
-      \field{extraname}{2}
-      \field{sortinit}{M}
-      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{{ZABDC20-322H-S+} Coaxial Directional Coupler}
-      \field{year}{s.~f.}
-      \verb{urlraw}
-      \verb https://www.minicircuits.com/WebStore/dashboard.html?model=ZABDC20-322H-S%2B
-      \endverb
-      \verb{url}
-      \verb https://www.minicircuits.com/WebStore/dashboard.html?model=ZABDC20-322H-S%2B
-      \endverb
     \endentry
     \entry{TDSoppenheim}{book}{}{}
       \name{author}{2}{}{%
@@ -407,134 +412,218 @@
       \strng{authornamehash}{6b65fefc61ef07dfae5fcb9291d4aceb}
       \strng{authorfullhash}{6b65fefc61ef07dfae5fcb9291d4aceb}
       \strng{authorfullhashraw}{6b65fefc61ef07dfae5fcb9291d4aceb}
-      \field{sortinit}{O}
-      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{isbn}{0-13-754920-2}
       \field{title}{Discrete-time signal processing, second edition}
       \field{year}{1999}
     \endentry
-    \entry{OMS_2024}{misc}{}{}
+    \entry{altium_designer}{software}{}{}
       \name{author}{1}{}{%
-        {{hash=8179b1fdebe9235e54501d2878c47e1b}{%
-           family={Organization.},
-           familyi={O\bibinitperiod},
-           given={World\bibnamedelima Health},
-           giveni={W\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=1da5dad821da4d39416530d9c285f8ef}{%
+           family={{Altium Limited}},
+           familyi={A\bibinitperiod}}}%
       }
-      \strng{namehash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{fullhash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{fullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{bibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{authorbibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{authornamehash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{authorfullhash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{authorfullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
-      \field{extraname}{1}
-      \field{sortinit}{O}
-      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \strng{namehash}{1da5dad821da4d39416530d9c285f8ef}
+      \strng{fullhash}{1da5dad821da4d39416530d9c285f8ef}
+      \strng{fullhashraw}{1da5dad821da4d39416530d9c285f8ef}
+      \strng{bibnamehash}{1da5dad821da4d39416530d9c285f8ef}
+      \strng{authorbibnamehash}{1da5dad821da4d39416530d9c285f8ef}
+      \strng{authornamehash}{1da5dad821da4d39416530d9c285f8ef}
+      \strng{authorfullhash}{1da5dad821da4d39416530d9c285f8ef}
+      \strng{authorfullhashraw}{1da5dad821da4d39416530d9c285f8ef}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{howpublished}{Sitio Web Oficial}
-      \field{month}{11}
-      \field{title}{Diabetes.}
-      \field{year}{2024}
+      \field{note}{Licencia educativa}
+      \field{title}{Altium Designer}
+      \field{version}{26.1.1}
+      \field{year}{2026}
       \verb{urlraw}
-      \verb https://www.who.int/news-room/fact-sheets/detail/diabetes
+      \verb https://www.altium.com
       \endverb
       \verb{url}
-      \verb https://www.who.int/news-room/fact-sheets/detail/diabetes
+      \verb https://www.altium.com
       \endverb
     \endentry
-    \entry{OMS_2016}{misc}{}{}
+    \entry{datasheet_ADF4351}{manual}{}{}
       \name{author}{1}{}{%
-        {{hash=8179b1fdebe9235e54501d2878c47e1b}{%
-           family={Organization.},
-           familyi={O\bibinitperiod},
-           given={World\bibnamedelima Health},
-           giveni={W\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
+           family={{Analog Devices}},
+           familyi={A\bibinitperiod}}}%
       }
-      \strng{namehash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{fullhash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{fullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{bibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{authorbibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{authornamehash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{authorfullhash}{8179b1fdebe9235e54501d2878c47e1b}
-      \strng{authorfullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
       \field{extraname}{2}
-      \field{sortinit}{O}
-      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{howpublished}{Sitio Web Oficial}
-      \field{title}{Global report on diabetes.}
-      \field{year}{2016}
+      \field{title}{Sintetizador de RF ADF4351}
+      \field{type}{Datasheet}
       \verb{urlraw}
-      \verb https://www.who.int/publications/i/item/9789241565257
+      \verb https://www.analog.com/media/en/technical-documentation/data-sheets/ADF4351.pdf
       \endverb
       \verb{url}
-      \verb https://www.who.int/publications/i/item/9789241565257
+      \verb https://www.analog.com/media/en/technical-documentation/data-sheets/ADF4351.pdf
       \endverb
     \endentry
-    \entry{Rytting}{article}{}{}
+    \entry{software_ADIsimPLL}{software}{}{}
       \name{author}{1}{}{%
-        {{hash=9d5285e0ae376df8f716c1017a7bb170}{%
-           family={Rytting},
-           familyi={R\bibinitperiod},
-           given={Hewlett\bibnamedelimb Packard\bibnamedelima Inc.},
-           giveni={H\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim I\bibinitperiod},
-           suffix={D.},
-           suffixi={D\bibinitperiod}}}%
+        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
+           family={{Analog Devices}},
+           familyi={A\bibinitperiod}}}%
       }
-      \strng{namehash}{9d5285e0ae376df8f716c1017a7bb170}
-      \strng{fullhash}{9d5285e0ae376df8f716c1017a7bb170}
-      \strng{fullhashraw}{9d5285e0ae376df8f716c1017a7bb170}
-      \strng{bibnamehash}{9d5285e0ae376df8f716c1017a7bb170}
-      \strng{authorbibnamehash}{9d5285e0ae376df8f716c1017a7bb170}
-      \strng{authornamehash}{9d5285e0ae376df8f716c1017a7bb170}
-      \strng{authorfullhash}{9d5285e0ae376df8f716c1017a7bb170}
-      \strng{authorfullhashraw}{9d5285e0ae376df8f716c1017a7bb170}
-      \field{sortinit}{R}
-      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \field{extraname}{3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{HP}
-      \field{title}{Network analyzer error models and calibration methods}
-      \field{year}{1998}
+      \field{title}{ADIsimPLL}
+      \field{type}{Herramienta de diseño}
+      \field{version}{5.9}
+      \verb{urlraw}
+      \verb https://www.analog.com/en/lp/resources/adisimpll.html
+      \endverb
+      \verb{url}
+      \verb https://www.analog.com/en/lp/resources/adisimpll.html
+      \endverb
     \endentry
-    \entry{acopladores_minicircuits}{online}{}{}
+    \entry{ecs2200x_datasheet}{manual}{}{}
+      \list{organization}{1}{%
+        {ECS Inc. International}%
+      }
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{note}{Cristal oscilador 10MHz}
+      \field{title}{ECS-2200X Series SMD Clock Oscillator Datasheet}
+      \verb{urlraw}
+      \verb https://ecsxtal.com/store/pdf/ecs-2200x.pdf
+      \endverb
+      \verb{url}
+      \verb https://ecsxtal.com/store/pdf/ecs-2200x.pdf
+      \endverb
+    \endentry
+    \entry{datasheet_74lvc2g07}{manual}{}{}
+      \list{organization}{1}{%
+        {Diodes Incorporated}%
+      }
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{note}{Datasheet}
+      \field{number}{DS35162}
+      \field{title}{{74LVC2G07}: Dual Buffers with Open Drain Outputs}
+      \verb{urlraw}
+      \verb https://www.diodes.com/assets/Datasheets/74LVC2G07.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.diodes.com/assets/Datasheets/74LVC2G07.pdf
+      \endverb
+    \endentry
+    \entry{datasheet_tc1_1_13m}{manual}{}{}
       \name{author}{1}{}{%
-        {{hash=7a23d40c2d3cd20d162852ea02414c90}{%
-           family={Sengal},
-           familyi={S\bibinitperiod},
-           given={Urvashi},
-           giveni={U\bibinitperiod}}}%
+        {{hash=427174bb5af8de05a7ae7b95b8e37e2b}{%
+           family={{Mini-Circuits}},
+           familyi={M\bibinitperiod}}}%
       }
       \list{organization}{1}{%
         {Mini-Circuits}%
       }
-      \strng{namehash}{7a23d40c2d3cd20d162852ea02414c90}
-      \strng{fullhash}{7a23d40c2d3cd20d162852ea02414c90}
-      \strng{fullhashraw}{7a23d40c2d3cd20d162852ea02414c90}
-      \strng{bibnamehash}{7a23d40c2d3cd20d162852ea02414c90}
-      \strng{authorbibnamehash}{7a23d40c2d3cd20d162852ea02414c90}
-      \strng{authornamehash}{7a23d40c2d3cd20d162852ea02414c90}
-      \strng{authorfullhash}{7a23d40c2d3cd20d162852ea02414c90}
-      \strng{authorfullhashraw}{7a23d40c2d3cd20d162852ea02414c90}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \strng{namehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{fullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{fullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{bibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authorbibnamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authornamehash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authorfullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \strng{authorfullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{month}{10}
-      \field{title}{Directional Couplers: Their Operation and Application}
-      \field{year}{2020}
+      \field{note}{Rev. G}
+      \field{title}{{TC1-1-13M+ Surface Mount RF Transformer, 50$\Omega$, 4.5 to 3000 MHz}}
+      \field{year}{2023}
       \verb{urlraw}
-      \verb https://blog.minicircuits.com/directional-couplers-their-operation-and-application/
+      \verb https://www.minicircuits.com/pdfs/TC1-1-13M+.pdf
       \endverb
       \verb{url}
-      \verb https://blog.minicircuits.com/directional-couplers-their-operation-and-application/
+      \verb https://www.minicircuits.com/pdfs/TC1-1-13M+.pdf
+      \endverb
+    \endentry
+    \entry{usimmics}{software}{}{}
+      \name{author}{1}{}{%
+        {{hash=e1c84e489e62b14f694c529673d17a55}{%
+           family={Margraf},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{fullhash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{fullhashraw}{e1c84e489e62b14f694c529673d17a55}
+      \strng{bibnamehash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{authorbibnamehash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{authornamehash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{authorfullhash}{e1c84e489e62b14f694c529673d17a55}
+      \strng{authorfullhashraw}{e1c84e489e62b14f694c529673d17a55}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{10}
+      \field{month}{1}
+      \field{note}{Anteriormente conocido como QucsStudio}
+      \field{title}{uSimmics}
+      \field{version}{5.9}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://dd6um.darc.de/QucsStudio/
+      \endverb
+      \verb{url}
+      \verb https://dd6um.darc.de/QucsStudio/
+      \endverb
+    \endentry
+    \entry{mcp602x_datasheet}{manual}{}{}
+      \list{organization}{1}{%
+        {Microchip Technology Inc.}%
+      }
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{number}{DS20001685E}
+      \field{title}{{MCP6021/1R/2/3/4: Rail-to-Rail Input/Output, 10~MHz Op Amps}}
+      \field{urlday}{28}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2017}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://ww1.microchip.com/downloads/en/DeviceDoc/20001685E.pdf
+      \endverb
+      \verb{url}
+      \verb https://ww1.microchip.com/downloads/en/DeviceDoc/20001685E.pdf
       \endverb
     \endentry
     \entry{datasheet_ua78m}{manual}{}{}
@@ -554,8 +643,8 @@
       \strng{authornamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
       \strng{authorfullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
       \strng{authorfullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
-      \field{sortinit}{T}
-      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{month}{2}
@@ -569,41 +658,33 @@
       \verb https://www.ti.com/lit/ds/slvs059v/slvs059v.pdf
       \endverb
     \endentry
-    \entry{Topsakal}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=0abcc272bdb5589d64ebf0092ffcf5c1}{%
-           family={Topsakal},
-           familyi={T\bibinitperiod},
-           given={E.},
-           giveni={E\bibinitperiod}}}%
-        {{hash=3ac222562f949ba318818844b64ed14c}{%
-           family={Karacolak},
-           familyi={K\bibinitperiod},
-           given={T.},
-           giveni={T\bibinitperiod}}}%
-        {{hash=eec4426d09b53039a1feb38e7dddefb9}{%
-           family={Moreland},
-           familyi={M\bibinitperiod},
-           given={E.\bibnamedelimi C.},
-           giveni={E\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+    \entry{pcbway}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=71d71d3dd67f1a6a9917134613f38635}{%
+           family={{PCBWay}},
+           familyi={P\bibinitperiod}}}%
       }
-      \strng{namehash}{ce0ac304fff48fa18b036524dc580d48}
-      \strng{fullhash}{ce0ac304fff48fa18b036524dc580d48}
-      \strng{fullhashraw}{ce0ac304fff48fa18b036524dc580d48}
-      \strng{bibnamehash}{ce0ac304fff48fa18b036524dc580d48}
-      \strng{authorbibnamehash}{ce0ac304fff48fa18b036524dc580d48}
-      \strng{authornamehash}{ce0ac304fff48fa18b036524dc580d48}
-      \strng{authorfullhash}{ce0ac304fff48fa18b036524dc580d48}
-      \strng{authorfullhashraw}{ce0ac304fff48fa18b036524dc580d48}
-      \field{sortinit}{T}
-      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \list{organization}{1}{%
+        {Shenzhen PCBWay Technology Co., Ltd.}%
+      }
+      \strng{namehash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{fullhash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{fullhashraw}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{bibnamehash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{authorbibnamehash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{authornamehash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{authorfullhash}{71d71d3dd67f1a6a9917134613f38635}
+      \strng{authorfullhashraw}{71d71d3dd67f1a6a9917134613f38635}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Proceedings of the XXXth URSI General Assembly and Scientific Symposium}
-      \field{title}{Glucose-dependent dielectric properties of blood plasma.}
-      \field{year}{2011}
-      \verb{doi}
-      \verb 10.1109/URSIGASS.2011.6051324
+      \field{title}{Printed Circuit Board Fabrication and Assembly Services}
+      \verb{urlraw}
+      \verb https://www.pcbway.com
+      \endverb
+      \verb{url}
+      \verb https://www.pcbway.com
       \endverb
     \endentry
   \enddatalist
