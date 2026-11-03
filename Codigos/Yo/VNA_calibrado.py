@@ -38,19 +38,18 @@ from scipy.signal.windows import get_window
 PUERTO = "COM3"      
 BAUDRATE = 115200
 
-F_INICIO_MHZ = 1800.000
-F_FIN_MHZ = 2200.000
-F_PASO_MHZ = 1.000
+F_INICIO_MHZ = 500.000
+F_FIN_MHZ = 3000.000
+F_PASO_MHZ = 10.000
 OFFSET_MHZ=0.010 # Frecuencia de audio
 FS_AUDIO = 44100
-DURACION_CAPTURA_S = 0.60
-DESCARTE_S = 0.150
+DURACION_CAPTURA_S = 1.0
+DESCARTE_S = 0.30
 # ==================== Salidas ====================
 CARPETA_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Archivos csv resultados-calibracion")
-ARCHIVO_CSV = os.path.join(CARPETA_CSV, f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_cableaCA_2nov.csv")
+ARCHIVO_CSV = os.path.join(CARPETA_CSV, f"resultado_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ}_CAire_3nov.csv")
 NOMBRE_FIGURA_BASE = f"s11_{F_INICIO_MHZ:.3f}_{F_FIN_MHZ:.3f}_{F_PASO_MHZ:.3f}"
-archivo_calibracion = os.path.join( CARPETA_CSV,f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - 14oct.csv")
-
+archivo_calibracion = os.path.join( CARPETA_CSV,f"calibracion_{F_INICIO_MHZ}_{F_FIN_MHZ}_{F_PASO_MHZ} - 3nov.csv")
 # ==================== Configuración: adquisición de audio ====================
 # Índice del dispositivo de audio a usar (line-in). None = dispositivo de
 # entrada por defecto del sistema. Si tenés dudas de cuál es, corré:
@@ -232,7 +231,9 @@ def medir_s11_punto(canal_ref, canal_med, fs, coef_filtro):
     idx_pico = buscar_indice_pico(freqs_ref, espectro_ref, BANDA_BUSQUEDA_PICO)
 
     epsilon = np.max(np.abs(espectro_ref)) * 1e-9
-    s11 = np.conj(espectro_med[idx_pico] / (espectro_ref[idx_pico] + epsilon))
+    #s11 = np.conj(espectro_med[idx_pico] / (espectro_ref[idx_pico] + epsilon))
+
+    s11 = espectro_med[idx_pico] / (espectro_ref[idx_pico] + epsilon)
 
     return s11, freqs_ref[idx_pico]
 

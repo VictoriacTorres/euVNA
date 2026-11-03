@@ -1,0 +1,36 @@
+Sub InvertirSignosYExportarCSV()
+    Dim ws As Worksheet
+    Dim ultimaFila As Long
+    Dim columnas As Variant
+    Dim col As Variant
+    Dim f As Long
+    Dim rutaCSV As Variant
+
+    Set ws = ActiveSheet
+    columnas = Array("C", "E", "G")
+
+    ' Última fila con datos (robusto aunque los datos no arranquen en A)
+    ultimaFila = ws.UsedRange.Rows.Count + ws.UsedRange.Row - 1
+
+    For Each col In columnas
+        For f = 1 To ultimaFila
+            If IsNumeric(ws.Range(col & f).Value) And ws.Range(col & f).Value <> "" Then
+                ws.Range(col & f).Value = -ws.Range(col & f).Value
+            End If
+        Next f
+    Next col
+
+    ' Elegir dónde guardar el CSV
+    rutaCSV = Application.GetSaveAsFilename( _
+        InitialFileName:="datos_export.csv", _
+        FileFilter:="Archivos CSV (*.csv), *.csv")
+
+    If rutaCSV <> False Then
+        ws.Copy ' crea un libro nuevo solo con esta hoja
+        ActiveWorkbook.SaveAs Filename:=rutaCSV, FileFormat:=xlCSV, CreateBackup:=False
+        ActiveWorkbook.Close SaveChanges:=False
+        MsgBox "Listo: signos invertidos y CSV exportado en:" & vbCrLf & rutaCSV, vbInformation
+    Else
+        MsgBox "Signos invertidos. Exportación a CSV cancelada.", vbInformation
+    End If
+End Sub

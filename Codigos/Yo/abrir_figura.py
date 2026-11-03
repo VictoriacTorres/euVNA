@@ -23,7 +23,12 @@ figuras_abiertas = []
 for archivo_seleccionado in archivos_seleccionados:
     try:
         with open(archivo_seleccionado, "rb") as archivo:
-            figuras_abiertas.append(pickle.load(archivo))
+            figura = pickle.load(archivo)
+        for eje in figura.axes:
+            if eje.get_ylabel().strip() == "|S11| (dB)":
+                minimo, maximo = eje.get_ylim()
+                eje.set_ylim(min(minimo, 0), max(maximo, 0))
+        figuras_abiertas.append(figura)
     except Exception as error:
         messagebox.showerror(
             "Error al abrir la figura",

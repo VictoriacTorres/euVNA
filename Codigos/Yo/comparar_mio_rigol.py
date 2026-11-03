@@ -297,8 +297,10 @@ def main():
 
     ax_m.plot(
         f2, m2,
-        color="tab:red",
-        lw=1.2,
+        color="hotpink",
+        marker=".",
+        markersize=3,
+        linestyle="None",
         label=etiqueta_medicion
     )
 
@@ -319,8 +321,10 @@ def main():
 
     ax_p.plot(
         fb, pb,
-        color="tab:red",
-        lw=1.2
+        color="hotpink",
+        marker=".",
+        markersize=3,
+        linestyle="None"
     )
 
     ax_p.set_ylabel(r"Fase de $S_{11}$ (°)")
