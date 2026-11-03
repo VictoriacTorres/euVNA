@@ -29,7 +29,7 @@
 \PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib.backends.backend\PYGZus{}qtagg}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{FigureCanvasQTAgg} \PYG{k}{as} \PYG{n}{FigureCanvas}
 \PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib.figure}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Figure}
 
-\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vna\PYGZus{}core}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{core}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vna\PYGZus{}core\PYGZus{}FINAL}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{core}
 
 
 \PYG{c+c1}{\PYGZsh{} ==================== Hilo de trabajo: corre un barrido sin trabar la GUI ====================}
@@ -266,14 +266,14 @@
         \PYG{n}{v} \PYG{o}{=} \PYG{n}{QVBoxLayout}\PYG{p}{(}\PYG{n}{panel}\PYG{p}{)}
 
         \PYG{c+c1}{\PYGZsh{} Figura módulo + fase (dos subplots apilados)}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf} \PYG{o}{=} \PYG{n}{Figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{),} \PYG{n}{facecolor}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}fad7ea\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf} \PYG{o}{=} \PYG{n}{Figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{),} \PYG{n}{facecolor}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}ffffff\PYGZdq{}}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{211}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{212}\PYG{p}{,} \PYG{n}{sharex}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}preparar\PYGZus{}ejes\PYGZus{}mod\PYGZus{}fase}\PYG{p}{()}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{canvas\PYGZus{}mf} \PYG{o}{=} \PYG{n}{FigureCanvas}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}mf}\PYG{p}{)}
 
         \PYG{c+c1}{\PYGZsh{} Figura abaco de Smith}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}smith} \PYG{o}{=} \PYG{n}{Figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{),} \PYG{n}{facecolor}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}fad7ea\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}smith} \PYG{o}{=} \PYG{n}{Figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{),} \PYG{n}{facecolor}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}ffffff\PYGZdq{}}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}smith} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fig\PYGZus{}smith}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{111}\PYG{p}{)}
         \PYG{n}{dibujar\PYGZus{}fondo\PYGZus{}smith}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}smith}\PYG{p}{)}
         \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{linea\PYGZus{}smith}\PYG{p}{,)} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}smith}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{([],} \PYG{p}{[],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}deeppink\PYGZdq{}}\PYG{p}{,}
@@ -289,7 +289,7 @@
 
     \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}preparar\PYGZus{}ejes\PYGZus{}mod\PYGZus{}fase}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{clear}\PYG{p}{()}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{set\PYGZus{}facecolor}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}fad7ea\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{set\PYGZus{}facecolor}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}ffffff\PYGZdq{}}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}S11 \PYGZhy{} Módulo\PYGZdq{}}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}|S11| (dB)\PYGZdq{}}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}mod}\PYG{o}{.}\PYG{n}{grid}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.3}\PYG{p}{)}
@@ -297,7 +297,7 @@
                                               \PYG{n}{marker}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}.\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}None\PYGZdq{}}\PYG{p}{)}
 
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{clear}\PYG{p}{()}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}facecolor}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}fad7ea\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}facecolor}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}ffffff\PYGZdq{}}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}S11 \PYGZhy{} Fase\PYGZdq{}}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Frecuencia de RF (MHz)\PYGZdq{}}\PYG{p}{)}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ax\PYGZus{}fase}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Fase (grados)\PYGZdq{}}\PYG{p}{)}
@@ -640,7 +640,7 @@
 \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
     \PYG{n}{app} \PYG{o}{=} \PYG{n}{QApplication}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{)}
     \PYG{n}{app}\PYG{o}{.}\PYG{n}{setStyleSheet}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
-\PYG{l+s+s2}{        QMainWindow, QWidget, QGroupBox \PYGZob{}background\PYGZhy{}color: \PYGZsh{}fad7ea; \PYGZcb{}\PYGZdq{}\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+\PYG{l+s+s2}{        QMainWindow, QWidget, QGroupBox \PYGZob{}background\PYGZhy{}color: \PYGZsh{}ffffff; \PYGZcb{}\PYGZdq{}\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
     \PYG{n}{ventana} \PYG{o}{=} \PYG{n}{MainWindow}\PYG{p}{()}
     \PYG{n}{ventana}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
     \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{(}\PYG{n}{app}\PYG{o}{.}\PYG{n}{exec}\PYG{p}{())}

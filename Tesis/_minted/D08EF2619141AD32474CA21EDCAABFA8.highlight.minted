@@ -1,0 +1,419 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{Barrido de RF + adquisición + cálculo de S11.}
+
+\PYG{l+s+sd}{Por cada frecuencia del barrido:}
+\PYG{l+s+sd}{    1. Se le manda la frecuencia al Arduino (adf4351\PYGZus{}serial.ino) por serial.}
+\PYG{l+s+sd}{    2. Se graba una captura corta desde la entrada line\PYGZhy{}in (ref = canal}
+\PYG{l+s+sd}{       izquierdo, medición = canal derecho).}
+\PYG{l+s+sd}{    3. Se filtra cada canal con un FIR pasabanda alrededor de 1 kHz.}
+\PYG{l+s+sd}{    4. Se calcula la FFT compleja de ambos canales.}
+\PYG{l+s+sd}{    5. Se busca el pico del tono de batido en el canal de referencia, y}
+\PYG{l+s+sd}{       se toma el mismo bin en el canal de medición.}
+\PYG{l+s+sd}{    6. S11\PYGZus{}punto = medición[bin] / referencia[bin].}
+
+\PYG{l+s+sd}{Al terminar se grafica y se guardan los resultados en un .csv y en un .pk la imagen interactiva de matplotlib.}
+
+\PYG{l+s+sd}{Requisitos:}
+\PYG{l+s+sd}{    pip install pyserial sounddevice numpy scipy matplotlib}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{csv}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{time}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pickle}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{re}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{tkinter}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{tk}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{tkinter}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{simpledialog}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{numpy}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{np}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{matplotlib.pyplot}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{plt}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{serial}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sounddevice}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{sd}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib.lines}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Line2D}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{scipy.signal}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{firwin}\PYG{p}{,} \PYG{n}{lfilter}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{scipy.signal.windows}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{get\PYGZus{}window}
+
+\PYG{c+c1}{\PYGZsh{} ==================== Configuración: Arduino / barrido de RF ====================}
+
+\PYG{n}{PUERTO} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}COM3\PYGZdq{}}      
+\PYG{n}{BAUDRATE} \PYG{o}{=} \PYG{l+m+mi}{115200}
+
+\PYG{n}{F\PYGZus{}INICIO\PYGZus{}MHZ} \PYG{o}{=} \PYG{l+m+mf}{1800.000}
+\PYG{n}{F\PYGZus{}FIN\PYGZus{}MHZ} \PYG{o}{=} \PYG{l+m+mf}{2200.000}
+\PYG{n}{F\PYGZus{}PASO\PYGZus{}MHZ} \PYG{o}{=} \PYG{l+m+mf}{1.000}
+\PYG{n}{OFFSET\PYGZus{}MHZ}\PYG{o}{=}\PYG{l+m+mf}{0.010} \PYG{c+c1}{\PYGZsh{} Frecuencia de audio}
+\PYG{n}{FS\PYGZus{}AUDIO} \PYG{o}{=} \PYG{l+m+mi}{44100}
+\PYG{n}{DURACION\PYGZus{}CAPTURA\PYGZus{}S} \PYG{o}{=} \PYG{l+m+mf}{0.60}
+\PYG{n}{DESCARTE\PYGZus{}S} \PYG{o}{=} \PYG{l+m+mf}{0.150}
+\PYG{c+c1}{\PYGZsh{} ==================== Salidas ====================}
+\PYG{n}{CARPETA\PYGZus{}CSV} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{)),} \PYG{l+s+s2}{\PYGZdq{}Archivos csv resultados\PYGZhy{}calibracion\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{ARCHIVO\PYGZus{}CSV} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{CARPETA\PYGZus{}CSV}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}resultado\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}INICIO\PYGZus{}MHZ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}FIN\PYGZus{}MHZ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}PASO\PYGZus{}MHZ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}cableaCA\PYGZus{}2nov.csv\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{NOMBRE\PYGZus{}FIGURA\PYGZus{}BASE} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}s11\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}INICIO\PYGZus{}MHZ}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}FIN\PYGZus{}MHZ}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}PASO\PYGZus{}MHZ}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{n}{archivo\PYGZus{}calibracion} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(} \PYG{n}{CARPETA\PYGZus{}CSV}\PYG{p}{,}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}calibracion\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}INICIO\PYGZus{}MHZ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}FIN\PYGZus{}MHZ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}PASO\PYGZus{}MHZ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} 14oct.csv\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} ==================== Configuración: adquisición de audio ====================}
+\PYG{c+c1}{\PYGZsh{} Índice del dispositivo de audio a usar (line\PYGZhy{}in). None = dispositivo de}
+\PYG{c+c1}{\PYGZsh{} entrada por defecto del sistema. Si tenés dudas de cuál es, corré:}
+\PYG{c+c1}{\PYGZsh{}   python \PYGZhy{}c \PYGZdq{}import sounddevice as sd; print(sd.query\PYGZus{}devices())\PYGZdq{}}
+\PYG{c+c1}{\PYGZsh{} y poné acá el índice que corresponda a tu placa de sonido / line\PYGZhy{}in.}
+\PYG{n}{DISPOSITIVO\PYGZus{}AUDIO} \PYG{o}{=} \PYG{k+kc}{None}
+
+\PYG{c+c1}{\PYGZsh{} ==================== Configuración: filtro FIR + FFT ====================}
+\PYG{n}{F\PYGZus{}CENTRO\PYGZus{}FILTRO} \PYG{o}{=} \PYG{l+m+mi}{10000}       \PYG{c+c1}{\PYGZsh{} Hz, tono de batido esperado}
+\PYG{n}{ANCHO\PYGZus{}BANDA\PYGZus{}FILTRO} \PYG{o}{=} \PYG{l+m+mi}{200}     \PYG{c+c1}{\PYGZsh{} Hz}
+\PYG{n}{NUMTAPS\PYGZus{}FILTRO} \PYG{o}{=} \PYG{l+m+mi}{1001}        \PYG{c+c1}{\PYGZsh{} debe ser menor que la cantidad de muestras por captura}
+\PYG{n}{VENTANA\PYGZus{}FFT} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}flattop\PYGZdq{}}
+\PYG{c+c1}{\PYGZsh{} Banda donde se busca el pico del tono de batido (Hz)}
+\PYG{n}{BANDA\PYGZus{}BUSQUEDA\PYGZus{}PICO} \PYG{o}{=} \PYG{p}{(}\PYG{n}{F\PYGZus{}CENTRO\PYGZus{}FILTRO} \PYG{o}{\PYGZhy{}} \PYG{n}{ANCHO\PYGZus{}BANDA\PYGZus{}FILTRO} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{,}
+                        \PYG{n}{F\PYGZus{}CENTRO\PYGZus{}FILTRO} \PYG{o}{+} \PYG{n}{ANCHO\PYGZus{}BANDA\PYGZus{}FILTRO} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} ==================================================================}
+
+\PYG{n}{FRECUENCIAS\PYGZus{}EXCLUIDAS\PYGZus{}MHZ} \PYG{o}{=} \PYG{p}{[]}
+\PYG{c+c1}{\PYGZsh{} ==================== Calibración ====================}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{calculo\PYGZus{}errores} \PYG{p}{(}\PYG{n}{GM\PYGZus{}CC}\PYG{p}{,} \PYG{n}{GM\PYGZus{}CA}\PYG{p}{,} \PYG{n}{GM\PYGZus{}50}\PYG{p}{,} \PYG{n}{n}\PYG{p}{):}
+    \PYG{n}{e\PYGZus{}00}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{complex}\PYG{p}{)}   \PYG{c+c1}{\PYGZsh{}inicializo un vector de long n vacio con valores complejos}
+    \PYG{n}{e\PYGZus{}11}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{complex}\PYG{p}{)}
+    \PYG{n}{delta\PYGZus{}e}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{complex}\PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{n}\PYG{p}{):}
+        \PYG{n}{A}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([}
+            \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{n}{GM\PYGZus{}CC}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{l+m+mi}{1}\PYG{p}{],} \PYG{c+c1}{\PYGZsh{}CC}
+            \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}         \PYG{c+c1}{\PYGZsh{}50}
+            \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{GM\PYGZus{}CA}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}  \PYG{c+c1}{\PYGZsh{}CA}
+        \PYG{p}{],}\PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{complex}\PYG{p}{)}
+        \PYG{n}{B}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([}\PYG{n}{GM\PYGZus{}CC}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{GM\PYGZus{}50}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{GM\PYGZus{}CA}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]])}
+        \PYG{n}{sol}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{solve}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,}\PYG{n}{B}\PYG{p}{)}
+        \PYG{n}{e\PYGZus{}00}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{=}\PYG{n}{sol}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+        \PYG{n}{e\PYGZus{}11}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{=}\PYG{n}{sol}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n}{delta\PYGZus{}e}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{=}\PYG{n}{sol}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]} 
+    \PYG{k}{return} \PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{correccion\PYGZus{}punto}\PYG{p}{(}\PYG{n}{gm}\PYG{p}{,} \PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e}\PYG{p}{):}
+    \PYG{n}{denominador} \PYG{o}{=} \PYG{n}{gm} \PYG{o}{*} \PYG{n}{e\PYGZus{}11} \PYG{o}{\PYGZhy{}} \PYG{n}{delta\PYGZus{}e}
+    \PYG{k}{if} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{denominador}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{1e\PYGZhy{}15}\PYG{p}{:}
+        \PYG{n}{denominador} \PYG{o}{=} \PYG{l+m+mf}{1e\PYGZhy{}15} \PYG{o}{+} \PYG{l+m+mf}{1e\PYGZhy{}15j}
+    \PYG{k}{return} \PYG{p}{(}\PYG{n}{gm} \PYG{o}{\PYGZhy{}} \PYG{n}{e\PYGZus{}00}\PYG{p}{)} \PYG{o}{/} \PYG{n}{denominador}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{correccion}\PYG{p}{(}\PYG{n}{GM}\PYG{p}{,}\PYG{n}{e\PYGZus{}00}\PYG{p}{,}\PYG{n}{e\PYGZus{}11}\PYG{p}{,}\PYG{n}{delta\PYGZus{}e}\PYG{p}{,}\PYG{n}{n}\PYG{p}{):}
+    \PYG{n}{Gamma}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{complex}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{n}\PYG{p}{):}
+        \PYG{n}{Gamma}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{correccion\PYGZus{}punto}\PYG{p}{(}\PYG{n}{GM}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{e\PYGZus{}00}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{e\PYGZus{}11}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{delta\PYGZus{}e}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])}
+    \PYG{k}{return} \PYG{n}{Gamma}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{guardar\PYGZus{}calibracion\PYGZus{}csv}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,} \PYG{n}{freqs}\PYG{p}{,} \PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e}\PYG{p}{):}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{,} \PYG{n}{newline}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}utf\PYGZhy{}8\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{writer} \PYG{o}{=} \PYG{n}{csv}\PYG{o}{.}\PYG{n}{writer}\PYG{p}{(}\PYG{n}{f}\PYG{p}{)}
+        \PYG{n}{writer}\PYG{o}{.}\PYG{n}{writerow}\PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}freq\PYGZus{}MHz\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}e\PYGZus{}00\PYGZus{}real\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}e\PYGZus{}00\PYGZus{}imag\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}e\PYGZus{}11\PYGZus{}real\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}e\PYGZus{}11\PYGZus{}imag\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}delta\PYGZus{}e\PYGZus{}real\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}delta\PYGZus{}e\PYGZus{}imag\PYGZdq{}}\PYG{p}{])}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{freqs}\PYG{p}{)):}
+            \PYG{n}{writer}\PYG{o}{.}\PYG{n}{writerow}\PYG{p}{([}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{freqs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.6f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} 
+                             \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e\PYGZus{}00}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{real}\PYG{l+s+si}{:}\PYG{l+s+s2}{.10e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e\PYGZus{}00}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{imag}\PYG{l+s+si}{:}\PYG{l+s+s2}{.10e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                             \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e\PYGZus{}11}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{real}\PYG{l+s+si}{:}\PYG{l+s+s2}{.10e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e\PYGZus{}11}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{imag}\PYG{l+s+si}{:}\PYG{l+s+s2}{.10e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                             \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{delta\PYGZus{}e}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{real}\PYG{l+s+si}{:}\PYG{l+s+s2}{.10e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{delta\PYGZus{}e}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{imag}\PYG{l+s+si}{:}\PYG{l+s+s2}{.10e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{])}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Matriz de error guardada en }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{cargar\PYGZus{}calibracion\PYGZus{}csv}\PYG{p}{(}\PYG{n}{path}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{}rearma los valores complejos}
+    \PYG{n}{freqs}\PYG{p}{,} \PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e} \PYG{o}{=} \PYG{p}{[],} \PYG{p}{[],} \PYG{p}{[],} \PYG{p}{[]}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}r\PYGZdq{}}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}utf\PYGZhy{}8\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{reader}\PYG{o}{=}\PYG{n}{csv}\PYG{o}{.}\PYG{n}{DictReader}\PYG{p}{(}\PYG{n}{f}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{reader}\PYG{p}{:}
+            \PYG{n}{freqs}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}freq\PYGZus{}MHz\PYGZdq{}}\PYG{p}{]))}
+            \PYG{n}{e\PYGZus{}00}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{complex}\PYG{p}{(}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}e\PYGZus{}00\PYGZus{}real\PYGZdq{}}\PYG{p}{]),} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}e\PYGZus{}00\PYGZus{}imag\PYGZdq{}}\PYG{p}{])))}
+            \PYG{n}{e\PYGZus{}11}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{complex}\PYG{p}{(}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}e\PYGZus{}11\PYGZus{}real\PYGZdq{}}\PYG{p}{]),} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}e\PYGZus{}11\PYGZus{}imag\PYGZdq{}}\PYG{p}{])))}
+            \PYG{n}{delta\PYGZus{}e}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{complex}\PYG{p}{(}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}delta\PYGZus{}e\PYGZus{}real\PYGZdq{}}\PYG{p}{]),} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}delta\PYGZus{}e\PYGZus{}imag\PYGZdq{}}\PYG{p}{])))}
+    \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{freqs}\PYG{p}{),} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{e\PYGZus{}00}\PYG{p}{),} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{e\PYGZus{}11}\PYG{p}{),} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{delta\PYGZus{}e}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} ==================== Arduino / serial ====================}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generar\PYGZus{}frecuencias}\PYG{p}{(}\PYG{n}{inicio}\PYG{p}{,} \PYG{n}{fin}\PYG{p}{,} \PYG{n}{paso}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Genera la lista de frecuencias evitando arrastre de error de punto flotante.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{n\PYGZus{}pasos} \PYG{o}{=} \PYG{n+nb}{round}\PYG{p}{((}\PYG{n}{fin} \PYG{o}{\PYGZhy{}} \PYG{n}{inicio}\PYG{p}{)} \PYG{o}{/} \PYG{n}{paso}\PYG{p}{)}
+    \PYG{k}{return} \PYG{p}{[}\PYG{n}{inicio} \PYG{o}{+} \PYG{n}{i} \PYG{o}{*} \PYG{n}{paso} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{n\PYGZus{}pasos} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)]}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{conectar\PYGZus{}arduino}\PYG{p}{(}\PYG{n}{puerto}\PYG{p}{,} \PYG{n}{baudrate}\PYG{p}{):}
+    \PYG{n}{ser} \PYG{o}{=} \PYG{n}{serial}\PYG{o}{.}\PYG{n}{Serial}\PYG{p}{(}\PYG{n}{puerto}\PYG{p}{,} \PYG{n}{baudrate}\PYG{p}{,} \PYG{n}{timeout}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{)}
+    \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} el Arduino se resetea al abrir el puerto; esperamos a que arranque}
+    \PYG{n}{ser}\PYG{o}{.}\PYG{n}{reset\PYGZus{}input\PYGZus{}buffer}\PYG{p}{()}
+
+    \PYG{n}{linea} \PYG{o}{=} \PYG{n}{ser}\PYG{o}{.}\PYG{n}{readline}\PYG{p}{()}\PYG{o}{.}\PYG{n}{decode}\PYG{p}{(}\PYG{n}{errors}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}ignore\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+    \PYG{k}{if} \PYG{n}{linea}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Arduino: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{linea}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{ser}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{setear\PYGZus{}frecuencia}\PYG{p}{(}\PYG{n}{ser}\PYG{p}{,} \PYG{n}{f\PYGZus{}mhz}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Manda la frecuencia al Arduino y espera la confirmación.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{comando} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{f\PYGZus{}mhz}\PYG{l+s+si}{:}\PYG{l+s+s2}{.6f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{ser}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{comando}\PYG{o}{.}\PYG{n}{encode}\PYG{p}{())}
+
+    \PYG{n}{respuesta} \PYG{o}{=} \PYG{n}{ser}\PYG{o}{.}\PYG{n}{readline}\PYG{p}{()}\PYG{o}{.}\PYG{n}{decode}\PYG{p}{(}\PYG{n}{errors}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}ignore\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+    \PYG{k}{while} \PYG{n}{respuesta} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{respuesta}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}OK\PYGZdq{}}\PYG{p}{)} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{respuesta}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}ERROR\PYGZdq{}}\PYG{p}{):}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}  (Arduino):\PYGZdq{}}\PYG{p}{,} \PYG{n}{respuesta}\PYG{p}{)}
+        \PYG{n}{respuesta} \PYG{o}{=} \PYG{n}{ser}\PYG{o}{.}\PYG{n}{readline}\PYG{p}{()}\PYG{o}{.}\PYG{n}{decode}\PYG{p}{(}\PYG{n}{errors}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}ignore\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+
+    \PYG{k}{return} \PYG{n}{respuesta}
+
+
+\PYG{c+c1}{\PYGZsh{} ==================== Adquisición ====================}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{capturar\PYGZus{}audio}\PYG{p}{(}\PYG{n}{duracion\PYGZus{}s}\PYG{p}{,} \PYG{n}{fs}\PYG{p}{,} \PYG{n}{dispositivo}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Graba desde la entrada configurada. Devuelve (canal\PYGZus{}ref, canal\PYGZus{}med)}
+\PYG{l+s+sd}{    como arrays float64, con canal\PYGZus{}ref = izquierdo, canal\PYGZus{}med = derecho.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{n}{n\PYGZus{}muestras} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{duracion\PYGZus{}s}\PYG{o}{*} \PYG{n}{fs}\PYG{p}{)}
+    \PYG{n}{grabacion\PYGZus{}con\PYGZus{}ruido} \PYG{o}{=} \PYG{n}{sd}\PYG{o}{.}\PYG{n}{rec}\PYG{p}{(}\PYG{n}{n\PYGZus{}muestras}\PYG{p}{,} \PYG{n}{samplerate}\PYG{o}{=}\PYG{n}{fs}\PYG{p}{,} \PYG{n}{channels}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
+                        \PYG{n}{dtype}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}float64\PYGZdq{}}\PYG{p}{,} \PYG{n}{device}\PYG{o}{=}\PYG{n}{dispositivo}\PYG{p}{)}
+    \PYG{n}{sd}\PYG{o}{.}\PYG{n}{wait}\PYG{p}{()}
+
+    \PYG{n}{grabacion}\PYG{o}{=}\PYG{n}{grabacion\PYGZus{}con\PYGZus{}ruido}\PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{fs} \PYG{o}{*} \PYG{n}{DESCARTE\PYGZus{}S}\PYG{p}{):]} \PYG{c+c1}{\PYGZsh{} recorto los primeros milisegundos}
+    \PYG{n}{canal\PYGZus{}ref} \PYG{o}{=} \PYG{n}{grabacion}\PYG{p}{[:,} \PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{canal\PYGZus{}med} \PYG{o}{=} \PYG{n}{grabacion}\PYG{p}{[:,} \PYG{l+m+mi}{1}\PYG{p}{]}
+
+    \PYG{k}{return} \PYG{n}{canal\PYGZus{}ref}\PYG{p}{,} \PYG{n}{canal\PYGZus{}med}
+
+
+\PYG{c+c1}{\PYGZsh{} ==================== Filtro FIR + FFT + S11 ====================}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{diseñar\PYGZus{}filtro\PYGZus{}pasabanda}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{,} \PYG{n}{f\PYGZus{}centro}\PYG{p}{,} \PYG{n}{ancho\PYGZus{}banda}\PYG{p}{,} \PYG{n}{numtaps}\PYG{p}{):}
+    \PYG{n}{n\PYGZus{}muestras\PYGZus{}captura} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{DURACION\PYGZus{}CAPTURA\PYGZus{}S} \PYG{o}{*} \PYG{n}{fs}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{numtaps} \PYG{o}{\PYGZgt{}=} \PYG{n}{n\PYGZus{}muestras\PYGZus{}captura}\PYG{p}{:}
+        \PYG{k}{raise} \PYG{n+ne}{ValueError}\PYG{p}{(}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}NUMTAPS\PYGZus{}FILTRO (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{numtaps}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) debe ser menor que la cantidad de \PYGZdq{}}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}muestras por captura (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{n\PYGZus{}muestras\PYGZus{}captura}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, con DURACION\PYGZus{}CAPTURA\PYGZus{}S=\PYGZdq{}}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{DURACION\PYGZus{}CAPTURA\PYGZus{}S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{s y FS\PYGZus{}AUDIO=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{fs}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{Hz). Bajá NUMTAPS\PYGZus{}FILTRO o \PYGZdq{}}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}subí DURACION\PYGZus{}CAPTURA\PYGZus{}S.\PYGZdq{}}
+        \PYG{p}{)}
+
+    \PYG{n}{f\PYGZus{}baja} \PYG{o}{=} \PYG{n}{f\PYGZus{}centro} \PYG{o}{\PYGZhy{}} \PYG{n}{ancho\PYGZus{}banda} \PYG{o}{/} \PYG{l+m+mi}{2}
+    \PYG{n}{f\PYGZus{}alta} \PYG{o}{=} \PYG{n}{f\PYGZus{}centro} \PYG{o}{+} \PYG{n}{ancho\PYGZus{}banda} \PYG{o}{/} \PYG{l+m+mi}{2}
+    \PYG{k}{return} \PYG{n}{firwin}\PYG{p}{(}\PYG{n}{numtaps}\PYG{p}{,} \PYG{p}{[}\PYG{n}{f\PYGZus{}baja}\PYG{p}{,} \PYG{n}{f\PYGZus{}alta}\PYG{p}{],} \PYG{n}{pass\PYGZus{}zero}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{fs}\PYG{o}{=}\PYG{n}{fs}\PYG{p}{,} \PYG{n}{window}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}hamming\PYGZdq{}}\PYG{p}{)}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{aplicar\PYGZus{}filtro}\PYG{p}{(}\PYG{n}{señal}\PYG{p}{,} \PYG{n}{coeficientes}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{lfilter}\PYG{p}{(}\PYG{n}{coeficientes}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{,} \PYG{n}{señal}\PYG{p}{)}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{calcular\PYGZus{}espectro\PYGZus{}complejo}\PYG{p}{(}\PYG{n}{señal}\PYG{p}{,} \PYG{n}{fs}\PYG{p}{,} \PYG{n}{ventana}\PYG{p}{):}
+    \PYG{n}{n} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{señal}\PYG{p}{)}
+    \PYG{n}{w} \PYG{o}{=} \PYG{n}{get\PYGZus{}window}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{n}\PYG{p}{)}
+    \PYG{n}{fft\PYGZus{}vals} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{fft}\PYG{o}{.}\PYG{n}{fft}\PYG{p}{(}\PYG{n}{señal} \PYG{o}{*} \PYG{n}{w}\PYG{p}{)}
+    \PYG{n}{fft\PYGZus{}freqs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{fft}\PYG{o}{.}\PYG{n}{fftfreq}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,} \PYG{n}{d}\PYG{o}{=}\PYG{l+m+mi}{1} \PYG{o}{/} \PYG{n}{fs}\PYG{p}{)}
+    \PYG{n}{mitad} \PYG{o}{=} \PYG{n}{n} \PYG{o}{//} \PYG{l+m+mi}{2}
+    \PYG{k}{return} \PYG{n}{fft\PYGZus{}freqs}\PYG{p}{[:}\PYG{n}{mitad}\PYG{p}{],} \PYG{n}{fft\PYGZus{}vals}\PYG{p}{[:}\PYG{n}{mitad}\PYG{p}{]}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{buscar\PYGZus{}indice\PYGZus{}pico}\PYG{p}{(}\PYG{n}{freqs}\PYG{p}{,} \PYG{n}{espectro}\PYG{p}{,} \PYG{n}{banda}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Devuelve el índice del bin de mayor magnitud dentro de la banda dada.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{f\PYGZus{}baja}\PYG{p}{,} \PYG{n}{f\PYGZus{}alta} \PYG{o}{=} \PYG{n}{banda}
+    \PYG{n}{i0} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{searchsorted}\PYG{p}{(}\PYG{n}{freqs}\PYG{p}{,} \PYG{n}{f\PYGZus{}baja}\PYG{p}{)}
+    \PYG{n}{i1} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{searchsorted}\PYG{p}{(}\PYG{n}{freqs}\PYG{p}{,} \PYG{n}{f\PYGZus{}alta}\PYG{p}{)}
+
+    \PYG{k}{if} \PYG{n}{i1} \PYG{o}{\PYGZlt{}=} \PYG{n}{i0}\PYG{p}{:}
+        \PYG{k}{raise} \PYG{n+ne}{ValueError}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}La banda de búsqueda no contiene ningún bin de frecuencia.\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{magnitud} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{espectro}\PYG{p}{[}\PYG{n}{i0}\PYG{p}{:}\PYG{n}{i1}\PYG{p}{])}
+    \PYG{k}{return} \PYG{n}{i0} \PYG{o}{+} \PYG{n}{np}\PYG{o}{.}\PYG{n}{argmax}\PYG{p}{(}\PYG{n}{magnitud}\PYG{p}{)}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{medir\PYGZus{}s11\PYGZus{}punto}\PYG{p}{(}\PYG{n}{canal\PYGZus{}ref}\PYG{p}{,} \PYG{n}{canal\PYGZus{}med}\PYG{p}{,} \PYG{n}{fs}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    A partir de una captura de referencia y medición, devuelve un único}
+\PYG{l+s+sd}{    valor complejo de S11 correspondiente al tono de batido.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{ref\PYGZus{}filtrada} \PYG{o}{=} \PYG{n}{aplicar\PYGZus{}filtro}\PYG{p}{(}\PYG{n}{canal\PYGZus{}ref}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{)}
+    \PYG{n}{med\PYGZus{}filtrada} \PYG{o}{=} \PYG{n}{aplicar\PYGZus{}filtro}\PYG{p}{(}\PYG{n}{canal\PYGZus{}med}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{)}
+
+    \PYG{n}{freqs\PYGZus{}ref}\PYG{p}{,} \PYG{n}{espectro\PYGZus{}ref} \PYG{o}{=} \PYG{n}{calcular\PYGZus{}espectro\PYGZus{}complejo}\PYG{p}{(}\PYG{n}{ref\PYGZus{}filtrada}\PYG{p}{,} \PYG{n}{fs}\PYG{p}{,} \PYG{n}{VENTANA\PYGZus{}FFT}\PYG{p}{)}
+    \PYG{n}{freqs\PYGZus{}med}\PYG{p}{,} \PYG{n}{espectro\PYGZus{}med} \PYG{o}{=} \PYG{n}{calcular\PYGZus{}espectro\PYGZus{}complejo}\PYG{p}{(}\PYG{n}{med\PYGZus{}filtrada}\PYG{p}{,} \PYG{n}{fs}\PYG{p}{,} \PYG{n}{VENTANA\PYGZus{}FFT}\PYG{p}{)}
+
+    \PYG{n}{idx\PYGZus{}pico} \PYG{o}{=} \PYG{n}{buscar\PYGZus{}indice\PYGZus{}pico}\PYG{p}{(}\PYG{n}{freqs\PYGZus{}ref}\PYG{p}{,} \PYG{n}{espectro\PYGZus{}ref}\PYG{p}{,} \PYG{n}{BANDA\PYGZus{}BUSQUEDA\PYGZus{}PICO}\PYG{p}{)}
+
+    \PYG{n}{epsilon} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{espectro\PYGZus{}ref}\PYG{p}{))} \PYG{o}{*} \PYG{l+m+mf}{1e\PYGZhy{}9}
+    \PYG{n}{s11} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{conj}\PYG{p}{(}\PYG{n}{espectro\PYGZus{}med}\PYG{p}{[}\PYG{n}{idx\PYGZus{}pico}\PYG{p}{]} \PYG{o}{/} \PYG{p}{(}\PYG{n}{espectro\PYGZus{}ref}\PYG{p}{[}\PYG{n}{idx\PYGZus{}pico}\PYG{p}{]} \PYG{o}{+} \PYG{n}{epsilon}\PYG{p}{))}
+
+    \PYG{k}{return} \PYG{n}{s11}\PYG{p}{,} \PYG{n}{freqs\PYGZus{}ref}\PYG{p}{[}\PYG{n}{idx\PYGZus{}pico}\PYG{p}{]}
+
+
+\PYG{c+c1}{\PYGZsh{} ==================== Barrido ====================}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{barrido}\PYG{p}{(}\PYG{n}{ser}\PYG{p}{,}\PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{,} \PYG{n}{nombre\PYGZus{}medida}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,} \PYG{n}{calibracion}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZgt{} Iniciando adquisición: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{nombre\PYGZus{}medida}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{resultados\PYGZus{}freq\PYGZus{}rf} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{resultados\PYGZus{}s11\PYGZus{}complejo} \PYG{o}{=} \PYG{p}{[]}
+    
+    \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{f\PYGZus{}rf} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{):}
+        \PYG{n}{respuesta} \PYG{o}{=} \PYG{n}{setear\PYGZus{}frecuencia}\PYG{p}{(}\PYG{n}{ser}\PYG{p}{,} \PYG{n}{f\PYGZus{}rf}\PYG{p}{)}
+    
+        \PYG{k}{if} \PYG{n}{respuesta}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}ERROR\PYGZdq{}}\PYG{p}{):}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}[}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{] }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{respuesta}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{} se aborta el barrido.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{break}
+    
+        \PYG{n}{canal\PYGZus{}ref}\PYG{p}{,} \PYG{n}{canal\PYGZus{}med} \PYG{o}{=} \PYG{n}{capturar\PYGZus{}audio}\PYG{p}{(}\PYG{n}{DURACION\PYGZus{}CAPTURA\PYGZus{}S}\PYG{p}{,} \PYG{n}{FS\PYGZus{}AUDIO}\PYG{p}{,} \PYG{n}{DISPOSITIVO\PYGZus{}AUDIO}\PYG{p}{)}
+    
+        \PYG{n}{s11}\PYG{p}{,} \PYG{n}{f\PYGZus{}batido} \PYG{o}{=} \PYG{n}{medir\PYGZus{}s11\PYGZus{}punto}\PYG{p}{(}\PYG{n}{canal\PYGZus{}ref}\PYG{p}{,} \PYG{n}{canal\PYGZus{}med}\PYG{p}{,} \PYG{n}{FS\PYGZus{}AUDIO}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{)}
+    
+        \PYG{n}{resultados\PYGZus{}freq\PYGZus{}rf}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{f\PYGZus{}rf}\PYG{p}{)}
+        \PYG{n}{resultados\PYGZus{}s11\PYGZus{}complejo}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{s11}\PYG{p}{)}
+
+        \PYG{n}{gamma\PYGZus{}mostrar} \PYG{o}{=} \PYG{n}{s11}
+        \PYG{n}{etiqueta\PYGZus{}modulo} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}|S11|\PYGZdq{}}
+        \PYG{n}{etiqueta\PYGZus{}fase} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}fase\PYGZdq{}}
+        \PYG{k}{if} \PYG{n}{calibracion} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None}\PYG{p}{:}
+            \PYG{n}{idx} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{resultados\PYGZus{}s11\PYGZus{}complejo}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}
+            \PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e} \PYG{o}{=} \PYG{n}{calibracion}
+            \PYG{k}{if} \PYG{n}{idx} \PYG{o}{\PYGZlt{}} \PYG{n+nb}{min}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{e\PYGZus{}00}\PYG{p}{),} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{e\PYGZus{}11}\PYG{p}{),} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{delta\PYGZus{}e}\PYG{p}{)):}
+                \PYG{n}{gamma\PYGZus{}mostrar} \PYG{o}{=} \PYG{n}{correccion\PYGZus{}punto}\PYG{p}{(}
+                    \PYG{n}{s11}\PYG{p}{,} \PYG{n}{e\PYGZus{}00}\PYG{p}{[}\PYG{n}{idx}\PYG{p}{],} \PYG{n}{e\PYGZus{}11}\PYG{p}{[}\PYG{n}{idx}\PYG{p}{],} \PYG{n}{delta\PYGZus{}e}\PYG{p}{[}\PYG{n}{idx}\PYG{p}{]}
+                \PYG{p}{)}
+                \PYG{n}{etiqueta\PYGZus{}modulo} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}|S11| calibrado\PYGZdq{}}
+                \PYG{n}{etiqueta\PYGZus{}fase} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}fase calibrada\PYGZdq{}}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{k}{continue}
+
+        \PYG{n}{modulo\PYGZus{}db} \PYG{o}{=} \PYG{l+m+mi}{20} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log10}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{gamma\PYGZus{}mostrar}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mf}{1e\PYGZhy{}12}\PYG{p}{)}
+        \PYG{n}{fase\PYGZus{}deg} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{degrees}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{angle}\PYG{p}{(}\PYG{n}{gamma\PYGZus{}mostrar}\PYG{p}{))}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}[}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{] RF=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{f\PYGZus{}rf}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ MHz  \PYGZdq{}}
+              \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}batido=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{f\PYGZus{}batido}\PYG{l+s+si}{:}\PYG{l+s+s2}{.1f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ Hz  }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{etiqueta\PYGZus{}modulo}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{modulo\PYGZus{}db}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ dB  \PYGZdq{}}
+              \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{etiqueta\PYGZus{}fase}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{fase\PYGZus{}deg}\PYG{l+s+si}{:}\PYG{l+s+s2}{.1f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{°\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{resultados\PYGZus{}freq\PYGZus{}rf}\PYG{p}{),} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{resultados\PYGZus{}s11\PYGZus{}complejo}\PYG{p}{)}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{guardar\PYGZus{}csv}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,} \PYG{n}{freq\PYGZus{}rf}\PYG{p}{,} \PYG{n}{modulo\PYGZus{}db}\PYG{p}{,} \PYG{n}{fase\PYGZus{}deg}\PYG{p}{):}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{,} \PYG{n}{newline}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}utf\PYGZhy{}8\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{writer} \PYG{o}{=} \PYG{n}{csv}\PYG{o}{.}\PYG{n}{writer}\PYG{p}{(}\PYG{n}{f}\PYG{p}{)}
+        \PYG{n}{writer}\PYG{o}{.}\PYG{n}{writerow}\PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}freq\PYGZus{}rf\PYGZus{}MHz\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}modulo\PYGZus{}S11\PYGZus{}dB\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}fase\PYGZus{}S11\PYGZus{}deg\PYGZdq{}}\PYG{p}{])}
+        \PYG{k}{for} \PYG{n}{f\PYGZus{}rf}\PYG{p}{,} \PYG{n}{m}\PYG{p}{,} \PYG{n}{fa} \PYG{o+ow}{in} \PYG{n+nb}{zip}\PYG{p}{(}\PYG{n}{freq\PYGZus{}rf}\PYG{p}{,} \PYG{n}{modulo\PYGZus{}db}\PYG{p}{,} \PYG{n}{fase\PYGZus{}deg}\PYG{p}{):}
+            \PYG{n}{writer}\PYG{o}{.}\PYG{n}{writerow}\PYG{p}{([}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{f\PYGZus{}rf}\PYG{l+s+si}{:}\PYG{l+s+s2}{.6f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{m}\PYG{l+s+si}{:}\PYG{l+s+s2}{.4f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{fa}\PYG{l+s+si}{:}\PYG{l+s+s2}{.4f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{])}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Resultados guardados en }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{graficar\PYGZus{}resultado}\PYG{p}{(}\PYG{n}{freq\PYGZus{}rf}\PYG{p}{,} \PYG{n}{modulo\PYGZus{}db}\PYG{p}{,} \PYG{n}{fase\PYGZus{}deg}\PYG{p}{):}
+    \PYG{n}{fig}\PYG{p}{,} \PYG{n}{axs} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{),} \PYG{n}{sharex}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+    \PYG{n}{axs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{freq\PYGZus{}rf}\PYG{p}{,} \PYG{n}{modulo\PYGZus{}db}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}deeppink\PYGZdq{}}\PYG{p}{,} \PYG{n}{marker}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}.\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}None\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{axs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}S11 \PYGZhy{} Módulo\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{axs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}|S11| (dB)\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{axs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{grid}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.3}\PYG{p}{)}
+
+    \PYG{n}{axs}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{freq\PYGZus{}rf}\PYG{p}{,} \PYG{n}{fase\PYGZus{}deg}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}darkmagenta\PYGZdq{}}\PYG{p}{,} \PYG{n}{marker}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}.\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}None\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{axs}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}S11 \PYGZhy{} Fase\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{axs}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Frecuencia de RF (MHz)\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{axs}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Fase (grados)\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{axs}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{grid}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.3}\PYG{p}{)}
+
+    \PYG{n}{elementos\PYGZus{}leyenda} \PYG{o}{=} \PYG{p}{[}
+        \PYG{n}{Line2D}\PYG{p}{([],} \PYG{p}{[],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}none\PYGZdq{}}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}F inicio: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}INICIO\PYGZus{}MHZ}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ MHz\PYGZdq{}}\PYG{p}{),}
+        \PYG{n}{Line2D}\PYG{p}{([],} \PYG{p}{[],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}none\PYGZdq{}}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}F fin: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}FIN\PYGZus{}MHZ}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ MHz\PYGZdq{}}\PYG{p}{),}
+        \PYG{n}{Line2D}\PYG{p}{([],} \PYG{p}{[],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}none\PYGZdq{}}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}F paso: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}PASO\PYGZus{}MHZ}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ MHz\PYGZdq{}}\PYG{p}{),}
+        \PYG{n}{Line2D}\PYG{p}{([],} \PYG{p}{[],} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}none\PYGZdq{}}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}F centro filtro: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}CENTRO\PYGZus{}FILTRO}\PYG{l+s+si}{:}\PYG{l+s+s2}{.0f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ Hz\PYGZdq{}}\PYG{p}{),}
+    \PYG{p}{]}
+    \PYG{n}{fig}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{(}\PYG{n}{handles}\PYG{o}{=}\PYG{n}{elementos\PYGZus{}leyenda}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}lower center\PYGZdq{}}\PYG{p}{,} \PYG{n}{ncol}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
+               \PYG{n}{frameon}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{tight\PYGZus{}layout}\PYG{p}{(}\PYG{n}{rect}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{0.10}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{))}
+
+    \PYG{n}{ventana} \PYG{o}{=} \PYG{n}{tk}\PYG{o}{.}\PYG{n}{Tk}\PYG{p}{()}
+    \PYG{n}{ventana}\PYG{o}{.}\PYG{n}{withdraw}\PYG{p}{()}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{n}{medicion} \PYG{o}{=} \PYG{n}{simpledialog}\PYG{o}{.}\PYG{n}{askstring}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}Nombre de la medición\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}¿A qué medición corresponde esta figura?}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+            \PYG{l+s+s2}{\PYGZdq{}El nombre se agregará al archivo .pkl:\PYGZdq{}}
+        \PYG{p}{)}
+    \PYG{k}{finally}\PYG{p}{:}
+        \PYG{n}{ventana}\PYG{o}{.}\PYG{n}{destroy}\PYG{p}{()}
+
+    \PYG{k}{if} \PYG{n}{medicion} \PYG{o+ow}{and} \PYG{n}{medicion}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{():}
+        \PYG{n}{nombre\PYGZus{}medicion} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{sub}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}[\PYGZlt{}\PYGZgt{}:}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{/}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{|?*]\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZdq{}}\PYG{p}{,} \PYG{n}{medicion}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{())}
+        \PYG{n}{archivo\PYGZus{}figura} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{NOMBRE\PYGZus{}FIGURA\PYGZus{}BASE}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{nombre\PYGZus{}medicion}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.pkl\PYGZdq{}}
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{archivo\PYGZus{}figura}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}wb\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+                \PYG{n}{pickle}\PYG{o}{.}\PYG{n}{dump}\PYG{p}{(}\PYG{n}{fig}\PYG{p}{,} \PYG{n}{f}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Figura interactiva guardada en }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{archivo\PYGZus{}figura}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZdq{}}
+                  \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}(reabrila con abrir\PYGZus{}figura.py)\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}AVISO: no se pudo guardar la figura con pickle (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{). \PYGZdq{}}
+                  \PYG{l+s+s2}{\PYGZdq{}El CSV con los datos sigue disponible igual.\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}AVISO: no se guardó la figura porque no se indicó la medición.\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{CARPETA\PYGZus{}CSV}\PYG{p}{,} \PYG{n}{exist\PYGZus{}ok}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+    \PYG{n}{frecuencias\PYGZus{}rf} \PYG{o}{=} \PYG{n}{generar\PYGZus{}frecuencias}\PYG{p}{(}\PYG{n}{F\PYGZus{}INICIO\PYGZus{}MHZ}\PYG{p}{,} \PYG{n}{F\PYGZus{}FIN\PYGZus{}MHZ}\PYG{p}{,} \PYG{n}{F\PYGZus{}PASO\PYGZus{}MHZ}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Barrido: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ pasos, de }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}INICIO\PYGZus{}MHZ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ a }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}FIN\PYGZus{}MHZ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ MHz \PYGZdq{}}
+          \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}(paso }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{F\PYGZus{}PASO\PYGZus{}MHZ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ MHz)\PYGZdq{}}\PYG{p}{)}
+    
+    \PYG{n}{coef\PYGZus{}filtro} \PYG{o}{=} \PYG{n}{diseñar\PYGZus{}filtro\PYGZus{}pasabanda}\PYG{p}{(}
+        \PYG{n}{FS\PYGZus{}AUDIO}\PYG{p}{,} \PYG{n}{F\PYGZus{}CENTRO\PYGZus{}FILTRO}\PYG{p}{,} \PYG{n}{ANCHO\PYGZus{}BANDA\PYGZus{}FILTRO}\PYG{p}{,} \PYG{n}{NUMTAPS\PYGZus{}FILTRO}
+    \PYG{p}{)}
+
+    \PYG{n}{hacer\PYGZus{}cal} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{c+c1}{\PYGZsh{} 1. Comprobar si existe la matriz de calibración para este barrido}
+    \PYG{k}{if} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{archivo\PYGZus{}calibracion}\PYG{p}{):}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Se encontró un archivo de calibración coincidente: \PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{archivo\PYGZus{}calibracion}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{rta} \PYG{o}{=} \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}¿Deseas usar esta calibración previa (s) o realizar una nueva calibración SOL (n)? [s/n]: \PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{rta}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}s\PYGZsq{}}\PYG{p}{:}
+            \PYG{n}{hacer\PYGZus{}cal} \PYG{o}{=} \PYG{k+kc}{False}
+
+            \PYG{n}{freqs\PYGZus{}cal}\PYG{p}{,} \PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e} \PYG{o}{=} \PYG{n}{cargar\PYGZus{}calibracion\PYGZus{}csv}\PYG{p}{(}\PYG{n}{archivo\PYGZus{}calibracion}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Matriz de error cargada correctamente.\PYGZdq{}}\PYG{p}{)}
+    
+    \PYG{n}{ser} \PYG{o}{=} \PYG{n}{conectar\PYGZus{}arduino}\PYG{p}{(}\PYG{n}{PUERTO}\PYG{p}{,} \PYG{n}{BAUDRATE}\PYG{p}{)}
+
+ \PYG{c+c1}{\PYGZsh{} 3. Procedimiento de calibración SOL si corresponde}
+    \PYG{k}{if} \PYG{n}{hacer\PYGZus{}cal}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{===========================================\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}   INICIANDO CALIBRACIÓN S.O.L.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}===========================================\PYGZdq{}}\PYG{p}{)}
+        
+        \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Paso 1/3: Conecte la carga SHORT (Cortocircuito) y presione Enter para barrer...\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{freqs\PYGZus{}cal}\PYG{p}{,} \PYG{n}{gm\PYGZus{}cc} \PYG{o}{=} \PYG{n}{barrido}\PYG{p}{(}\PYG{n}{ser}\PYG{p}{,} \PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}CALIBRACIÓN SHORT\PYGZdq{}}\PYG{p}{)}
+        
+        \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Paso 2/3: Conecte la carga OPEN (Circuito Abierto) y presione Enter para barrer...\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{gm\PYGZus{}ca} \PYG{o}{=} \PYG{n}{barrido}\PYG{p}{(}\PYG{n}{ser}\PYG{p}{,} \PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}CALIBRACIÓN OPEN\PYGZdq{}}\PYG{p}{)}
+        
+        \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Paso 3/3: Conecte la carga LOAD (50 Ohms) y presione Enter para barrer...\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{gm\PYGZus{}50} \PYG{o}{=} \PYG{n}{barrido}\PYG{p}{(}\PYG{n}{ser}\PYG{p}{,} \PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}CALIBRACIÓN LOAD\PYGZdq{}}\PYG{p}{)}
+        
+        \PYG{c+c1}{\PYGZsh{} Calcular los términos de error con la función de álgebra lineal}
+        \PYG{n}{n\PYGZus{}puntos} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{freqs\PYGZus{}cal}\PYG{p}{)}
+        \PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e} \PYG{o}{=} \PYG{n}{calculo\PYGZus{}errores}\PYG{p}{(}\PYG{n}{gm\PYGZus{}cc}\PYG{p}{,} \PYG{n}{gm\PYGZus{}ca}\PYG{p}{,} \PYG{n}{gm\PYGZus{}50}\PYG{p}{,} \PYG{n}{n\PYGZus{}puntos}\PYG{p}{)}
+        
+        \PYG{c+c1}{\PYGZsh{} Guardar en archivo .csv}
+        \PYG{n}{guardar\PYGZus{}calibracion\PYGZus{}csv}\PYG{p}{(}\PYG{n}{archivo\PYGZus{}calibracion}\PYG{p}{,} \PYG{n}{freqs\PYGZus{}cal}\PYG{p}{,} \PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} 4. Medición del Dispositivo Bajo Prueba (DUT)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{===========================================\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}   MEDICIÓN DEL DISPOSITIVO (DUT)\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}===========================================\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Conecte el dispositivo a medir y presione Enter para iniciar el barrido final...\PYGZdq{}}\PYG{p}{)}
+    
+    \PYG{n}{freqs\PYGZus{}dut}\PYG{p}{,} \PYG{n}{gm\PYGZus{}dut} \PYG{o}{=} \PYG{n}{barrido}\PYG{p}{(}
+        \PYG{n}{ser}\PYG{p}{,} \PYG{n}{frecuencias\PYGZus{}rf}\PYG{p}{,} \PYG{n}{coef\PYGZus{}filtro}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}MEDICIÓN DUT\PYGZdq{}}\PYG{p}{,}
+        \PYG{n}{calibracion}\PYG{o}{=}\PYG{p}{(}\PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e}\PYG{p}{),}
+    \PYG{p}{)}
+    
+    \PYG{n}{ser}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+
+     \PYG{c+c1}{\PYGZsh{} Chequeo de consistencia (por si cambiaron las frecuencias excluidas entre runs)}
+    \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{freqs\PYGZus{}dut}\PYG{p}{)} \PYG{o}{!=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{e\PYGZus{}00}\PYG{p}{):}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{¡ADVERTENCIA! El número de puntos no coincide con la calibración. Mal el rango de frecuencias\PYGZdq{}}\PYG{p}{)}
+
+     \PYG{c+c1}{\PYGZsh{} 6. Aplicar la corrección SOL al DUT}
+    \PYG{n}{gamma\PYGZus{}corregido} \PYG{o}{=} \PYG{n}{correccion}\PYG{p}{(}\PYG{n}{gm\PYGZus{}dut}\PYG{p}{,} \PYG{n}{e\PYGZus{}00}\PYG{p}{,} \PYG{n}{e\PYGZus{}11}\PYG{p}{,} \PYG{n}{delta\PYGZus{}e}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{gm\PYGZus{}dut}\PYG{p}{))}
+
+    \PYG{n}{fase\PYGZus{}deg} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{degrees}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{angle}\PYG{p}{(}\PYG{n}{gamma\PYGZus{}corregido}\PYG{p}{))}
+    \PYG{n}{modulo\PYGZus{}db} \PYG{o}{=} \PYG{l+m+mi}{20} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log10}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{gamma\PYGZus{}corregido}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mf}{1e\PYGZhy{}12}\PYG{p}{)}
+
+    \PYG{n}{guardar\PYGZus{}csv}\PYG{p}{(}\PYG{n}{ARCHIVO\PYGZus{}CSV}\PYG{p}{,} \PYG{n}{freqs\PYGZus{}dut}\PYG{p}{,} \PYG{n}{modulo\PYGZus{}db}\PYG{p}{,} \PYG{n}{fase\PYGZus{}deg}\PYG{p}{)}
+    \PYG{n}{graficar\PYGZus{}resultado}\PYG{p}{(}\PYG{n}{freqs\PYGZus{}dut}\PYG{p}{,} \PYG{n}{modulo\PYGZus{}db}\PYG{p}{,} \PYG{n}{fase\PYGZus{}deg}\PYG{p}{)}
+
+\PYG{n}{main}\PYG{p}{()}
+\end{MintedVerbatim}

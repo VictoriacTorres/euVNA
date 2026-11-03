@@ -28,7 +28,7 @@ from PyQt6.QtWidgets import (
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-import vna_core as core
+import vna_core_FINAL as core
 
 
 # ==================== Hilo de trabajo: corre un barrido sin trabar la GUI ====================
@@ -265,14 +265,14 @@ class MainWindow(QMainWindow):
         v = QVBoxLayout(panel)
 
         # Figura módulo + fase (dos subplots apilados)
-        self.fig_mf = Figure(figsize=(6, 5), facecolor="#fad7ea")
+        self.fig_mf = Figure(figsize=(6, 5), facecolor="#ffffff")
         self.ax_mod = self.fig_mf.add_subplot(211)
         self.ax_fase = self.fig_mf.add_subplot(212, sharex=self.ax_mod)
         self._preparar_ejes_mod_fase()
         self.canvas_mf = FigureCanvas(self.fig_mf)
 
         # Figura abaco de Smith
-        self.fig_smith = Figure(figsize=(5, 5), facecolor="#fad7ea")
+        self.fig_smith = Figure(figsize=(5, 5), facecolor="#ffffff")
         self.ax_smith = self.fig_smith.add_subplot(111)
         dibujar_fondo_smith(self.ax_smith)
         (self.linea_smith,) = self.ax_smith.plot([], [], color="deeppink",
@@ -288,7 +288,7 @@ class MainWindow(QMainWindow):
 
     def _preparar_ejes_mod_fase(self):
         self.ax_mod.clear()
-        self.ax_mod.set_facecolor("#fad7ea")
+        self.ax_mod.set_facecolor("#ffffff")
         self.ax_mod.set_title("S11 - Módulo")
         self.ax_mod.set_ylabel("|S11| (dB)")
         self.ax_mod.grid(True, alpha=0.3)
@@ -296,7 +296,7 @@ class MainWindow(QMainWindow):
                                               marker=".", linestyle="None")
 
         self.ax_fase.clear()
-        self.ax_fase.set_facecolor("#fad7ea")
+        self.ax_fase.set_facecolor("#ffffff")
         self.ax_fase.set_title("S11 - Fase")
         self.ax_fase.set_xlabel("Frecuencia de RF (MHz)")
         self.ax_fase.set_ylabel("Fase (grados)")
@@ -639,7 +639,7 @@ class MainWindow(QMainWindow):
 def main():
     app = QApplication(sys.argv)
     app.setStyleSheet("""
-        QMainWindow, QWidget, QGroupBox {background-color: #fad7ea; }""")
+        QMainWindow, QWidget, QGroupBox {background-color: #ffffff; }""")
     ventana = MainWindow()
     ventana.show()
     sys.exit(app.exec())

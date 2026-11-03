@@ -45,34 +45,35 @@
 \contentsline {section}{\numberline {4.1}Ensamblado de la placa final}{28}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Ficha técnica}{30}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Pruebas de integración}{30}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Mediciones de sistemas bajo prueba}{33}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Cortocircuito}{33}{subsection.4.4.1}%
-\contentsline {subsubsection}{\numberline {4.4.1.1}Cortocircuito de 150°}{33}{subsubsection.4.4.1.1}%
+\contentsline {section}{\numberline {4.4}Mediciones de sistemas bajo prueba}{34}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Cortocircuitos}{34}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}Circuito abierto}{35}{subsection.4.4.2}%
 \contentsline {subsection}{\numberline {4.4.3}Adaptación (50 $\Omega $)}{35}{subsection.4.4.3}%
-\contentsline {subsection}{\numberline {4.4.4}Sensor resonante}{35}{subsection.4.4.4}%
-\contentsline {section}{\numberline {4.5}Interfaz de usuario}{36}{section.4.5}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajos futuros}{38}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Trabajos futuros}{39}{section.5.1}%
-\contentsline {chapter}{\numberline {6}Esquemáticos y código}{40}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Esquemáticos Altium}{40}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}\ignorespaces Generador de RF incidente (ADF4351)}{41}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}\ignorespaces Generador de RF Oscilador Local (ADF4351)}{42}{subsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.1.3}\ignorespaces Mezclador}{43}{subsection.6.1.3}%
-\contentsline {subsection}{\numberline {6.1.4}\ignorespaces Alimentación y CLK}{44}{subsection.6.1.4}%
-\contentsline {subsection}{\numberline {6.1.5}\ignorespaces Acoplador Direccional}{45}{subsection.6.1.5}%
-\contentsline {subsection}{\numberline {6.1.6}\ignorespaces Amplificadores de FI}{46}{subsection.6.1.6}%
-\contentsline {subsection}{\numberline {6.1.7}\ignorespaces Atenuadores}{47}{subsection.6.1.7}%
-\contentsline {section}{\numberline {6.2}Firmware}{48}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Software}{48}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Interfaz de usuario}{48}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Core}{48}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Graphical User Interface}{55}{subsection.6.4.2}%
-\contentsline {chapter}{Apéndices}{68}{subsection.6.4.2}%
-\contentsline {section}{\numberline {A}\ignorespaces Estudio Preliminar}{70}{section.6.1}%
-\contentsline {section}{\numberline {B}\ignorespaces Plan de Trabajo}{74}{section.6.2}%
-\contentsline {section}{\numberline {C}\ignorespaces Especificación de Requerimientos}{78}{section.6.3}%
-\contentsline {section}{\numberline {D}\ignorespaces Especificación Funcional}{84}{section.6.4}%
-\contentsline {section}{\numberline {E}\ignorespaces Especificación Técnica}{92}{section.6.5}%
-\contentsline {section}{\numberline {F}\ignorespaces Plan de Pruebas}{104}{section.6.6}%
-\contentsline {chapter}{Bibliografía}{110}{chapter*.38}%
+\contentsline {section}{\numberline {4.5}Análisis de resultados}{35}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Sensor resonante}{36}{subsection.4.5.1}%
+\contentsline {section}{\numberline {4.6}Interfaz de usuario}{37}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Comparación con dispositivo comercial}{37}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajos futuros}{39}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Trabajos futuros}{40}{section.5.1}%
+\contentsline {chapter}{\numberline {6}Esquemáticos y código}{41}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Esquemáticos Altium}{41}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}\ignorespaces Generador de RF incidente (ADF4351)}{42}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}\ignorespaces Generador de RF Oscilador Local (ADF4351)}{43}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}\ignorespaces Mezclador}{44}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}\ignorespaces Alimentación y CLK}{45}{subsection.6.1.4}%
+\contentsline {subsection}{\numberline {6.1.5}\ignorespaces Acoplador Direccional}{46}{subsection.6.1.5}%
+\contentsline {subsection}{\numberline {6.1.6}\ignorespaces Amplificadores de FI}{47}{subsection.6.1.6}%
+\contentsline {subsection}{\numberline {6.1.7}\ignorespaces Atenuadores}{48}{subsection.6.1.7}%
+\contentsline {section}{\numberline {6.2}Firmware}{49}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Software}{53}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Interfaz de usuario}{62}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Core}{62}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Graphical User Interface}{68}{subsection.6.4.2}%
+\contentsline {chapter}{Apéndices}{81}{subsection.6.4.2}%
+\contentsline {section}{\numberline {A}\ignorespaces Estudio Preliminar}{83}{section.6.1}%
+\contentsline {section}{\numberline {B}\ignorespaces Plan de Trabajo}{87}{section.6.2}%
+\contentsline {section}{\numberline {C}\ignorespaces Especificación de Requerimientos}{91}{section.6.3}%
+\contentsline {section}{\numberline {D}\ignorespaces Especificación Funcional}{97}{section.6.4}%
+\contentsline {section}{\numberline {E}\ignorespaces Especificación Técnica}{105}{section.6.5}%
+\contentsline {section}{\numberline {F}\ignorespaces Plan de Pruebas}{117}{section.6.6}%
+\contentsline {chapter}{Bibliografía}{123}{chapter*.40}%

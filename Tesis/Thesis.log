@@ -1,179 +1,179 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.1)  2 NOV 2026 18:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.2)  2 NOV 2026 23:51
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"c:/Users/David Petruzzi/Desktop/euVNA/euVNA/Tesis/Thesis.tex"
-(c:/Users/David Petruzzi/Desktop/euVNA/euVNA/Tesis/Thesis.tex
-LaTeX2e <2026-06-01>
-L3 programming layer <2026-09-09>
-(c:/texlive/2026/texmf-dist/tex/latex/base/report.cls
+**c:/Users/torre/OneDrive/Escritorio/euVNA/Tesis/Thesis.tex
+(c:/Users/torre/OneDrive/Escritorio/euVNA/Tesis/Thesis.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+(C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
 Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
-(c:/texlive/2026/texmf-dist/tex/latex/base/size11.clo
+(C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/base\size11.clo
 File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 )
-\c@part=\count276
-\c@chapter=\count277
-\c@section=\count278
-\c@subsection=\count279
-\c@subsubsection=\count280
-\c@paragraph=\count281
-\c@subparagraph=\count282
-\c@figure=\count283
-\c@table=\count284
+\c@part=\count275
+\c@chapter=\count276
+\c@section=\count277
+\c@subsection=\count278
+\c@subsubsection=\count279
+\c@paragraph=\count280
+\c@subparagraph=\count281
+\c@figure=\count282
+\c@table=\count283
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
-\bibindent=\dimen150
-) (c:/texlive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2026-05-17 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
- (c:/texlive/2026/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2026-05-17 v1.15 key=value parser (DPC)
+\bibindent=\dimen148
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
-) (c:/texlive/2026/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2026-05-17 v1.4h Standard LaTeX Graphics (DPC,SPQR)
- (c:/texlive/2026/texmf-dist/tex/latex/graphics/trig.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
-) (c:/texlive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 106.
- (c:/texlive/2026/texmf-dist/tex/latex/graphics-def/pdftex.def
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
 File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen151
-\Gin@req@width=\dimen152
-) (c:/texlive/2026/texmf-dist/tex/latex/float/float.sty
+\Gin@req@height=\dimen149
+\Gin@req@width=\dimen150
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count285
+\c@float@type=\count284
 \float@exts=\toks18
 \float@box=\box53
 \@float@everytoks=\toks19
 \@floatcapt=\box54
-) (c:/texlive/2026/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen153
-\WF@size=\dimen154
-\c@WF@wrappedlines=\count286
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/wrapfig\wrapfig.sty
+\wrapoverhang=\dimen151
+\WF@size=\dimen152
+\c@WF@wrappedlines=\count285
 \WF@box=\box55
 \WF@everypar=\toks20
 Package: wrapfig 2003/01/31  v 3.6
-) (c:/texlive/2026/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2026-06-17 v7.01r Hypertext links for LaTeX
- (c:/texlive/2026/texmf-dist/tex/generic/iftex/iftex.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
 Package: iftex 2024/12/12 v1.0g TeX engine tests
-) (c:/texlive/2026/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-) (c:/texlive/2026/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-) (c:/texlive/2026/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
- (c:/texlive/2026/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-) (c:/texlive/2026/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
- (c:/texlive/2026/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)) (c:/texlive/2026/texmf-dist/tex/latex/hycolor/hycolor.sty
+)) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (c:/texlive/2026/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
- (c:/texlive/2026/texmf-dist/tex/latex/refcount/refcount.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+Package: nameref 2025-06-21 v2.57 Cross-referencing by name of section
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-) (c:/texlive/2026/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
- (c:/texlive/2026/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count287
-) (c:/texlive/2026/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+\c@section@level=\count286
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
 Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count288
-) (c:/texlive/2026/texmf-dist/tex/generic/stringenc/stringenc.sty
+\etb@tempcnta=\count287
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
-\@linkdim=\dimen155
-\Hy@linkcounter=\count289
-\Hy@pagecounter=\count290
- (c:/texlive/2026/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2026-06-17 v7.01r Hyperref: PDFDocEncoding definition (HO)
+\@linkdim=\dimen153
+\Hy@linkcounter=\count288
+\Hy@pagecounter=\count289
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (c:/texlive/2026/texmf-dist/tex/generic/intcalc/intcalc.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count291
- (c:/texlive/2026/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2026-06-17 v7.01r Hyperref: PDF Unicode definition (HO)
+\Hy@SavedSpaceFactor=\count290
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
+File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Hyper figures OFF on input line 4199.
-Package hyperref Info: Link nesting OFF on input line 4204.
-Package hyperref Info: Hyper index ON on input line 4207.
-Package hyperref Info: Plain pages OFF on input line 4214.
-Package hyperref Info: Backreferencing OFF on input line 4219.
+Package hyperref Info: Hyper figures OFF on input line 4195.
+Package hyperref Info: Link nesting OFF on input line 4200.
+Package hyperref Info: Hyper index ON on input line 4203.
+Package hyperref Info: Plain pages OFF on input line 4210.
+Package hyperref Info: Backreferencing OFF on input line 4215.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4466.
-\c@Hy@tempcnt=\count292
- (c:/texlive/2026/texmf-dist/tex/latex/url/url.sty
+Package hyperref Info: Bookmarks ON on input line 4462.
+\c@Hy@tempcnt=\count291
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4805.
-\XeTeXLinkMargin=\dimen156
- (c:/texlive/2026/texmf-dist/tex/generic/bitset/bitset.sty
+LaTeX Info: Redefining \url on input line 4801.
+\XeTeXLinkMargin=\dimen154
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
- (c:/texlive/2026/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count293
-\Field@Width=\dimen157
-\Fld@charsize=\dimen158
-Package hyperref Info: Hyper figures OFF on input line 6091.
-Package hyperref Info: Link nesting OFF on input line 6096.
-Package hyperref Info: Hyper index ON on input line 6099.
-Package hyperref Info: backreferencing OFF on input line 6106.
-Package hyperref Info: Link coloring OFF on input line 6111.
-Package hyperref Info: Link coloring with OCG OFF on input line 6116.
-Package hyperref Info: PDF/A mode OFF on input line 6121.
-\Hy@abspage=\count294
-\c@Item=\count295
-\c@Hfootnote=\count296
+\Fld@menulength=\count292
+\Field@Width=\dimen155
+\Fld@charsize=\dimen156
+Package hyperref Info: Hyper figures OFF on input line 6078.
+Package hyperref Info: Link nesting OFF on input line 6083.
+Package hyperref Info: Hyper index ON on input line 6086.
+Package hyperref Info: backreferencing OFF on input line 6093.
+Package hyperref Info: Link coloring OFF on input line 6098.
+Package hyperref Info: Link coloring with OCG OFF on input line 6103.
+Package hyperref Info: PDF/A mode OFF on input line 6108.
+\Hy@abspage=\count293
+\c@Item=\count294
+\c@Hfootnote=\count295
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
- (c:/texlive/2026/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2026-06-17 v7.01r Hyperref driver for pdfTeX
-\Fld@listcount=\count297
-\c@bookmark@seq@number=\count298
- (c:/texlive/2026/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+File: hpdftex.def 2025-07-12 v7.01o Hyperref driver for pdfTeX
+\Fld@listcount=\count296
+\c@bookmark@seq@number=\count297
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfilecheck.sty
 Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
- (c:/texlive/2026/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
 )
 \Hy@SectionHShift=\skip51
-) (c:/texlive/2026/texmf-dist/tex/latex/geometry/geometry.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
 Package: geometry 2026/03/07 v6.0 Page Geometry
- (c:/texlive/2026/texmf-dist/tex/generic/iftex/ifvtex.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count299
-\Gm@cntv=\count300
-\c@Gm@tempcnt=\count301
-\Gm@bindingoffset=\dimen159
-\Gm@wd@mp=\dimen160
-\Gm@odd@mp=\dimen161
-\Gm@even@mp=\dimen162
-\Gm@layoutwidth=\dimen163
-\Gm@layoutheight=\dimen164
-\Gm@layouthoffset=\dimen165
-\Gm@layoutvoffset=\dimen166
+\Gm@cnth=\count298
+\Gm@cntv=\count299
+\c@Gm@tempcnt=\count300
+\Gm@bindingoffset=\dimen157
+\Gm@wd@mp=\dimen158
+\Gm@odd@mp=\dimen159
+\Gm@even@mp=\dimen160
+\Gm@layoutwidth=\dimen161
+\Gm@layoutheight=\dimen162
+\Gm@layouthoffset=\dimen163
+\Gm@layoutvoffset=\dimen164
 \Gm@dimlist=\toks21
-) (c:/texlive/2026/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg)) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty
 Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@headwidth=\skip52
 \f@nch@offset@elh=\skip53
@@ -190,7 +190,7 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@widthC=\skip64
 \f@nch@widthR=\skip65
 \@temptokenb=\toks22
-) (c:/texlive/2026/texmf-dist/tex/latex/ragged2e/ragged2e.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/ragged2e\ragged2e.sty
 Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \CenteringLeftskip=\skip66
 \RaggedLeftLeftskip=\skip67
@@ -206,19 +206,19 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \RaggedLeftParindent=\skip77
 \RaggedRightParindent=\skip78
 \JustifyingParindent=\skip79
-) (c:/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
-) (c:/texlive/2026/texmf-dist/tex/latex/base/inputenc.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks23
 \inpenc@posthook=\toks24
-) (c:/texlive/2026/texmf-dist/tex/latex/xcolor/xcolor.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
- (c:/texlive/2026/texmf-dist/tex/latex/graphics-cfg/color.cfg
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 274.
- (c:/texlive/2026/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
 Package xcolor Info: Model `RGB' extended on input line 1365.
@@ -228,82 +228,82 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
-) (c:/texlive/2026/texmf-dist/tex/latex/colortbl/colortbl.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colortbl.sty
 Package: colortbl 2026/05/01 v1.0l Color table columns (DPC)
- (c:/texlive/2026/texmf-dist/tex/latex/tools/array.sty
-Package: array 2026/02/24 v2.7b Tabular extension package (FMi)
-\col@sep=\dimen167
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
+\col@sep=\dimen165
 \ar@mcellbox=\box56
-\extrarowheight=\dimen168
+\extrarowheight=\dimen166
 \NC@list=\toks25
 \extratabsurround=\skip80
 \backup@length=\skip81
 \ar@cellbox=\box57
 )
-new hooks used!!
+\everycr=\toks26
 \minrowclearance=\skip82
-\rownum=\count302
-) (c:/texlive/2026/texmf-dist/tex/latex/graphics/dvipsnam.def
-File: dvipsnam.def 2026-05-17 v3.0m Driver-dependent file (DPC,SPQR)
-) (c:/texlive/2026/texmf-dist/tex/latex/tools/tabularx.sty
+\rownum=\count301
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\dvipsnam.def
+File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
 Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
-\TX@col@width=\dimen169
-\TX@old@table=\dimen170
-\TX@old@col=\dimen171
-\TX@target=\dimen172
-\TX@delta=\dimen173
-\TX@cols=\count303
-\TX@ftn=\toks26
-) (c:/texlive/2026/texmf-dist/tex/latex/caption/caption.sty
+\TX@col@width=\dimen167
+\TX@old@table=\dimen168
+\TX@old@col=\dimen169
+\TX@target=\dimen170
+\TX@delta=\dimen171
+\TX@cols=\count302
+\TX@ftn=\toks27
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
- (c:/texlive/2026/texmf-dist/tex/latex/caption/caption3.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
-\caption@tempdima=\dimen174
-\captionmargin=\dimen175
-\caption@leftmargin=\dimen176
-\caption@rightmargin=\dimen177
-\caption@width=\dimen178
-\caption@indent=\dimen179
-\caption@parindent=\dimen180
-\caption@hangindent=\dimen181
+\caption@tempdima=\dimen172
+\captionmargin=\dimen173
+\caption@leftmargin=\dimen174
+\caption@rightmargin=\dimen175
+\caption@width=\dimen176
+\caption@indent=\dimen177
+\caption@parindent=\dimen178
+\caption@hangindent=\dimen179
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count304
-\c@continuedfloat=\count305
+\c@caption@flags=\count303
+\c@continuedfloat=\count304
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: wrapfig package is loaded.
-) (c:/texlive/2026/texmf-dist/tex/latex/caption/subcaption.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/caption\subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 Package caption Info: New subtype `subfigure' on input line 238.
-\c@subfigure=\count306
+\c@subfigure=\count305
 Package caption Info: New subtype `subtable' on input line 238.
-\c@subtable=\count307
-) (c:/texlive/2026/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2026/05/19 v2.18d AMS math features
+\c@subtable=\count306
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip83
 
 For additional information on amsmath, use the `?' option.
-(c:/texlive/2026/texmf-dist/tex/latex/amsmath/amstext.sty
+(C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
 Package: amstext 2024/11/17 v2.01 AMS text
- (c:/texlive/2026/texmf-dist/tex/latex/amsmath/amsgen.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks27
-\ex@=\dimen182
-)) (c:/texlive/2026/texmf-dist/tex/latex/amsmath/amsbsy.sty
+\@emptytoks=\toks28
+\ex@=\dimen180
+)) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen183
-) (c:/texlive/2026/texmf-dist/tex/latex/amsmath/amsopn.sty
+\pmbraise@=\dimen181
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count308
+\inf@bad=\count307
 LaTeX Info: Redefining \frac on input line 233.
-\uproot@=\count309
-\leftroot@=\count310
+\uproot@=\count308
+\leftroot@=\count309
 LaTeX Info: Redefining \overline on input line 398.
 LaTeX Info: Redefining \colon on input line 409.
-\classnum@=\count311
-\DOTSCASE@=\count312
+\classnum@=\count310
+\DOTSCASE@=\count311
 LaTeX Info: Redefining \ldots on input line 495.
 LaTeX Info: Redefining \dots on input line 498.
 LaTeX Info: Redefining \cdots on input line 619.
@@ -313,135 +313,135 @@ LaTeX Info: Redefining \big on input line 721.
 LaTeX Info: Redefining \Big on input line 722.
 LaTeX Info: Redefining \bigg on input line 723.
 LaTeX Info: Redefining \Bigg on input line 724.
-\big@size=\dimen184
+\big@size=\dimen182
 LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
-\macc@depth=\count313
+\macc@depth=\count312
 LaTeX Info: Redefining \bmod on input line 904.
 LaTeX Info: Redefining \pmod on input line 909.
 LaTeX Info: Redefining \smash on input line 939.
 LaTeX Info: Redefining \relbar on input line 969.
 LaTeX Info: Redefining \Relbar on input line 970.
-\c@MaxMatrixCols=\count314
+\c@MaxMatrixCols=\count313
 \dotsspace@=\muskip18
-\c@parentequation=\count315
-\dspbrk@lvl=\count316
-\tag@help=\toks28
-\row@=\count317
-\column@=\count318
-\maxfields@=\count319
-\andhelp@=\toks29
-\eqnshift@=\dimen185
-\alignsep@=\dimen186
-\tagshift@=\dimen187
-\tagwidth@=\dimen188
-\totwidth@=\dimen189
-\lineht@=\dimen190
-\@envbody=\toks30
+\c@parentequation=\count314
+\dspbrk@lvl=\count315
+\tag@help=\toks29
+\row@=\count316
+\column@=\count317
+\maxfields@=\count318
+\andhelp@=\toks30
+\eqnshift@=\dimen183
+\alignsep@=\dimen184
+\tagshift@=\dimen185
+\tagwidth@=\dimen186
+\totwidth@=\dimen187
+\lineht@=\dimen188
+\@envbody=\toks31
 \multlinegap=\skip84
 \multlinetaggap=\skip85
-\mathdisplay@stack=\toks31
-LaTeX Info: Redefining \[ on input line 2965.
-LaTeX Info: Redefining \] on input line 2966.
-) (c:/texlive/2026/texmf-dist/tex/latex/amsfonts/amssymb.sty
+\mathdisplay@stack=\toks32
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
- (c:/texlive/2026/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (c:/texlive/2026/texmf-dist/tex/latex/tools/indentfirst.sty
+)) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/tools\indentfirst.sty
 Package: indentfirst 2023/07/02 v1.03 Indent first paragraph (DPC)
-) (c:/texlive/2026/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/pdfpages\pdfpages.sty
 Package: pdfpages 2026/03/30 v0.6h Insert pages of external PDF documents (AM)
- (c:/texlive/2026/texmf-dist/tex/latex/base/ifthen.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
-) (c:/texlive/2026/texmf-dist/tex/latex/tools/calc.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
 Package: calc 2025/03/01 v4.3b Infix arithmetic (KKT,FJ)
-\calc@Acount=\count320
-\calc@Bcount=\count321
-\calc@Adimen=\dimen191
-\calc@Bdimen=\dimen192
+\calc@Acount=\count319
+\calc@Bcount=\count320
+\calc@Adimen=\dimen189
+\calc@Bdimen=\dimen190
 \calc@Askip=\skip86
 \calc@Bskip=\skip87
 LaTeX Info: Redefining \setlength on input line 86.
 LaTeX Info: Redefining \addtolength on input line 87.
-\calc@Ccount=\count322
+\calc@Ccount=\count321
 \calc@Cskip=\skip88
-) (c:/texlive/2026/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/eso-pic\eso-pic.sty
 Package: eso-pic 2026/05/31 v3.0e eso-pic (RN)
-\ESO@tempdima=\dimen193
-\ESO@tempdimb=\dimen194
+\ESO@tempdima=\dimen191
+\ESO@tempdimb=\dimen192
 )
-\AM@pagewidth=\dimen195
-\AM@pageheight=\dimen196
-\AM@fboxrule=\dimen197
- (c:/texlive/2026/texmf-dist/tex/latex/pdfpages/pppdftex.def
+\AM@pagewidth=\dimen193
+\AM@pageheight=\dimen194
+\AM@fboxrule=\dimen195
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/pdfpages\pppdftex.def
 File: pppdftex.def 2026/03/30 v0.6h Pdfpages driver for pdfTeX (AM)
 )
-\pdfpages@includegraphics@status=\count323
+\pdfpages@includegraphics@status=\count322
 \AM@pagebox=\box60
-\AM@global@opts=\toks32
-\AM@pagecnt=\count324
-\AM@toc@title=\toks33
-\AM@lof@heading=\toks34
-\c@AM@survey=\count325
+\AM@global@opts=\toks33
+\AM@pagecnt=\count323
+\AM@toc@title=\toks34
+\AM@lof@heading=\toks35
+\c@AM@survey=\count324
 \AM@templatesizebox=\box61
-) (c:/texlive/2026/texmf-dist/tex/latex/comment/comment.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/comment\comment.sty
 \CommentStream=\write3
- Excluding comment 'comment') (c:/texlive/2026/texmf-dist/tex/latex/biblatex/biblatex.sty
-Package: biblatex 2026/09/24 v3.22a programmable bibliographies (PK/MW)
- (c:/texlive/2026/texmf-dist/tex/latex/logreq/logreq.sty
+ Excluding comment 'comment') (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.sty
+Package: biblatex 2025/07/10 v3.21 programmable bibliographies (PK/MW)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count326
- (c:/texlive/2026/texmf-dist/tex/latex/logreq/logreq.def
+\lrq@indent=\count325
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 ))
-\c@tabx@nest=\count327
-\c@listtotal=\count328
-\c@listcount=\count329
-\c@liststart=\count330
-\c@liststop=\count331
-\c@citecount=\count332
-\c@citetotal=\count333
-\c@multicitecount=\count334
-\c@multicitetotal=\count335
-\c@instcount=\count336
-\c@maxnames=\count337
-\c@minnames=\count338
-\c@maxitems=\count339
-\c@minitems=\count340
-\c@citecounter=\count341
-\c@maxcitecounter=\count342
-\c@savedcitecounter=\count343
-\c@uniquelist=\count344
-\c@uniquename=\count345
-\c@refsection=\count346
-\c@refsegment=\count347
-\c@maxextratitle=\count348
-\c@maxextratitleyear=\count349
-\c@maxextraname=\count350
-\c@maxextradate=\count351
-\c@maxextraalpha=\count352
-\c@abbrvpenalty=\count353
-\c@highnamepenalty=\count354
-\c@lownamepenalty=\count355
-\c@maxparens=\count356
-\c@parenlevel=\count357
-\blx@tempcnta=\count358
-\blx@tempcntb=\count359
-\blx@tempcntc=\count360
-\c@blx@maxsection=\count361
-\blx@maxsegment@0=\count362
-\blx@notetype=\count363
-\blx@parenlevel@text=\count364
-\blx@parenlevel@foot=\count365
-\blx@sectionciteorder@0=\count366
-\blx@sectionciteorderinternal@0=\count367
-\blx@entrysetcounter=\count368
-\blx@biblioinstance=\count369
+\c@tabx@nest=\count326
+\c@listtotal=\count327
+\c@listcount=\count328
+\c@liststart=\count329
+\c@liststop=\count330
+\c@citecount=\count331
+\c@citetotal=\count332
+\c@multicitecount=\count333
+\c@multicitetotal=\count334
+\c@instcount=\count335
+\c@maxnames=\count336
+\c@minnames=\count337
+\c@maxitems=\count338
+\c@minitems=\count339
+\c@citecounter=\count340
+\c@maxcitecounter=\count341
+\c@savedcitecounter=\count342
+\c@uniquelist=\count343
+\c@uniquename=\count344
+\c@refsection=\count345
+\c@refsegment=\count346
+\c@maxextratitle=\count347
+\c@maxextratitleyear=\count348
+\c@maxextraname=\count349
+\c@maxextradate=\count350
+\c@maxextraalpha=\count351
+\c@abbrvpenalty=\count352
+\c@highnamepenalty=\count353
+\c@lownamepenalty=\count354
+\c@maxparens=\count355
+\c@parenlevel=\count356
+\blx@tempcnta=\count357
+\blx@tempcntb=\count358
+\blx@tempcntc=\count359
+\c@blx@maxsection=\count360
+\blx@maxsegment@0=\count361
+\blx@notetype=\count362
+\blx@parenlevel@text=\count363
+\blx@parenlevel@foot=\count364
+\blx@sectionciteorder@0=\count365
+\blx@sectionciteorderinternal@0=\count366
+\blx@entrysetcounter=\count367
+\blx@biblioinstance=\count368
 \labelnumberwidth=\skip89
 \labelalphawidth=\skip90
 \biblabelsep=\skip91
@@ -452,87 +452,87 @@ File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 \bibhang=\skip96
 \blx@bcfin=\read2
 \blx@bcfout=\write4
-\blx@langwohyphens=\language91
-\c@mincomprange=\count370
-\c@maxcomprange=\count371
-\c@mincompwidth=\count372
+\blx@langwohyphens=\language79
+\c@mincomprange=\count369
+\c@maxcomprange=\count370
+\c@mincompwidth=\count371
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
- (c:/texlive/2026/texmf-dist/tex/latex/biblatex/blx-dm.def
-File: blx-dm.def 2026/09/24 v3.22a biblatex datamodel (PK/MW)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-dm.def
+File: blx-dm.def 2025/07/10 v3.21 biblatex datamodel (PK/MW)
 )
 Package biblatex Info: Trying to load biblatex style data model...
 Package biblatex Info: ... file 'numeric.dbx' not found.
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count373
-\c@savedafterword=\count374
-\c@annotator=\count375
-\c@savedannotator=\count376
-\c@author=\count377
-\c@savedauthor=\count378
-\c@bookauthor=\count379
-\c@savedbookauthor=\count380
-\c@commentator=\count381
-\c@savedcommentator=\count382
-\c@editor=\count383
-\c@savededitor=\count384
-\c@editora=\count385
-\c@savededitora=\count386
-\c@editorb=\count387
-\c@savededitorb=\count388
-\c@editorc=\count389
-\c@savededitorc=\count390
-\c@foreword=\count391
-\c@savedforeword=\count392
-\c@holder=\count393
-\c@savedholder=\count394
-\c@introduction=\count395
-\c@savedintroduction=\count396
-\c@namea=\count397
-\c@savednamea=\count398
-\c@nameb=\count399
-\c@savednameb=\count400
-\c@namec=\count401
-\c@savednamec=\count402
-\c@translator=\count403
-\c@savedtranslator=\count404
-\c@shortauthor=\count405
-\c@savedshortauthor=\count406
-\c@shorteditor=\count407
-\c@savedshorteditor=\count408
-\c@labelname=\count409
-\c@savedlabelname=\count410
-\c@institution=\count411
-\c@savedinstitution=\count412
-\c@lista=\count413
-\c@savedlista=\count414
-\c@listb=\count415
-\c@savedlistb=\count416
-\c@listc=\count417
-\c@savedlistc=\count418
-\c@listd=\count419
-\c@savedlistd=\count420
-\c@liste=\count421
-\c@savedliste=\count422
-\c@listf=\count423
-\c@savedlistf=\count424
-\c@location=\count425
-\c@savedlocation=\count426
-\c@organization=\count427
-\c@savedorganization=\count428
-\c@origlocation=\count429
-\c@savedoriglocation=\count430
-\c@origpublisher=\count431
-\c@savedorigpublisher=\count432
-\c@publisher=\count433
-\c@savedpublisher=\count434
-\c@language=\count435
-\c@savedlanguage=\count436
-\c@origlanguage=\count437
-\c@savedoriglanguage=\count438
-\c@pageref=\count439
-\c@savedpageref=\count440
+\c@afterword=\count372
+\c@savedafterword=\count373
+\c@annotator=\count374
+\c@savedannotator=\count375
+\c@author=\count376
+\c@savedauthor=\count377
+\c@bookauthor=\count378
+\c@savedbookauthor=\count379
+\c@commentator=\count380
+\c@savedcommentator=\count381
+\c@editor=\count382
+\c@savededitor=\count383
+\c@editora=\count384
+\c@savededitora=\count385
+\c@editorb=\count386
+\c@savededitorb=\count387
+\c@editorc=\count388
+\c@savededitorc=\count389
+\c@foreword=\count390
+\c@savedforeword=\count391
+\c@holder=\count392
+\c@savedholder=\count393
+\c@introduction=\count394
+\c@savedintroduction=\count395
+\c@namea=\count396
+\c@savednamea=\count397
+\c@nameb=\count398
+\c@savednameb=\count399
+\c@namec=\count400
+\c@savednamec=\count401
+\c@translator=\count402
+\c@savedtranslator=\count403
+\c@shortauthor=\count404
+\c@savedshortauthor=\count405
+\c@shorteditor=\count406
+\c@savedshorteditor=\count407
+\c@labelname=\count408
+\c@savedlabelname=\count409
+\c@institution=\count410
+\c@savedinstitution=\count411
+\c@lista=\count412
+\c@savedlista=\count413
+\c@listb=\count414
+\c@savedlistb=\count415
+\c@listc=\count416
+\c@savedlistc=\count417
+\c@listd=\count418
+\c@savedlistd=\count419
+\c@liste=\count420
+\c@savedliste=\count421
+\c@listf=\count422
+\c@savedlistf=\count423
+\c@location=\count424
+\c@savedlocation=\count425
+\c@organization=\count426
+\c@savedorganization=\count427
+\c@origlocation=\count428
+\c@savedoriglocation=\count429
+\c@origpublisher=\count430
+\c@savedorigpublisher=\count431
+\c@publisher=\count432
+\c@savedpublisher=\count433
+\c@language=\count434
+\c@savedlanguage=\count435
+\c@origlanguage=\count436
+\c@savedoriglanguage=\count437
+\c@pageref=\count438
+\c@savedpageref=\count439
 \shorthandwidth=\skip97
 \shortjournalwidth=\skip98
 \shortserieswidth=\skip99
@@ -549,42 +549,42 @@ Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
 \localshorteditorwidth=\skip110
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
- (c:/texlive/2026/texmf-dist/tex/latex/biblatex/blx-compat.def
-File: blx-compat.def 2026/09/24 v3.22a biblatex compatibility (PK/MW)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-compat.def
+File: blx-compat.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
 )
 Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
- (c:/texlive/2026/texmf-dist/tex/latex/biblatex/biblatex.def
-File: biblatex.def 2026/09/24 v3.22a biblatex compatibility (PK/MW)
-\c@textcitecount=\count441
-\c@textcitetotal=\count442
-\c@textcitemaxnames=\count443
-\c@biburlbigbreakpenalty=\count444
-\c@biburlbreakpenalty=\count445
-\c@biburlnumpenalty=\count446
-\c@biburlucpenalty=\count447
-\c@biburllcpenalty=\count448
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.def
+File: biblatex.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
+\c@textcitecount=\count440
+\c@textcitetotal=\count441
+\c@textcitemaxnames=\count442
+\c@biburlbigbreakpenalty=\count443
+\c@biburlbreakpenalty=\count444
+\c@biburlnumpenalty=\count445
+\c@biburlucpenalty=\count446
+\c@biburllcpenalty=\count447
 \biburlbigskip=\muskip19
 \biburlnumskip=\muskip20
 \biburlucskip=\muskip21
 \biburllcskip=\muskip22
-\c@smartand=\count449
+\c@smartand=\count448
 )
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
- (c:/texlive/2026/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
-File: numeric.bbx 2026/09/24 v3.22a biblatex bibliography style (PK/MW)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/bbx\numeric.bbx
+File: numeric.bbx 2025/07/10 v3.21 biblatex bibliography style (PK/MW)
 Package biblatex Info: Trying to load bibliography style 'standard'...
 Package biblatex Info: ... file 'standard.bbx' found.
- (c:/texlive/2026/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
-File: standard.bbx 2026/09/24 v3.22a biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count450
-\c@bbx:relatedtotal=\count451
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/bbx\standard.bbx
+File: standard.bbx 2025/07/10 v3.21 biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count449
+\c@bbx:relatedtotal=\count450
 ))
 Package biblatex Info: Trying to load citation style 'numeric'...
 Package biblatex Info: ... file 'numeric.cbx' found.
- (c:/texlive/2026/texmf-dist/tex/latex/biblatex/cbx/numeric.cbx
-File: numeric.cbx 2026/09/24 v3.22a biblatex citation style (PK/MW)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/cbx\numeric.cbx
+File: numeric.cbx 2025/07/10 v3.21 biblatex citation style (PK/MW)
 Package biblatex Info: Redefining '\cite'.
 Package biblatex Info: Redefining '\parencite'.
 Package biblatex Info: Redefining '\footcite'.
@@ -599,122 +599,115 @@ Package biblatex Info: Redefining '\smartcites'.
 )
 Package biblatex Info: Trying to load configuration file...
 Package biblatex Info: ... file 'biblatex.cfg' found.
- (c:/texlive/2026/texmf-dist/tex/latex/biblatex/biblatex.cfg
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.cfg
 File: biblatex.cfg 
 )
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Document encoding is UTF8 ....
- (c:/texlive/2026/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2026-09-09 L3 programming layer (loader) 
- (c:/texlive/2026/texmf-dist/tex/latex/l3kernel/l3backend-pdftex.def
-File: l3backend-pdftex.def 2026-09-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count452
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2025-12-24 L3 programming layer (loader) 
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count451
 ))
 Package biblatex Info: ... and expl3
-(biblatex)             2026-09-09 L3 programming layer (loader) 
+(biblatex)             2025-12-24 L3 programming layer (loader) 
 (biblatex)             is new enough (at least 2020/04/06),
 (biblatex)             setting 'casechanger=expl3'.
- (c:/texlive/2026/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty (c:/texlive/2026/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-case-expl3.sty (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xparse.sty
 Package: xparse 2025-10-09 L3 Experimental document command parser
 )
-Package: blx-case-expl3 2026/09/24 v3.22a expl3 case changing code for biblatex
-)) (c:/texlive/2026/texmf-dist/tex/latex/xurl/xurl.sty
+Package: blx-case-expl3 2025/07/10 v3.21 expl3 case changing code for biblatex
+)) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/xurl\xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
 
 xurl: Set penalties for biblatex
-) (c:/texlive/2026/texmf-dist/tex/latex/minted/minted.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/minted\minted.sty
 Package: minted 2026/03/03 v3.8.0 Yet another Pygments shim for LaTeX
- (c:/texlive/2026/texmf-dist/tex/generic/catchfile/catchfile.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/catchfile\catchfile.sty
 Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
- (c:/texlive/2026/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/etexcmds\etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
-)) (c:/texlive/2026/texmf-dist/tex/latex/fvextra/fvextra.sty
+)) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/fvextra\fvextra.sty
 Package: fvextra 2026/02/25 v1.14.0 fvextra - extensions and patches for fancyvrb
- (c:/texlive/2026/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/fancyvrb\fancyvrb.sty
 Package: fancyvrb 2026/08/13 4.7 verbatim text (tvz,hv)
-\FV@CodeLineNo=\count453
+\FV@CodeLineNo=\count452
 \FV@InFile=\read3
 \FV@TabBox=\box62
-\c@FancyVerbLine=\count454
-\FV@StepNumber=\count455
+\c@FancyVerbLine=\count453
+\FV@StepNumber=\count454
 \FV@OutFile=\write5
-) (c:/texlive/2026/texmf-dist/tex/latex/upquote/upquote.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/upquote\upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbatim
- (c:/texlive/2026/texmf-dist/tex/latex/base/textcomp.sty
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/base\textcomp.sty
 Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
-)) (c:/texlive/2026/texmf-dist/tex/latex/lineno/lineno.sty
+)) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/lineno\lineno.sty
 Package: lineno 2026/03/08 line numbers on paragraphs v5.9
-\linenopenalty=\count456
-\output=\toks35
-\linenoprevgraf=\count457
-\linenumbersep=\dimen198
-\linenumberwidth=\dimen199
-\c@linenumber=\count458
-\c@pagewiselinenumber=\count459
-\c@LN@truepage=\count460
-\c@internallinenumber=\count461
-\c@internallinenumbers=\count462
-\quotelinenumbersep=\dimen256
-\bframerule=\dimen257
-\bframesep=\dimen258
+\linenopenalty=\count455
+\output=\toks36
+\linenoprevgraf=\count456
+\linenumbersep=\dimen196
+\linenumberwidth=\dimen197
+\c@linenumber=\count457
+\c@pagewiselinenumber=\count458
+\c@LN@truepage=\count459
+\c@internallinenumber=\count460
+\c@internallinenumbers=\count461
+\quotelinenumbersep=\dimen198
+\bframerule=\dimen199
+\bframesep=\dimen256
 \bframebox=\box63
-\@LN@amsmath@ams@eqpen=\count463
+\@LN@amsmath@ams@eqpen=\count462
 )
-\c@FancyVerbWriteLine=\count464
-\c@FancyVerbBufferLine=\count465
-\c@FV@TrueTabGroupLevel=\count466
-\c@FV@TrueTabCounter=\count467
+\c@FancyVerbWriteLine=\count463
+\c@FancyVerbBufferLine=\count464
+\c@FV@TrueTabGroupLevel=\count465
+\c@FV@TrueTabCounter=\count466
 \FV@TabBox@Group=\box64
 \FV@bgcolorstructbox=\box65
 \FV@TmpLength=\skip111
-\c@FV@HighlightLinesStart=\count468
-\c@FV@HighlightLinesStop=\count469
-\FV@LoopCount=\count470
+\c@FV@HighlightLinesStart=\count467
+\c@FV@HighlightLinesStop=\count468
+\FV@LoopCount=\count469
 \FV@NCharsBox=\box66
-\FV@BreakIndent=\dimen259
-\FV@BreakIndentNChars=\count471
-\FV@BreakSymbolSepLeft=\dimen260
-\FV@BreakSymbolSepLeftNChars=\count472
-\FV@BreakSymbolSepRight=\dimen261
-\FV@BreakSymbolSepRightNChars=\count473
-\FV@BreakSymbolIndentLeft=\dimen262
-\FV@BreakSymbolIndentLeftNChars=\count474
-\FV@BreakSymbolIndentRight=\dimen263
-\FV@BreakSymbolIndentRightNChars=\count475
-\c@FancyVerbLineBreakLast=\count476
+\FV@BreakIndent=\dimen257
+\FV@BreakIndentNChars=\count470
+\FV@BreakSymbolSepLeft=\dimen258
+\FV@BreakSymbolSepLeftNChars=\count471
+\FV@BreakSymbolSepRight=\dimen259
+\FV@BreakSymbolSepRightNChars=\count472
+\FV@BreakSymbolIndentLeft=\dimen260
+\FV@BreakSymbolIndentLeftNChars=\count473
+\FV@BreakSymbolIndentRight=\dimen261
+\FV@BreakSymbolIndentRightNChars=\count474
+\c@FancyVerbLineBreakLast=\count475
 \FV@LineBox=\box67
 \FV@LineIndentBox=\box68
-\c@FV@BreakBufferDepth=\count477
-\FV@LineWidth=\dimen264
-) (c:/texlive/2026/texmf-dist/tex/latex/latex2pydata/latex2pydata.sty
+\c@FV@BreakBufferDepth=\count476
+\FV@LineWidth=\dimen262
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/latex2pydata\latex2pydata.sty
 Package: latex2pydata 2026/02/25 v0.7.0 latex2pydata - write data to file in Python literal format
-) (c:/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (c:/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks36
-\pgfkeys@temptoks=\toks37
- (c:/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
-\pgfkeys@tmptoks=\toks38
-))) (c:/texlive/2026/texmf-dist/tex/latex/pgfopts/pgfopts.sty
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.sty (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks37
+\pgfkeys@temptoks=\toks38
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeyslibraryfiltered.code.tex
+\pgfkeys@tmptoks=\toks39
+))) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/pgfopts\pgfopts.sty
 Package: pgfopts 2014/07/10 v2.1a LaTeX package options with pgfkeys
-\pgfopts@list@add@a@toks=\toks39
-\pgfopts@list@add@b@toks=\toks40
-) (c:/texlive/2026/texmf-dist/tex/latex/tools/shellesc.sty
+\pgfopts@list@add@a@toks=\toks40
+\pgfopts@list@add@b@toks=\toks41
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/tools\shellesc.sty
 Package: shellesc 2023/07/08 v1.0d unified shell escape interface for LaTeX
 Package shellesc Info: Unrestricted shell escape enabled on input line 75.
 )
-\c@minted@FancyVerbLineTemp=\count478
-\@float@every@listing=\toks41
-\c@listing=\count479
+\c@minted@FancyVerbLineTemp=\count477
+\@float@every@listing=\toks42
+\c@listing=\count478
 )
-\@quotelevel=\count480
-\@quotereset=\count481
- (./Thesis.aux
-
-LaTeX Warning: Label `fig:med50R' multiply defined.
-
-
-LaTeX Warning: Label `fig:med50R' multiply defined.
-
-)
+\@quotelevel=\count479
+\@quotereset=\count480
+ (Thesis.aux)
 \openout1 = `Thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
@@ -735,27 +728,27 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 73.
 LaTeX Font Info:    ... okay on input line 73.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 73.
 LaTeX Font Info:    ... okay on input line 73.
- (c:/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count482
-\scratchdimen=\dimen265
+\scratchcounter=\count481
+\scratchdimen=\dimen263
 \scratchbox=\box69
-\nofMPsegments=\count483
-\nofMParguments=\count484
-\everyMPshowfont=\toks42
-\MPscratchCnt=\count485
-\MPscratchDim=\dimen266
-\MPnumerator=\count486
-\makeMPintoPDFobject=\count487
-\everyMPtoPDFconversion=\toks43
-) (c:/texlive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+\nofMPsegments=\count482
+\nofMParguments=\count483
+\everyMPshowfont=\toks43
+\MPscratchCnt=\count484
+\MPscratchDim=\dimen264
+\MPnumerator=\count485
+\makeMPintoPDFobject=\count486
+\everyMPtoPDFconversion=\toks44
+) (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
- (c:/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring OFF on input line 73.
- (./Thesis.out) (./Thesis.out)
+ (Thesis.out) (Thesis.out)
 \@outlinefile=\write6
 \openout6 = `Thesis.out'.
 
@@ -796,19 +789,19 @@ Package hyperref Info: Link coloring OFF on input line 73.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-(c:/texlive/2026/texmf-dist/tex/latex/pdflscape/pdflscape.sty
-Package: pdflscape 2025-06-23 v0.14 Display of landscape pages in PDF
- (c:/texlive/2026/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
-Package: pdflscape-nometadata 2025-06-23 v0.14 Display of landscape pages in PDF (HO)
- (c:/texlive/2026/texmf-dist/tex/latex/graphics/lscape.sty
+(C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape.sty
+Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape-nometadata.sty
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PDF (HO)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
- (c:/texlive/2026/texmf-dist/tex/latex/biblatex/lbx/english.lbx
-File: english.lbx 2026/09/24 v3.22a biblatex localization (PK/MW)
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\english.lbx
+File: english.lbx 2025/07/10 v3.21 biblatex localization (PK/MW)
 )
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
@@ -817,20 +810,20 @@ Package biblatex Info: Automatic encoding selection.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'Thesis.bbl' found.
- (./Thesis.bbl)
+ (Thesis.bbl)
 Package biblatex Info: Reference section=0 on input line 73.
 Package biblatex Info: Reference segment=0 on input line 73.
-<Imagenes/Logo.png, id=312, 362.10281pt x 219.82124pt>
+<Imagenes/Logo.png, id=314, 362.10281pt x 219.82124pt>
 File: Imagenes/Logo.png Graphic file (type png)
 <use Imagenes/Logo.png>
 Package pdftex.def Info: Imagenes/Logo.png  used on input line 108.
 (pdftex.def)             Requested size: 364.19667pt x 221.09528pt.
-<Imagenes/fi.jpg, id=314, 402.50375pt x 126.4725pt>
+<Imagenes/fi.jpg, id=316, 402.50375pt x 126.4725pt>
 File: Imagenes/fi.jpg Graphic file (type jpg)
 <use Imagenes/fi.jpg>
 Package pdftex.def Info: Imagenes/fi.jpg  used on input line 118.
 (pdftex.def)             Requested size: 142.26378pt x 44.70024pt.
-<Imagenes/UNMDP_BW.jpg, id=315, 360.8682pt x 148.8762pt>
+<Imagenes/UNMDP_BW.jpg, id=317, 360.8682pt x 148.8762pt>
 File: Imagenes/UNMDP_BW.jpg Graphic file (type jpg)
 <use Imagenes/UNMDP_BW.jpg>
 Package pdftex.def Info: Imagenes/UNMDP_BW.jpg  used on input line 118.
@@ -845,18 +838,18 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [1
 
-{c:/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} <./Imagenes/fi.jpg> <./Imagenes/UNMDP_BW.jpg> <./Imagenes/Logo.png>]
+{C:/Users/torre/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./Imagenes/fi.jpg> <./Imagenes/UNMDP_BW.jpg> <./Imagenes/Logo.png>]
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.130 
-       [1] (./Thesis.toc
+       [1] (Thesis.toc
 LaTeX Font Info:    Trying to load font information for U+msa on input line 5.
- (c:/texlive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 5.
- (c:/texlive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
+ (C:\Users\torre\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [2
 
@@ -864,18 +857,18 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \tf@toc=\write7
 \openout7 = `Thesis.toc'.
 
- [3{c:/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [4
+ [3] [4
 
 ] [5
 
 ]
 Capítulo 1.
-(./Capitulos/Introducción.tex [6
+(Capitulos/Introducción.tex [6
 
 ]) [7]
 Capítulo 2.
-(./Capitulos/Marco teórico.tex
-<Imagenes/par_S.png, id=453, 427.5975pt x 231.11343pt>
+(Capitulos/Marco teórico.tex
+<Imagenes/par_S.png, id=455, 427.5975pt x 231.11343pt>
 File: Imagenes/par_S.png Graphic file (type png)
 <use Imagenes/par_S.png>
 Package pdftex.def Info: Imagenes/par_S.png  used on input line 12.
@@ -883,27 +876,27 @@ Package pdftex.def Info: Imagenes/par_S.png  used on input line 12.
  [8
 
  <./Imagenes/par_S.png>]
-<Imagenes/errorescalibracion.png, id=470, 432.11438pt x 247.67531pt>
+<Imagenes/errorescalibracion.png, id=472, 432.11438pt x 247.67531pt>
 File: Imagenes/errorescalibracion.png Graphic file (type png)
 <use Imagenes/errorescalibracion.png>
 Package pdftex.def Info: Imagenes/errorescalibracion.png  used on input line 61.
 (pdftex.def)             Requested size: 273.14923pt x 156.56535pt.
  [9] [10 <./Imagenes/errorescalibracion.png>]
-<Imagenes/puente_wheatstone.png, id=507, 513.92pt x 384.43625pt>
+<Imagenes/puente_wheatstone.png, id=508, 513.92pt x 384.43625pt>
 File: Imagenes/puente_wheatstone.png Graphic file (type png)
 <use Imagenes/puente_wheatstone.png>
 Package pdftex.def Info: Imagenes/puente_wheatstone.png  used on input line 124.
 (pdftex.def)             Requested size: 227.62206pt x 170.27287pt.
  [11 <./Imagenes/puente_wheatstone.png (PNG copy)>] [12]
-<Imagenes/mixer.png, id=538, 478.78876pt x 317.68687pt>
+<Imagenes/mixer.png, id=539, 478.78876pt x 317.68687pt>
 File: Imagenes/mixer.png Graphic file (type png)
 <use Imagenes/mixer.png>
 Package pdftex.def Info: Imagenes/mixer.png  used on input line 180.
 (pdftex.def)             Requested size: 227.62206pt x 151.0337pt.
  [13 <./Imagenes/mixer.png>] [14]) [15]
 Capítulo 3.
-(./Capitulos/Proyecto.tex
-<Imagenes/diagbloques.png, id=571, 772.38562pt x 505.13719pt>
+(Capitulos/Proyecto.tex
+<Imagenes/diagbloques.png, id=572, 772.38562pt x 505.13719pt>
 File: Imagenes/diagbloques.png Graphic file (type png)
 <use Imagenes/diagbloques.png>
 Package pdftex.def Info: Imagenes/diagbloques.png  used on input line 7.
@@ -911,18 +904,18 @@ Package pdftex.def Info: Imagenes/diagbloques.png  used on input line 7.
  [16
 
  <./Imagenes/diagbloques.png>]
-<Imagenes/diagADF.png, id=587, 621.07031pt x 356.0803pt>
+<Imagenes/diagADF.png, id=588, 621.07031pt x 356.0803pt>
 File: Imagenes/diagADF.png Graphic file (type png)
 <use Imagenes/diagADF.png>
 Package pdftex.def Info: Imagenes/diagADF.png  used on input line 25.
 (pdftex.def)             Requested size: 364.19667pt x 208.80328pt.
  [17 <./Imagenes/diagADF.png>]
-<Imagenes/adisim1.png, id=600, 657.2053pt x 389.95688pt>
+<Imagenes/adisim1.png, id=601, 657.2053pt x 389.95688pt>
 File: Imagenes/adisim1.png Graphic file (type png)
 <use Imagenes/adisim1.png>
 Package pdftex.def Info: Imagenes/adisim1.png  used on input line 49.
 (pdftex.def)             Requested size: 364.19667pt x 216.10136pt.
-<Imagenes/adisimbodes.png, id=602, 705.38531pt x 281.55188pt>
+<Imagenes/adisimbodes.png, id=603, 705.38531pt x 281.55188pt>
 File: Imagenes/adisimbodes.png Graphic file (type png)
 <use Imagenes/adisimbodes.png>
 Package pdftex.def Info: Imagenes/adisimbodes.png  used on input line 57.
@@ -934,22 +927,32 @@ File: Imagenes/param_acop_dir.jpeg Graphic file (type jpg)
 Package pdftex.def Info: Imagenes/param_acop_dir.jpeg  used on input line 86.
 (pdftex.def)             Requested size: 455.24411pt x 289.33244pt.
  [20 <./Imagenes/param_acop_dir.jpeg>]
+
+pdfTeX warning: pdflatex (file ./Imagenes/Screens euVNA v1.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
 <Imagenes/Screens euVNA v1.pdf, id=642, page=1, 845.07724pt x 597.55246pt>
 File: Imagenes/Screens euVNA v1.pdf Graphic file (type pdf)
 <use Imagenes/Screens euVNA v1.pdf, page 1>
 Package pdftex.def Info: Imagenes/Screens euVNA v1.pdf , page1 used on input line 111.
 (pdftex.def)             Requested size: 218.51521pt x 154.51201pt.
+
+
+pdfTeX warning: pdflatex (file ./Imagenes/Screens euVNA v1.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
 <Imagenes/Screens euVNA v1.pdf, id=643, page=2, 845.07724pt x 597.55246pt>
 File: Imagenes/Screens euVNA v1.pdf Graphic file (type pdf)
 <use Imagenes/Screens euVNA v1.pdf, page 2>
 Package pdftex.def Info: Imagenes/Screens euVNA v1.pdf , page2 used on input line 119.
 (pdftex.def)             Requested size: 218.51521pt x 154.51201pt.
- [21 <./Imagenes/Screens euVNA v1.pdf> <./Imagenes/Screens euVNA v1.pdf>]
+[21 <./Imagenes/Screens euVNA v1.pdf> <./Imagenes/Screens euVNA v1.pdf>]
+
+pdfTeX warning: pdflatex (file ./Imagenes/Screens euVNA v2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
 <Imagenes/Screens euVNA v2.pdf, id=655, page=1, 845.07724pt x 597.55246pt>
 File: Imagenes/Screens euVNA v2.pdf Graphic file (type pdf)
 <use Imagenes/Screens euVNA v2.pdf, page 1>
 Package pdftex.def Info: Imagenes/Screens euVNA v2.pdf , page1 used on input line 135.
 (pdftex.def)             Requested size: 218.51521pt x 154.51201pt.
+
+
+pdfTeX warning: pdflatex (file ./Imagenes/Screens euVNA v2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
 <Imagenes/Screens euVNA v2.pdf, id=656, page=2, 845.07724pt x 597.55246pt>
 File: Imagenes/Screens euVNA v2.pdf Graphic file (type pdf)
 <use Imagenes/Screens euVNA v2.pdf, page 2>
@@ -965,7 +968,7 @@ File: Imagenes/euVNA3 3d.png Graphic file (type png)
 <use Imagenes/euVNA3 3d.png>
 Package pdftex.def Info: Imagenes/euVNA3 3d.png  used on input line 167.
 (pdftex.def)             Requested size: 218.51521pt x 197.80786pt.
- [22 <./Imagenes/Screens euVNA v2.pdf> <./Imagenes/Screens euVNA v2.pdf> <./Imagenes/euVNA v1 3d.png> <./Imagenes/euVNA3 3d.png>]
+[22 <./Imagenes/Screens euVNA v2.pdf> <./Imagenes/Screens euVNA v2.pdf> <./Imagenes/euVNA v1 3d.png> <./Imagenes/euVNA3 3d.png>]
 <Imagenes/diagflujoFW.jpg, id=669, 429.85594pt x 553.31718pt>
 File: Imagenes/diagflujoFW.jpg Graphic file (type jpg)
 <use Imagenes/diagflujoFW.jpg>
@@ -991,20 +994,20 @@ File: Imagenes/diagflujo_SW_calculos11.png Graphic file (type png)
 Package pdftex.def Info: Imagenes/diagflujo_SW_calculos11.png  used on input line 253.
 (pdftex.def)             Requested size: 136.57591pt x 255.42094pt.
  [25 <./Imagenes/diagflujo_SW_barrido.png>] [26 <./Imagenes/diagflujo_SW_calculos11.png>]
-<Imagenes/d_flujo_interfaz.png, id=710, 607.068pt x 932.0421pt>
-File: Imagenes/d_flujo_interfaz.png Graphic file (type png)
-<use Imagenes/d_flujo_interfaz.png>
-Package pdftex.def Info: Imagenes/d_flujo_interfaz.png  used on input line 297.
-(pdftex.def)             Requested size: 318.66948pt x 489.25833pt.
-) [27 <./Imagenes/d_flujo_interfaz.png>]
+<Imagenes/d_flujo_interfaz.jpg, id=710, 2517.405pt x 4634.31375pt>
+File: Imagenes/d_flujo_interfaz.jpg Graphic file (type jpg)
+<use Imagenes/d_flujo_interfaz.jpg>
+Package pdftex.def Info: Imagenes/d_flujo_interfaz.jpg  used on input line 297.
+(pdftex.def)             Requested size: 227.62206pt x 418.97952pt.
+) [27 <./Imagenes/d_flujo_interfaz.jpg>]
 Capítulo 4.
-(./Capitulos/Resultados.tex
-<Imagenes/placassolas.jpeg, id=719, 4095.3pt x 2304.61pt>
+(Capitulos/Resultados.tex
+<Imagenes/placassolas.jpeg, id=718, 4095.3pt x 2304.61pt>
 File: Imagenes/placassolas.jpeg Graphic file (type jpg)
 <use Imagenes/placassolas.jpeg>
 Package pdftex.def Info: Imagenes/placassolas.jpeg  used on input line 5.
 (pdftex.def)             Requested size: 364.19667pt x 204.94437pt.
-<Imagenes/soldadoqfn.jpg, id=721, 2304.61pt x 2551.5325pt>
+<Imagenes/soldadoqfn.jpg, id=720, 2304.61pt x 2551.5325pt>
 File: Imagenes/soldadoqfn.jpg Graphic file (type jpg)
 <use Imagenes/soldadoqfn.jpg>
 Package pdftex.def Info: Imagenes/soldadoqfn.jpg  used on input line 13.
@@ -1012,17 +1015,17 @@ Package pdftex.def Info: Imagenes/soldadoqfn.jpg  used on input line 13.
  [28
 
  <./Imagenes/placassolas.jpeg>]
-<Imagenes/bancosoldado2.jpg, id=732, 4095.3pt x 2304.61pt>
+<Imagenes/bancosoldado2.jpg, id=731, 4095.3pt x 2304.61pt>
 File: Imagenes/bancosoldado2.jpg Graphic file (type jpg)
 <use Imagenes/bancosoldado2.jpg>
 Package pdftex.def Info: Imagenes/bancosoldado2.jpg  used on input line 22.
 (pdftex.def)             Requested size: 409.71692pt x 230.54483pt.
-<Imagenes/brianyyosoldando.jpg, id=733, 1043.39813pt x 901.11656pt>
+<Imagenes/brianyyosoldando.jpg, id=732, 1043.39813pt x 901.11656pt>
 File: Imagenes/brianyyosoldando.jpg Graphic file (type jpg)
 <use Imagenes/brianyyosoldando.jpg>
 Package pdftex.def Info: Imagenes/brianyyosoldando.jpg  used on input line 31.
 (pdftex.def)             Requested size: 218.51521pt x 188.71756pt.
-<Imagenes/fotoplaca.jpeg, id=734, 1606.0pt x 1606.0pt>
+<Imagenes/fotoplaca.jpeg, id=733, 1606.0pt x 1606.0pt>
 File: Imagenes/fotoplaca.jpeg Graphic file (type jpg)
 <use Imagenes/fotoplaca.jpeg>
 Package pdftex.def Info: Imagenes/fotoplaca.jpeg  used on input line 38.
@@ -1033,116 +1036,131 @@ Underfull \hbox (badness 4108) in paragraph at lines 71--71
  []
 
 [29 <./Imagenes/soldadoqfn.jpg> <./Imagenes/bancosoldado2.jpg>]
-<Imagenes/pruebacristal.jpg, id=744, 4095.3pt x 2304.61pt>
+<Imagenes/pruebacristal.jpg, id=743, 4095.3pt x 2304.61pt>
 File: Imagenes/pruebacristal.jpg Graphic file (type jpg)
 <use Imagenes/pruebacristal.jpg>
 Package pdftex.def Info: Imagenes/pruebacristal.jpg  used on input line 80.
 (pdftex.def)             Requested size: 273.14923pt x 153.70827pt.
  [30 <./Imagenes/brianyyosoldando.jpg> <./Imagenes/fotoplaca.jpeg>]
-<Imagenes/banco_gen1frec.jpg, id=757, 1927.2pt x 1084.05pt>
+<Imagenes/banco_gen1frec.jpg, id=755, 1927.2pt x 1084.05pt>
 File: Imagenes/banco_gen1frec.jpg Graphic file (type jpg)
 <use Imagenes/banco_gen1frec.jpg>
 Package pdftex.def Info: Imagenes/banco_gen1frec.jpg  used on input line 89.
 (pdftex.def)             Requested size: 318.66948pt x 179.24098pt.
-<Imagenes/grabación 1 k.jpg, id=761, 899.61093pt x 282.30469pt>
+<Imagenes/grabación 1 k.jpg, id=759, 899.61093pt x 282.30469pt>
 File: Imagenes/grabación 1 k.jpg Graphic file (type jpg)
 <use Imagenes/grabación 1 k.jpg>
 Package pdftex.def Info: Imagenes/grabación 1 k.jpg  used on input line 102.
 (pdftex.def)             Requested size: 364.19667pt x 114.28539pt.
-<Imagenes/Grabación 5k.jpg, id=762, 889.82437pt x 316.18124pt>
+<Imagenes/Grabación 5k.jpg, id=760, 889.82437pt x 316.18124pt>
 File: Imagenes/Grabación 5k.jpg Graphic file (type jpg)
 <use Imagenes/Grabación 5k.jpg>
 Package pdftex.def Info: Imagenes/Grabación 5k.jpg  used on input line 111.
 (pdftex.def)             Requested size: 364.19667pt x 129.40839pt.
-<Imagenes/grabación 10k.png, id=763, 891.33pt x 361.35pt>
+<Imagenes/grabación 10k.png, id=761, 891.33pt x 361.35pt>
 File: Imagenes/grabación 10k.png Graphic file (type png)
 <use Imagenes/grabación 10k.png>
 Package pdftex.def Info: Imagenes/grabación 10k.png  used on input line 119.
 (pdftex.def)             Requested size: 364.19667pt x 147.64719pt.
-<Imagenes/espectro1kaudacity.jpg, id=765, 420.82219pt x 360.59718pt>
+<Imagenes/espectro1kaudacity.jpg, id=763, 420.82219pt x 360.59718pt>
 File: Imagenes/espectro1kaudacity.jpg Graphic file (type jpg)
 <use Imagenes/espectro1kaudacity.jpg>
 Package pdftex.def Info: Imagenes/espectro1kaudacity.jpg  used on input line 132.
 (pdftex.def)             Requested size: 273.14923pt x 234.06075pt.
  [31 <./Imagenes/pruebacristal.jpg> <./Imagenes/banco_gen1frec.jpg>] [32 <./Imagenes/grabación 1 k.jpg> <./Imagenes/Grabación 5k.jpg> <./Imagenes/grabación 10k.png>]
-
-Package caption Warning: \label without proper reference on input line 156.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:precalibracion' on page 33 undefined on input line 137.
-
-<Imagenes/carga 50 sin calibrar.png, id=782, 996.72375pt x 500.62032pt>
+<Imagenes/carga 50 sin calibrar.png, id=780, 996.72375pt x 500.62032pt>
 File: Imagenes/carga 50 sin calibrar.png Graphic file (type png)
 <use Imagenes/carga 50 sin calibrar.png>
 Package pdftex.def Info: Imagenes/carga 50 sin calibrar.png  used on input line 143.
-(pdftex.def)             Requested size: 364.19667pt x 182.91968pt.
-<Imagenes/cortoprecalib.png, id=783, 1007.26312pt x 497.60907pt>
+(pdftex.def)             Requested size: 273.14923pt x 137.19357pt.
+<Imagenes/cortoprecalib.png, id=781, 1007.26312pt x 497.60907pt>
 File: Imagenes/cortoprecalib.png Graphic file (type png)
 <use Imagenes/cortoprecalib.png>
 Package pdftex.def Info: Imagenes/cortoprecalib.png  used on input line 152.
-(pdftex.def)             Requested size: 364.19667pt x 179.92119pt.
-<Imagenes/medcorto150.png, id=785, 981.6675pt x 500.62032pt>
+(pdftex.def)             Requested size: 273.14923pt x 134.94089pt.
+ [33 <./Imagenes/espectro1kaudacity.jpg> <./Imagenes/carga 50 sin calibrar.png> <./Imagenes/cortoprecalib.png>]
+<Imagenes/medcortocal.jpg, id=791, 995.97093pt x 491.58656pt>
+File: Imagenes/medcortocal.jpg Graphic file (type jpg)
+<use Imagenes/medcortocal.jpg>
+Package pdftex.def Info: Imagenes/medcortocal.jpg  used on input line 172.
+(pdftex.def)             Requested size: 364.19667pt x 179.7614pt.
+<Imagenes/medcorto150.png, id=792, 981.6675pt x 500.62032pt>
 File: Imagenes/medcorto150.png Graphic file (type png)
 <use Imagenes/medcorto150.png>
-Package pdftex.def Info: Imagenes/medcorto150.png  used on input line 173.
-(pdftex.def)             Requested size: 318.66948pt x 162.5087pt.
-<Imagenes/medCA.png, id=786, 999.735pt x 502.12593pt>
+Package pdftex.def Info: Imagenes/medcorto150.png  used on input line 180.
+(pdftex.def)             Requested size: 364.19667pt x 185.73077pt.
+ [34 <./Imagenes/medcortocal.jpg> <./Imagenes/medcorto150.png>]
+<Imagenes/medCA.png, id=801, 999.735pt x 502.12593pt>
 File: Imagenes/medCA.png Graphic file (type png)
 <use Imagenes/medCA.png>
-Package pdftex.def Info: Imagenes/medCA.png  used on input line 182.
-(pdftex.def)             Requested size: 318.66948pt x 160.05531pt.
-[33 <./Imagenes/espectro1kaudacity.jpg> <./Imagenes/medcorto150.png>] [34 <./Imagenes/carga 50 sin calibrar.png> <./Imagenes/cortoprecalib.png>]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 187.
+Package pdftex.def Info: Imagenes/medCA.png  used on input line 190.
+(pdftex.def)             Requested size: 364.19667pt x 182.91817pt.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Omega' on input line 187.
+(hyperref)                removing `math shift' on input line 195.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 187.
+(hyperref)                removing `\Omega' on input line 195.
 
-<Imagenes/med50R.png, id=801, 980.91469pt x 493.845pt>
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 195.
+
+<Imagenes/med50R.png, id=802, 980.91469pt x 493.845pt>
 File: Imagenes/med50R.png Graphic file (type png)
 <use Imagenes/med50R.png>
-Package pdftex.def Info: Imagenes/med50R.png  used on input line 191.
-(pdftex.def)             Requested size: 318.66948pt x 160.4299pt.
-<Imagenes/sensor_vacio.png, id=803, 991.45406pt x 499.11469pt>
+Package pdftex.def Info: Imagenes/med50R.png  used on input line 202.
+(pdftex.def)             Requested size: 364.19667pt x 183.35275pt.
+[35 <./Imagenes/medCA.png> <./Imagenes/med50R.png>]
+<Imagenes/sensor_vacio.png, id=814, 991.45406pt x 499.11469pt>
 File: Imagenes/sensor_vacio.png Graphic file (type png)
 <use Imagenes/sensor_vacio.png>
-Package pdftex.def Info: Imagenes/sensor_vacio.png  used on input line 221.
-(pdftex.def)             Requested size: 318.66948pt x 160.42061pt.
-[35 <./Imagenes/medCA.png> <./Imagenes/med50R.png>]
+Package pdftex.def Info: Imagenes/sensor_vacio.png  used on input line 240.
+(pdftex.def)             Requested size: 364.19667pt x 183.34438pt.
 <Imagenes/sensordedorami_15oct_bueno.png, id=816, 982.872pt x 484.9317pt>
 File: Imagenes/sensordedorami_15oct_bueno.png Graphic file (type png)
 <use Imagenes/sensordedorami_15oct_bueno.png>
-Package pdftex.def Info: Imagenes/sensordedorami_15oct_bueno.png  used on input line 230.
-(pdftex.def)             Requested size: 318.66948pt x 157.22356pt.
-<Imagenes/50R_1000a2800_8oct.png, id=818, 746.79pt x 532.23843pt>
+Package pdftex.def Info: Imagenes/sensordedorami_15oct_bueno.png  used on input line 249.
+(pdftex.def)             Requested size: 364.19667pt x 179.6883pt.
+ [36 <./Imagenes/sensor_vacio.png>]
+<Imagenes/50R_1000a2800_8oct.png, id=827, 746.79pt x 532.23843pt>
 File: Imagenes/50R_1000a2800_8oct.png Graphic file (type png)
 <use Imagenes/50R_1000a2800_8oct.png>
-Package pdftex.def Info: Imagenes/50R_1000a2800_8oct.png  used on input line 245.
+Package pdftex.def Info: Imagenes/50R_1000a2800_8oct.png  used on input line 264.
 (pdftex.def)             Requested size: 218.51521pt x 155.73393pt.
-<Imagenes/carga68_8oct_1000a2800.png, id=819, 733.23938pt x 514.17094pt>
+<Imagenes/carga68_8oct_1000a2800.png, id=828, 733.23938pt x 514.17094pt>
 File: Imagenes/carga68_8oct_1000a2800.png Graphic file (type png)
 <use Imagenes/carga68_8oct_1000a2800.png>
-Package pdftex.def Info: Imagenes/carga68_8oct_1000a2800.png  used on input line 253.
+Package pdftex.def Info: Imagenes/carga68_8oct_1000a2800.png  used on input line 272.
 (pdftex.def)             Requested size: 218.51521pt x 153.2247pt.
-) [36 <./Imagenes/sensor_vacio.png> <./Imagenes/sensordedorami_15oct_bueno.png>] [37 <./Imagenes/50R_1000a2800_8oct.png> <./Imagenes/carga68_8oct_1000a2800.png>]
+<Imagenes/comparacion CA.png, id=831, 986.9372pt x 496.10344pt>
+File: Imagenes/comparacion CA.png Graphic file (type png)
+<use Imagenes/comparacion CA.png>
+Package pdftex.def Info: Imagenes/comparacion CA.png  used on input line 287.
+(pdftex.def)             Requested size: 455.24411pt x 228.83865pt.
+ [37 <./Imagenes/sensordedorami_15oct_bueno.png> <./Imagenes/50R_1000a2800_8oct.png> <./Imagenes/carga68_8oct_1000a2800.png>]) [38 <./Imagenes/comparacion CA.png>]
 Capítulo 5.
-(./Capitulos/Conclusiones.tex [38
+(Capitulos/Conclusiones.tex [39
 
-]) [39]
+]) [40]
 Capítulo 6.
-<Esquematicos.pdf, id=844, 845.07724pt x 597.55246pt>
+
+
+pdfTeX warning: pdflatex (file ./Esquematicos.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Esquematicos.pdf, id=855, 845.07724pt x 597.55246pt>
 File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf>
 Package pdftex.def Info: Esquematicos.pdf  used on input line 270.
 (pdftex.def)             Requested size: 845.07518pt x 597.551pt.
-<Esquematicos.pdf, id=846, page=1, 845.07724pt x 597.55246pt>
+
+
+pdfTeX warning: pdflatex (file ./Esquematicos.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+
+
+pdfTeX warning: pdflatex (file ./Esquematicos.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Esquematicos.pdf, id=857, page=1, 845.07724pt x 597.55246pt>
 File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 1>
 Package pdftex.def Info: Esquematicos.pdf , page1 used on input line 270.
@@ -1151,7 +1169,7 @@ File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 1>
 Package pdftex.def Info: Esquematicos.pdf , page1 used on input line 270.
 (pdftex.def)             Requested size: 845.07518pt x 597.551pt.
-[40
+[41
 
 ]
 File: Esquematicos.pdf Graphic file (type pdf)
@@ -1166,26 +1184,30 @@ File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 1>
 Package pdftex.def Info: Esquematicos.pdf , page1 used on input line 270.
 (pdftex.def)             Requested size: 845.07518pt x 597.551pt.
- [41
-
- <./Esquematicos.pdf>]
-<Esquematicos.pdf, id=864, page=2, 845.07724pt x 597.55246pt>
-File: Esquematicos.pdf Graphic file (type pdf)
-<use Esquematicos.pdf, page 2>
-Package pdftex.def Info: Esquematicos.pdf , page2 used on input line 270.
-(pdftex.def)             Requested size: 845.07518pt x 597.551pt.
-File: Esquematicos.pdf Graphic file (type pdf)
-<use Esquematicos.pdf, page 2>
-Package pdftex.def Info: Esquematicos.pdf , page2 used on input line 270.
-(pdftex.def)             Requested size: 845.07518pt x 597.551pt.
-File: Esquematicos.pdf Graphic file (type pdf)
-<use Esquematicos.pdf, page 2>
-Package pdftex.def Info: Esquematicos.pdf , page2 used on input line 270.
-(pdftex.def)             Requested size: 845.07518pt x 597.551pt.
  [42
 
  <./Esquematicos.pdf>]
-<Esquematicos.pdf, id=870, page=3, 845.07724pt x 597.55246pt>
+
+pdfTeX warning: pdflatex (file ./Esquematicos.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Esquematicos.pdf, id=876, page=2, 845.07724pt x 597.55246pt>
+File: Esquematicos.pdf Graphic file (type pdf)
+<use Esquematicos.pdf, page 2>
+Package pdftex.def Info: Esquematicos.pdf , page2 used on input line 270.
+(pdftex.def)             Requested size: 845.07518pt x 597.551pt.
+File: Esquematicos.pdf Graphic file (type pdf)
+<use Esquematicos.pdf, page 2>
+Package pdftex.def Info: Esquematicos.pdf , page2 used on input line 270.
+(pdftex.def)             Requested size: 845.07518pt x 597.551pt.
+File: Esquematicos.pdf Graphic file (type pdf)
+<use Esquematicos.pdf, page 2>
+Package pdftex.def Info: Esquematicos.pdf , page2 used on input line 270.
+(pdftex.def)             Requested size: 845.07518pt x 597.551pt.
+[43
+
+ <./Esquematicos.pdf>]
+
+pdfTeX warning: pdflatex (file ./Esquematicos.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Esquematicos.pdf, id=881, page=3, 845.07724pt x 597.55246pt>
 File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 3>
 Package pdftex.def Info: Esquematicos.pdf , page3 used on input line 270.
@@ -1198,10 +1220,12 @@ File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 3>
 Package pdftex.def Info: Esquematicos.pdf , page3 used on input line 270.
 (pdftex.def)             Requested size: 845.07518pt x 597.551pt.
- [43
+[44
 
  <./Esquematicos.pdf>]
-<Esquematicos.pdf, id=876, page=4, 845.07724pt x 597.55246pt>
+
+pdfTeX warning: pdflatex (file ./Esquematicos.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Esquematicos.pdf, id=887, page=4, 845.07724pt x 597.55246pt>
 File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 4>
 Package pdftex.def Info: Esquematicos.pdf , page4 used on input line 270.
@@ -1214,10 +1238,12 @@ File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 4>
 Package pdftex.def Info: Esquematicos.pdf , page4 used on input line 270.
 (pdftex.def)             Requested size: 845.07518pt x 597.551pt.
- [44
+[45
 
  <./Esquematicos.pdf>]
-<Esquematicos.pdf, id=881, page=5, 845.07724pt x 597.55246pt>
+
+pdfTeX warning: pdflatex (file ./Esquematicos.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Esquematicos.pdf, id=892, page=5, 845.07724pt x 597.55246pt>
 File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 5>
 Package pdftex.def Info: Esquematicos.pdf , page5 used on input line 270.
@@ -1230,10 +1256,12 @@ File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 5>
 Package pdftex.def Info: Esquematicos.pdf , page5 used on input line 270.
 (pdftex.def)             Requested size: 845.07518pt x 597.551pt.
- [45
+[46
 
  <./Esquematicos.pdf>]
-<Esquematicos.pdf, id=886, page=6, 845.07724pt x 597.55246pt>
+
+pdfTeX warning: pdflatex (file ./Esquematicos.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Esquematicos.pdf, id=897, page=6, 845.07724pt x 597.55246pt>
 File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 6>
 Package pdftex.def Info: Esquematicos.pdf , page6 used on input line 270.
@@ -1246,10 +1274,12 @@ File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 6>
 Package pdftex.def Info: Esquematicos.pdf , page6 used on input line 270.
 (pdftex.def)             Requested size: 845.07518pt x 597.551pt.
- [46
+[47
 
  <./Esquematicos.pdf>]
-<Esquematicos.pdf, id=900, page=7, 845.07724pt x 597.55246pt>
+
+pdfTeX warning: pdflatex (file ./Esquematicos.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Esquematicos.pdf, id=910, page=7, 845.07724pt x 597.55246pt>
 File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 7>
 Package pdftex.def Info: Esquematicos.pdf , page7 used on input line 270.
@@ -1262,803 +1292,795 @@ File: Esquematicos.pdf Graphic file (type pdf)
 <use Esquematicos.pdf, page 7>
 Package pdftex.def Info: Esquematicos.pdf , page7 used on input line 270.
 (pdftex.def)             Requested size: 845.07518pt x 597.551pt.
- [47
+[48
 
  <./Esquematicos.pdf>]
 \pydata@fh@0=\write8
 \openout8 = `_85210CA57B5B2982CA05FE6F9EFFDB41.data.minted'.
 
-runsystem(latexminted config  --timestamp 20261102182710 85210CA57B5B2982CA05FE6F9EFFDB41)...executed.
+runsystem(latexminted config  --timestamp 20261102235122 85210CA57B5B2982CA05FE6F9EFFDB41)...executed.
 
- (./_85210CA57B5B2982CA05FE6F9EFFDB41.config.minted)
-runsystem(latexminted cleanconfig  --timestamp 20261102182710 85210CA57B5B2982CA05FE6F9EFFDB41)...executed.
+ (_85210CA57B5B2982CA05FE6F9EFFDB41.config.minted)
+runsystem(latexminted cleanconfig  --timestamp 20261102235122 85210CA57B5B2982CA05FE6F9EFFDB41)...executed.
 
- (./_minted/emacs.style.minted) (./_minted/4F81AFEB8C8A46C4E95DA063F73C6162.highlight.minted
+ (_minted/emacs.style.minted) (_minted/346C48B162560341B3E7D8860B7D239A.highlight.minted
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 18.
- [48] [49] [50] [51] [52] [53] [54]) (./_minted/EBAEBBDECD443B10D8D4FFA1346FBD01.highlight.minted [55] [56] [57] [58] [59] [60] [61] [62] [63] [64] [65] [66] [67]) [68]
-<Apendices/Estudio Preliminar.pdf, id=997, 598.235pt x 845.1575pt>
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 13.
+ [49] [50] [51] [52]) (_minted/D08EF2619141AD32474CA21EDCAABFA8.highlight.minted [53] [54] [55] [56] [57] [58] [59] [60] [61]) (_minted/230045EEBC0E33FF136FAB4B96135708.highlight.minted [62] [63] [64] [65] [66] [67]) (_minted/6F9ACE0EF6783B1857F3913B9D7D388D.highlight.minted [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78] [79] [80]) [81]
+<Apendices/Estudio Preliminar.pdf, id=1058, 598.235pt x 845.1575pt>
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf  used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf  used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-<Apendices/Estudio Preliminar.pdf, id=999, page=1, 598.235pt x 845.1575pt>
+<Apendices/Estudio Preliminar.pdf, id=1060, page=1, 598.235pt x 845.1575pt>
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 1>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 1>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [69
+ [82
 
 ]
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 1>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 1>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{section.6.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.295 ...minar}]{Apendices/Estudio Preliminar.pdf}
+l.297 ...minar}]{Apendices/Estudio Preliminar.pdf}
                                                   
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 1>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page1 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [70
+ [83
 
  <./Apendices/Estudio Preliminar.pdf>]
-<Apendices/Estudio Preliminar.pdf, id=1040, page=2, 598.235pt x 845.1575pt>
+<Apendices/Estudio Preliminar.pdf, id=1100, page=2, 598.235pt x 845.1575pt>
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 2>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page2 used on input line 295.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
-<use Apendices/Estudio Preliminar.pdf, page 2>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page2 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page2 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 2>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page2 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page2 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [71
+File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
+<use Apendices/Estudio Preliminar.pdf, page 2>
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page2 used on input line 297.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [84
 
  <./Apendices/Estudio Preliminar.pdf>]
-<Apendices/Estudio Preliminar.pdf, id=1051, page=3, 598.235pt x 845.1575pt>
+<Apendices/Estudio Preliminar.pdf, id=1112, page=3, 598.235pt x 845.1575pt>
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 3>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page3 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page3 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 3>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page3 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page3 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 3>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page3 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page3 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [72
+ [85
 
  <./Apendices/Estudio Preliminar.pdf>]
-<Apendices/Estudio Preliminar.pdf, id=1062, page=4, 598.235pt x 845.1575pt>
+<Apendices/Estudio Preliminar.pdf, id=1122, page=4, 598.235pt x 845.1575pt>
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 4>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page4 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page4 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 4>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page4 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page4 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 File: Apendices/Estudio Preliminar.pdf Graphic file (type pdf)
 <use Apendices/Estudio Preliminar.pdf, page 4>
-Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page4 used on input line 295.
+Package pdftex.def Info: Apendices/Estudio Preliminar.pdf , page4 used on input line 297.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [73
+ [86
 
  <./Apendices/Estudio Preliminar.pdf>]
-<Apendices/Pproy.pdf, id=1068, 614.295pt x 794.97pt>
+<Apendices/Pproy.pdf, id=1128, 614.295pt x 794.97pt>
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf>
-Package pdftex.def Info: Apendices/Pproy.pdf  used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf  used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-<Apendices/Pproy.pdf, id=1070, page=1, 614.295pt x 794.97pt>
+<Apendices/Pproy.pdf, id=1130, page=1, 614.295pt x 794.97pt>
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 1>
-Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 297.
-(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-File: Apendices/Pproy.pdf Graphic file (type pdf)
-<use Apendices/Pproy.pdf, page 1>
-Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 1>
-Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 1>
-Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 299.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
+File: Apendices/Pproy.pdf Graphic file (type pdf)
+<use Apendices/Pproy.pdf, page 1>
+Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{section.6.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.297 ...abajo, apend:PProy}]{Apendices/Pproy.pdf}
+l.299 ...abajo, apend:PProy}]{Apendices/Pproy.pdf}
                                                   
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 1>
-Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page1 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [74
+ [87
 
- <./Apendices/PProy.pdf>]
-<Apendices/Pproy.pdf, id=1099, page=2, 614.295pt x 794.97pt>
+ <./Apendices/Pproy.pdf>]
+<Apendices/Pproy.pdf, id=1159, page=2, 614.295pt x 794.97pt>
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 2>
-Package pdftex.def Info: Apendices/Pproy.pdf , page2 used on input line 297.
-(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-File: Apendices/Pproy.pdf Graphic file (type pdf)
-<use Apendices/Pproy.pdf, page 2>
-Package pdftex.def Info: Apendices/Pproy.pdf , page2 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page2 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 2>
-Package pdftex.def Info: Apendices/Pproy.pdf , page2 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page2 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [75
+File: Apendices/Pproy.pdf Graphic file (type pdf)
+<use Apendices/Pproy.pdf, page 2>
+Package pdftex.def Info: Apendices/Pproy.pdf , page2 used on input line 299.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
+ [88
 
- <./Apendices/PProy.pdf>]
-<Apendices/Pproy.pdf, id=1105, page=3, 614.295pt x 794.97pt>
+ <./Apendices/Pproy.pdf>]
+<Apendices/Pproy.pdf, id=1165, page=3, 614.295pt x 794.97pt>
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 3>
-Package pdftex.def Info: Apendices/Pproy.pdf , page3 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page3 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 3>
-Package pdftex.def Info: Apendices/Pproy.pdf , page3 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page3 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 3>
-Package pdftex.def Info: Apendices/Pproy.pdf , page3 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page3 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [76
+ [89
 
- <./Apendices/PProy.pdf>]
-<Apendices/Pproy.pdf, id=1111, page=4, 614.295pt x 794.97pt>
+ <./Apendices/Pproy.pdf>]
+<Apendices/Pproy.pdf, id=1171, page=4, 614.295pt x 794.97pt>
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 4>
-Package pdftex.def Info: Apendices/Pproy.pdf , page4 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page4 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 4>
-Package pdftex.def Info: Apendices/Pproy.pdf , page4 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page4 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/Pproy.pdf Graphic file (type pdf)
 <use Apendices/Pproy.pdf, page 4>
-Package pdftex.def Info: Apendices/Pproy.pdf , page4 used on input line 297.
+Package pdftex.def Info: Apendices/Pproy.pdf , page4 used on input line 299.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [77
+ [90
 
- <./Apendices/PProy.pdf>]
-<Apendices/ER.pdf, id=1116, 614.295pt x 794.97pt>
+ <./Apendices/Pproy.pdf>]
+<Apendices/ER.pdf, id=1177, 614.295pt x 794.97pt>
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf>
-Package pdftex.def Info: Apendices/ER.pdf  used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf  used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-<Apendices/ER.pdf, id=1118, page=1, 614.295pt x 794.97pt>
+<Apendices/ER.pdf, id=1179, page=1, 614.295pt x 794.97pt>
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 1>
-Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 299.
-(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-File: Apendices/ER.pdf Graphic file (type pdf)
-<use Apendices/ER.pdf, page 1>
-Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 1>
-Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 1>
-Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 301.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
+File: Apendices/ER.pdf Graphic file (type pdf)
+<use Apendices/ER.pdf, page 1>
+Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{section.6.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.299 ...uerimientos, apend:ER}]{Apendices/ER.pdf}
+l.301 ...uerimientos, apend:ER}]{Apendices/ER.pdf}
                                                   
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 1>
-Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page1 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [78
+ [91
 
  <./Apendices/ER.pdf>]
-<Apendices/ER.pdf, id=1143, page=2, 614.295pt x 794.97pt>
+<Apendices/ER.pdf, id=1203, page=2, 614.295pt x 794.97pt>
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 2>
-Package pdftex.def Info: Apendices/ER.pdf , page2 used on input line 299.
-(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-File: Apendices/ER.pdf Graphic file (type pdf)
-<use Apendices/ER.pdf, page 2>
-Package pdftex.def Info: Apendices/ER.pdf , page2 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page2 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 2>
-Package pdftex.def Info: Apendices/ER.pdf , page2 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page2 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [79
+File: Apendices/ER.pdf Graphic file (type pdf)
+<use Apendices/ER.pdf, page 2>
+Package pdftex.def Info: Apendices/ER.pdf , page2 used on input line 301.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
+ [92
 
  <./Apendices/ER.pdf>]
-<Apendices/ER.pdf, id=1158, page=3, 614.295pt x 794.97pt>
+<Apendices/ER.pdf, id=1218, page=3, 614.295pt x 794.97pt>
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 3>
-Package pdftex.def Info: Apendices/ER.pdf , page3 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page3 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 3>
-Package pdftex.def Info: Apendices/ER.pdf , page3 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page3 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 3>
-Package pdftex.def Info: Apendices/ER.pdf , page3 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page3 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [80
+ [93
 
  <./Apendices/ER.pdf>]
-<Apendices/ER.pdf, id=1169, page=4, 614.295pt x 794.97pt>
+<Apendices/ER.pdf, id=1229, page=4, 614.295pt x 794.97pt>
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 4>
-Package pdftex.def Info: Apendices/ER.pdf , page4 used on input line 299.
-(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-File: Apendices/ER.pdf Graphic file (type pdf)
-<use Apendices/ER.pdf, page 4>
-Package pdftex.def Info: Apendices/ER.pdf , page4 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page4 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 4>
-Package pdftex.def Info: Apendices/ER.pdf , page4 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page4 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [81
+File: Apendices/ER.pdf Graphic file (type pdf)
+<use Apendices/ER.pdf, page 4>
+Package pdftex.def Info: Apendices/ER.pdf , page4 used on input line 301.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
+ [94
 
  <./Apendices/ER.pdf>]
-<Apendices/ER.pdf, id=1175, page=5, 614.295pt x 794.97pt>
+<Apendices/ER.pdf, id=1235, page=5, 614.295pt x 794.97pt>
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 5>
-Package pdftex.def Info: Apendices/ER.pdf , page5 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page5 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 5>
-Package pdftex.def Info: Apendices/ER.pdf , page5 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page5 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 5>
-Package pdftex.def Info: Apendices/ER.pdf , page5 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page5 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [82
+ [95
 
  <./Apendices/ER.pdf>]
-<Apendices/ER.pdf, id=1180, page=6, 614.295pt x 794.97pt>
+<Apendices/ER.pdf, id=1240, page=6, 614.295pt x 794.97pt>
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 6>
-Package pdftex.def Info: Apendices/ER.pdf , page6 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page6 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 6>
-Package pdftex.def Info: Apendices/ER.pdf , page6 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page6 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Apendices/ER.pdf Graphic file (type pdf)
 <use Apendices/ER.pdf, page 6>
-Package pdftex.def Info: Apendices/ER.pdf , page6 used on input line 299.
+Package pdftex.def Info: Apendices/ER.pdf , page6 used on input line 301.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
- [83
+ [96
 
  <./Apendices/ER.pdf>]
-<Apendices/EF.pdf, id=1185, 598.235pt x 845.1575pt>
+<Apendices/EF.pdf, id=1246, 598.235pt x 845.1575pt>
 File: Apendices/EF.pdf Graphic file (type pdf)
 <use Apendices/EF.pdf>
-Package pdftex.def Info: Apendices/EF.pdf  used on input line 301.
+Package pdftex.def Info: Apendices/EF.pdf  used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-<Apendices/EF.pdf, id=1187, page=1, 598.235pt x 845.1575pt>
+<Apendices/EF.pdf, id=1248, page=1, 598.235pt x 845.1575pt>
 File: Apendices/EF.pdf Graphic file (type pdf)
 <use Apendices/EF.pdf, page 1>
-Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 1>
-Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 301.
+Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 File: Apendices/EF.pdf Graphic file (type pdf)
 <use Apendices/EF.pdf, page 1>
-Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 301.
+Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 File: Apendices/EF.pdf Graphic file (type pdf)
 <use Apendices/EF.pdf, page 1>
-Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 301.
+Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 303.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 1>
+Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{section.6.4}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.301 ...n Funcional, apend:EF}]{Apendices/EF.pdf}
+l.303 ...n Funcional, apend:EF}]{Apendices/EF.pdf}
                                                   
 File: Apendices/EF.pdf Graphic file (type pdf)
 <use Apendices/EF.pdf, page 1>
-Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [84
-
- <./Apendices/EF.pdf>]
-<Apendices/EF.pdf, id=1213, page=2, 598.235pt x 845.1575pt>
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 2>
-Package pdftex.def Info: Apendices/EF.pdf , page2 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 2>
-Package pdftex.def Info: Apendices/EF.pdf , page2 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 2>
-Package pdftex.def Info: Apendices/EF.pdf , page2 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [85
-
- <./Apendices/EF.pdf>]
-<Apendices/EF.pdf, id=1223, page=3, 598.235pt x 845.1575pt>
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 3>
-Package pdftex.def Info: Apendices/EF.pdf , page3 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 3>
-Package pdftex.def Info: Apendices/EF.pdf , page3 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 3>
-Package pdftex.def Info: Apendices/EF.pdf , page3 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [86
-
- <./Apendices/EF.pdf>]
-<Apendices/EF.pdf, id=1238, page=4, 598.235pt x 845.1575pt>
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 4>
-Package pdftex.def Info: Apendices/EF.pdf , page4 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 4>
-Package pdftex.def Info: Apendices/EF.pdf , page4 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 4>
-Package pdftex.def Info: Apendices/EF.pdf , page4 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [87
-
- <./Apendices/EF.pdf>]
-<Apendices/EF.pdf, id=1248, page=5, 598.235pt x 845.1575pt>
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 5>
-Package pdftex.def Info: Apendices/EF.pdf , page5 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 5>
-Package pdftex.def Info: Apendices/EF.pdf , page5 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 5>
-Package pdftex.def Info: Apendices/EF.pdf , page5 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [88
-
- <./Apendices/EF.pdf>]
-<Apendices/EF.pdf, id=1253, page=6, 598.235pt x 845.1575pt>
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 6>
-Package pdftex.def Info: Apendices/EF.pdf , page6 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 6>
-Package pdftex.def Info: Apendices/EF.pdf , page6 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 6>
-Package pdftex.def Info: Apendices/EF.pdf , page6 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [89
-
- <./Apendices/EF.pdf>]
-<Apendices/EF.pdf, id=1259, page=7, 598.235pt x 845.1575pt>
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 7>
-Package pdftex.def Info: Apendices/EF.pdf , page7 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 7>
-Package pdftex.def Info: Apendices/EF.pdf , page7 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 7>
-Package pdftex.def Info: Apendices/EF.pdf , page7 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [90
-
- <./Apendices/EF.pdf>]
-<Apendices/EF.pdf, id=1267, page=8, 598.235pt x 845.1575pt>
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 8>
-Package pdftex.def Info: Apendices/EF.pdf , page8 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 8>
-Package pdftex.def Info: Apendices/EF.pdf , page8 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/EF.pdf Graphic file (type pdf)
-<use Apendices/EF.pdf, page 8>
-Package pdftex.def Info: Apendices/EF.pdf , page8 used on input line 301.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [91
-
- <./Apendices/EF.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1273, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf  used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-<Apendices/Especificación Técnica.pdf, id=1275, page=1, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 1>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 1>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 1>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 1>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 1>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [92
-
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1300, page=2, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 2>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page2 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 2>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page2 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 2>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page2 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [93
-
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1310, page=3, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 3>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page3 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 3>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page3 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 3>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page3 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [94
-
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1315, page=4, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 4>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page4 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 4>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page4 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 4>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page4 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [95
-
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1325, page=5, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 5>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page5 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 5>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page5 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 5>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page5 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
- [96
-
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1332, page=6, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 6>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page6 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 6>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page6 used on input line 303.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 6>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page6 used on input line 303.
+Package pdftex.def Info: Apendices/EF.pdf , page1 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [97
 
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1339, page=7, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 7>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page7 used on input line 303.
+ <./Apendices/EF.pdf>]
+<Apendices/EF.pdf, id=1272, page=2, 598.235pt x 845.1575pt>
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 2>
+Package pdftex.def Info: Apendices/EF.pdf , page2 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 7>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page7 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 2>
+Package pdftex.def Info: Apendices/EF.pdf , page2 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 7>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page7 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 2>
+Package pdftex.def Info: Apendices/EF.pdf , page2 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [98
 
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1350, page=8, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 8>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page8 used on input line 303.
+ <./Apendices/EF.pdf>]
+<Apendices/EF.pdf, id=1282, page=3, 598.235pt x 845.1575pt>
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 3>
+Package pdftex.def Info: Apendices/EF.pdf , page3 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 8>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page8 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 3>
+Package pdftex.def Info: Apendices/EF.pdf , page3 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 8>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page8 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 3>
+Package pdftex.def Info: Apendices/EF.pdf , page3 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [99
 
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1356, page=9, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 9>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page9 used on input line 303.
+ <./Apendices/EF.pdf>]
+<Apendices/EF.pdf, id=1297, page=4, 598.235pt x 845.1575pt>
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 4>
+Package pdftex.def Info: Apendices/EF.pdf , page4 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 9>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page9 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 4>
+Package pdftex.def Info: Apendices/EF.pdf , page4 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 9>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page9 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 4>
+Package pdftex.def Info: Apendices/EF.pdf , page4 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [100
 
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1363, page=10, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 10>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page10 used on input line 303.
+ <./Apendices/EF.pdf>]
+<Apendices/EF.pdf, id=1307, page=5, 598.235pt x 845.1575pt>
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 5>
+Package pdftex.def Info: Apendices/EF.pdf , page5 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 10>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page10 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 5>
+Package pdftex.def Info: Apendices/EF.pdf , page5 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 10>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page10 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 5>
+Package pdftex.def Info: Apendices/EF.pdf , page5 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [101
 
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1369, page=11, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 11>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page11 used on input line 303.
+ <./Apendices/EF.pdf>]
+<Apendices/EF.pdf, id=1312, page=6, 598.235pt x 845.1575pt>
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 6>
+Package pdftex.def Info: Apendices/EF.pdf , page6 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 11>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page11 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 6>
+Package pdftex.def Info: Apendices/EF.pdf , page6 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 11>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page11 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 6>
+Package pdftex.def Info: Apendices/EF.pdf , page6 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [102
 
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Especificación Técnica.pdf, id=1376, page=12, 598.235pt x 845.1575pt>
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 12>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page12 used on input line 303.
+ <./Apendices/EF.pdf>]
+<Apendices/EF.pdf, id=1319, page=7, 598.235pt x 845.1575pt>
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 7>
+Package pdftex.def Info: Apendices/EF.pdf , page7 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 12>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page12 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 7>
+Package pdftex.def Info: Apendices/EF.pdf , page7 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
-<use Apendices/Especificación Técnica.pdf, page 12>
-Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page12 used on input line 303.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 7>
+Package pdftex.def Info: Apendices/EF.pdf , page7 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [103
 
- <./Apendices/Especificación Técnica.pdf>]
-<Apendices/Plan de pruebas.pdf, id=1381, 598.235pt x 845.1575pt>
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf  used on input line 305.
+ <./Apendices/EF.pdf>]
+<Apendices/EF.pdf, id=1326, page=8, 598.235pt x 845.1575pt>
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 8>
+Package pdftex.def Info: Apendices/EF.pdf , page8 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-<Apendices/Plan de pruebas.pdf, id=1383, page=1, 598.235pt x 845.1575pt>
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 1>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 305.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 8>
+Package pdftex.def Info: Apendices/EF.pdf , page8 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 1>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 305.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 1>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 305.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 1>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 305.
-(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 1>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 305.
+File: Apendices/EF.pdf Graphic file (type pdf)
+<use Apendices/EF.pdf, page 8>
+Package pdftex.def Info: Apendices/EF.pdf , page8 used on input line 303.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [104
 
- <./Apendices/Plan de pruebas.pdf>]
-<Apendices/Plan de pruebas.pdf, id=1409, page=2, 598.235pt x 845.1575pt>
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 2>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page2 used on input line 305.
+ <./Apendices/EF.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1332, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf  used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 2>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page2 used on input line 305.
+<Apendices/Especificación Técnica.pdf, id=1334, page=1, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 1>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 2>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page2 used on input line 305.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 1>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 1>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 1>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 1>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page1 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [105
 
- <./Apendices/Plan de pruebas.pdf>]
-<Apendices/Plan de pruebas.pdf, id=1419, page=3, 598.235pt x 845.1575pt>
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 3>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page3 used on input line 305.
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1359, page=2, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 2>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page2 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 3>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page3 used on input line 305.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 2>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page2 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 3>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page3 used on input line 305.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 2>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page2 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [106
 
- <./Apendices/Plan de pruebas.pdf>]
-<Apendices/Plan de pruebas.pdf, id=1424, page=4, 598.235pt x 845.1575pt>
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 4>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page4 used on input line 305.
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1369, page=3, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 3>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page3 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 4>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page4 used on input line 305.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 3>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page3 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 4>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page4 used on input line 305.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 3>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page3 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [107
 
- <./Apendices/Plan de pruebas.pdf>]
-<Apendices/Plan de pruebas.pdf, id=1429, page=5, 598.235pt x 845.1575pt>
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 5>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page5 used on input line 305.
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1374, page=4, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 4>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page4 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 5>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page5 used on input line 305.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 4>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page4 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 5>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page5 used on input line 305.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 4>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page4 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [108
 
- <./Apendices/Plan de pruebas.pdf>]
-<Apendices/Plan de pruebas.pdf, id=1435, page=6, 598.235pt x 845.1575pt>
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 6>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page6 used on input line 305.
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1385, page=5, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 5>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page5 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 6>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page6 used on input line 305.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 5>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page5 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
-File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
-<use Apendices/Plan de pruebas.pdf, page 6>
-Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page6 used on input line 305.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 5>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page5 used on input line 305.
 (pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
  [109
 
- <./Apendices/Plan de pruebas.pdf>] [110
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1391, page=6, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 6>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page6 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 6>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page6 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 6>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page6 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [110
+
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1398, page=7, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 7>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page7 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 7>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page7 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 7>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page7 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [111
+
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1409, page=8, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 8>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page8 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 8>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page8 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 8>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page8 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [112
+
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1415, page=9, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 9>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page9 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 9>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page9 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 9>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page9 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [113
+
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1422, page=10, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 10>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page10 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 10>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page10 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 10>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page10 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [114
+
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1429, page=11, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 11>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page11 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 11>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page11 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 11>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page11 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [115
+
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Especificación Técnica.pdf, id=1435, page=12, 598.235pt x 845.1575pt>
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 12>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page12 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 12>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page12 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Especificación Técnica.pdf Graphic file (type pdf)
+<use Apendices/Especificación Técnica.pdf, page 12>
+Package pdftex.def Info: Apendices/Especificación Técnica.pdf , page12 used on input line 305.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [116
+
+ <./Apendices/Especificación Técnica.pdf>]
+<Apendices/Plan de pruebas.pdf, id=1440, 598.235pt x 845.1575pt>
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf  used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+<Apendices/Plan de pruebas.pdf, id=1442, page=1, 598.235pt x 845.1575pt>
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 1>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 1>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 1>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 1>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 1>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page1 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [117
+
+ <./Apendices/Plan de pruebas.pdf>]
+<Apendices/Plan de pruebas.pdf, id=1467, page=2, 598.235pt x 845.1575pt>
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 2>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page2 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 2>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page2 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 2>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page2 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [118
+
+ <./Apendices/Plan de pruebas.pdf>]
+<Apendices/Plan de pruebas.pdf, id=1477, page=3, 598.235pt x 845.1575pt>
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 3>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page3 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 3>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page3 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 3>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page3 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [119
+
+ <./Apendices/Plan de pruebas.pdf>]
+<Apendices/Plan de pruebas.pdf, id=1482, page=4, 598.235pt x 845.1575pt>
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 4>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page4 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 4>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page4 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 4>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page4 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [120
+
+ <./Apendices/Plan de pruebas.pdf>]
+<Apendices/Plan de pruebas.pdf, id=1488, page=5, 598.235pt x 845.1575pt>
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 5>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page5 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 5>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page5 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 5>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page5 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [121
+
+ <./Apendices/Plan de pruebas.pdf>]
+<Apendices/Plan de pruebas.pdf, id=1493, page=6, 598.235pt x 845.1575pt>
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 6>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page6 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 6>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page6 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+File: Apendices/Plan de pruebas.pdf Graphic file (type pdf)
+<use Apendices/Plan de pruebas.pdf, page 6>
+Package pdftex.def Info: Apendices/Plan de pruebas.pdf , page6 used on input line 307.
+(pdftex.def)             Requested size: 598.23354pt x 845.15544pt.
+ [122
+
+ <./Apendices/Plan de pruebas.pdf>] [123
 
 ]
-Overfull \hbox (2.27226pt too wide) in paragraph at lines 309--309
+Overfull \hbox (2.27226pt too wide) in paragraph at lines 311--311
 []\T1/cmr/m/n/10.95 Michael Mar-graf. \T1/cmr/m/it/10.95 uSim-mics\T1/cmr/m/n/10.95 . Ver-sion 5.9. An-te-ri-or-mente cono-cido como Quc-sStu-dio. Jan. 10,
  []
 
-[111] (./Thesis.aux)
+[124] (Thesis.aux)
  ***********
-LaTeX2e <2026-06-01>
-L3 programming layer <2026-09-09>
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: EB55ACCC119BB963048CAE65BC98B8FF;12547.
+(rerunfilecheck)             Checksum: B2948DF75A19347D922CDB0FA8EDFC6D;12792.
 Package logreq Info: Writing requests to 'Thesis.run.xml'.
 \openout1 = `Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 27340 strings out of 467049
- 534649 string characters out of 5410529
- 1491259 words of memory out of 5000000
- 56085 multiletter control sequences out of 15000+600000
- 651919 words of font info for 96 fonts, out of 8000000 for 9000
+ 27337 strings out of 467871
+ 539667 string characters out of 5418376
+ 1479553 words of memory out of 5000000
+ 55553 multiletter control sequences out of 15000+600000
+ 651105 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,19n,83p,1510b,1533s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfcc1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfcc2074.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfit1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on Thesis.pdf (112 pages, 15448461 bytes).
+ 75i,19n,83p,1505b,1535s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1095.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcit1095.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tctt1095.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1095.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm2074.pk> <C:\Users\torre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc2074.pk><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/torre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on Thesis.pdf (125 pages, 16498458 bytes).
 PDF statistics:
- 1692 PDF objects out of 1728 (max. 8388607)
- 1263 compressed objects within 13 object streams
- 281 named destinations out of 1000 (max. 500000)
- 1157 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2476 PDF objects out of 2487 (max. 8388607)
+ 297 named destinations out of 1000 (max. 500000)
+ 1175 words of extra memory for PDF output out of 10000 (max. 10000000)
 

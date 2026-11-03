@@ -125,7 +125,7 @@ Luego de comprobar con éxito el funcionamiento de estos subsistemas, se soldó 
     \label{fig:audacity}
 \end{figure}
 
-El mismo software tiene una herramienta para graficar el espectro de la señal, en el que se pudo comprobar la frecuencia de mayor amplitud y comprobar que el tercer armónico queda aproximadamente 13 dB por debajo del primero, como indica la hoja de datos de los ADF4351 y como se muestra en la figura \ref{fig:espectro1k}.
+El mismo software tiene una herramienta para graficar el espectro de la señal, en el que se pudo comprobar la frecuencia de mayor amplitud y comprobar que el tercer armónico queda aproximadamente 13 dB por debajo del primero, como indica la hoja de datos de los ADF4351 y se evidencia en la figura \ref{fig:espectro1k}.
 
 \begin{figure}
     \centering
@@ -134,65 +134,77 @@ El mismo software tiene una herramienta para graficar el espectro de la señal, 
     \label{fig:espectro1k}
 \end{figure}
 
-Se procedió a probar una parte del software que aplicara el algoritmo de barrido y extracción del S11 sin calibrar. Las figuras \ref{fig:precalibracion} muestran la medición de una carga de 5O $\Omega$ y un cortocircuito. 
+Se procedió a probar la parte del software que aplica el algoritmo de barrido y extracción del S11 sin calibrar. Las figuras \ref{fig:precalibracion} muestran la medición de una carga de 50 $\Omega$ y un cortocircuito. 
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.8\textwidth}
+    \begin{subfigure}[b]{0.6\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Imagenes/carga 50 sin calibrar.png}
-        \caption{Medición de carga adaptada pre calibración.}
+        \caption{Medición de carga adaptada.}
         \label{fig:50precalib}
     \end{subfigure}
 
     \vspace{1em}   % espacio entre subfiguras (opcional)
     
-    \begin{subfigure}[b]{0.8\textwidth}
+    \begin{subfigure}[b]{0.6\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Imagenes/cortoprecalib.png}
-        \caption{Medición de cortocircuito pre calibración.}
+        \caption{Medición de cortocircuito.}
         \label{fig:cortoprecalib}
     \end{subfigure}
+    \caption{Mediciones pre calibración.}
     \label{fig:precalibracion}
-
 \end{figure}
 
 
-Se puede observar que aunque las mediciones tienen coherencia en cuanto a la forma (exceptuando algunas regiones), los valores de amplitud y fase medidos no son los correctos. Esto se debe a los errores que se mencionaron en la sección \ref{sec:errores}, que se reducen mediante la calibración. 
+Se puede observar que aunque las mediciones tienen coherencia en cuanto a la forma (exceptuando algunas regiones, de las cuales se hablará luego), los valores de amplitud y fase medidos no son los correctos. Esto se debe a los errores que se mencionaron en la sección \ref{sec:errores}, que se reducen mediante la calibración. 
 
 
 \section{Mediciones de sistemas bajo prueba}
 
 Por último, se probó el software completo, incluyendo la calibración SOL, para varios DUT:
 
-\subsection{Cortocircuito}
-Es el unico que medi la carga de calibracion porque no tenia otro corto que no sea el de 150.
-\subsubsection{Cortocircuito de 150°}
+\subsection{Cortocircuitos}
+Se midieron dos cortocircuitos. El de la figura \ref{fig:medcortocal} corresponde a una de las cargas de calibración, por lo que debería no tener ningún error que sea sistemático. \textbf{LA DEJO O SACO OTRA?} 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{Imagenes/medcorto150.png}
+    \includegraphics[width=0.8\linewidth]{Imagenes/medcortocal.jpg}
+    \caption{Medición de cortocircuito de calibración.}
+    \label{fig:medcortocal}
+\end{figure}
+
+El otro cortocircuito que se usó para medir consiste en un conector SMA con su contacto central y exterior soldados mediante un pequeño tramo de alambre. Por alguna curiosa razón, este tiene una capacitancia \textbf{COMO ESTÁ AHORA ES UNA INDUCTANCIA. DE NUEVO?} tal que la fase todas las veces que se midió, con el $\epsilon-\mu VNA$ tanto como con dispositivos comerciales, dió 150°. 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Imagenes/medcorto150.png}
     \caption{Medición de cortocircuito.}
-    \label{fig:med50R}
+    \label{fig:medcorto150}
 \end{figure}
 
 \subsection{Circuito abierto}
+El circuito abierto de la figura \ref{fig:medCA} se implementó dejando simplemente sin conectar la entrada del DUT. Como se observa, la medición coincide con la de un circuito abierto teórico, excepto en algunos puntos.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{Imagenes/medCA.png}
-    \caption{Medición de 50 $\Omega$.}
-    \label{fig:med50R}
+    \includegraphics[width=0.8\linewidth]{Imagenes/medCA.png}
+    \caption{Medición de circuito abierto.}
+    \label{fig:medCA}
 \end{figure}
 
 \subsection{Adaptación (50 $\Omega$)}
+\textbf{DE NUEVO?}
+
+Una medición con una carga de 50 $\Omega$ equivale al puerto adaptado, por lo que la reflexión debería ser nula. Esto en escala logarítmica equivale a un módulo de - $\infty$ dB, y la fase sería solo ruido. 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{Imagenes/med50R.png}
+    \includegraphics[width=0.8\linewidth]{Imagenes/med50R.png}
     \caption{Medición de 50 $\Omega$.}
     \label{fig:med50R}
 \end{figure}
 
+\section{Análisis de resultados}
 La siguiente tabla muestra una comparación entre los coeficientes de reflexión teóricos o "reales" y el promedio (aproximado) de los medidos, en módulo [dB] y ángulo [°]:
 \begin{center}
 \begin{tabularx}{\textwidth}{|X|X|X|}
@@ -201,33 +213,40 @@ La siguiente tabla muestra una comparación entre los coeficientes de reflexión
 \rowcolor{Thistle!20} 
 \textbf{Carga}  & \textbf{$\Gamma_{REAL}$} & \textbf{$\Gamma_{MEDIDO}$}  \\
 \hline
-50 $\Omega$ & - $\inf$ & -32,5 \\
+50 $\Omega$ & - $\infty$ & -32,5 $\angle$ -70 \\
 \hline
 68 $\Omega$ & -16,33 $\angle$ 0 & -15,8 $\angle$ 6 \\
 \hline
-Corto circuto & 0 $\angle$ 180 & \\
+Corto circuto & 0 $\angle$ 180 & 0 $\angle$ 180 \\
 \hline
 Circuito abierto & 0 $\angle$ 0 & 0 $\angle$ 0 \\
 \hline
 Cortocircuito de 150° & 0 $\angle$ 150 & \\
+\hline
 \end{tabularx}
 \end{center}
+
+Que el dispositivo pueda medir correctamente una carga de 68 $\Omega$ da cuenta de que puede diferenciar una ROE de al menos 1,36 (que es la que corresponde a una carga de esa magnitud), superando el requerimiento RP-05 (ver apéndice   ``Especificación de Requerimientos'' - \ref{apend:ER}) que exigía una ROE mínima distinguible de 1,5.
+
+Sobre los puntos en la región de 2150 a 2200 MHz que no siguen la misma tendencia que el resto, se puede notar que ocurren siempre en las mismas frecuencias. Aunque aún no se hicieron mediciones para comprobarlo, lo más probable es que el filtro FIR tenga un ancho de banda muy angosto para las mediciones en alta frecuencia. A veces el enganche de los ADF4351 no ocurre exactamente en la frecuencia deseada sino en una cerca, lo que provoca que la mezcla no caiga en la frecuencia de FI y por lo tanto el pico de máxima amplitud caiga fuera de la banda de paso. Esta teoría se basa en mediciones anteriores donde agrandando el ancho de banda ha disminuido la cantidad de puntos anómalos.
+
+En la región cercana a 1850 MHz también se puede observar un comportamiento atípico. \textbf{NO TENGO NI IDEA}
 
 \subsection{Sensor resonante}
 Finalmente, para verificar que el sistema está adaptado para operar en conjunto con un sensor de glucemia no invasivo, se utiliza el sensor que resuena alrededor de los 2 GHz. Se mide en principio en vacío, como muestra la figura \ref{fig:sensorvacio}.  
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{Imagenes/sensor_vacio.png}
+    \includegraphics[width=0.8\linewidth]{Imagenes/sensor_vacio.png}
     \caption{Medición del sensor de glucemia en vacío.}
     \label{fig:sensorvacio}
 \end{figure}
 
-Si se introduce en el sensor un dedo, debería moverse la frecuencia de resonancia por lo explicado en el capítulo 1. Se confirma este comportamiento en la figura \ref{fig:sensorlleno}
+Si se introduce en el sensor un dedo, se espera que se mueva la frecuencia de resonancia por lo explicado en el capítulo 1. Este comportamiento es confirmado en la figura \ref{fig:sensorlleno}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{Imagenes/sensordedorami_15oct_bueno.png}
+    \includegraphics[width=0.8\linewidth]{Imagenes/sensordedorami_15oct_bueno.png}
     \caption{Medición del sensor de glucemia con un dedo.}
     \label{fig:sensorlleno}
 \end{figure}
@@ -258,3 +277,16 @@ Al incluir la interfaz de usuario, se hicieron algunas mediciones para comprobar
     \caption{Mediciones realizadas desde la interfaz de usuario}
     \label{fig:medinterfaz}
 \end{figure}
+
+\section{Comparación con dispositivo comercial}
+
+Para finalizar, se midieron algunas cargas con el Analizador Vectorial de Redes incorporado en el analizador de espectros Rigol Series RSA3000 \cite{rigol_rsa3030n}, las cuales se pueden observar en las figuras \ref{fig:comparacionCA}. Es importante aclarar que ambas mediciones se hicieron con el mismo kit de calibración. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Imagenes/comparacion CA.png}
+    \caption{Comparación circuito abierto $\epsilon-\mu VNA$ vs dispositivo comercial.}
+    \label{fig:comparacionCA}
+\end{figure}
+
+\textbf{la de 50 y 150 se ve mal por la fase. la de 68 no tan mal pero seria mejor si la fase estuviera bien. corto mmmm} 

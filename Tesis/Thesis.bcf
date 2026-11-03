@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bcf:controlfile version="3.11" bltxversion="3.22a" xmlns:bcf="https://sourceforge.net/projects/biblatex">
+<bcf:controlfile version="3.11" bltxversion="3.21" xmlns:bcf="https://sourceforge.net/projects/biblatex">
   <!-- BIBER OPTIONS -->
   <bcf:options component="biber" type="global">
     <bcf:option type="singlevalued">
@@ -2405,6 +2405,7 @@
     <bcf:citekey order="30" intorder="1">rigol_rsa3030n</bcf:citekey>
     <bcf:citekey order="31" intorder="1">hp8496b_manual</bcf:citekey>
     <bcf:citekey order="32" intorder="1">audacity376</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">rigol_rsa3030n</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
