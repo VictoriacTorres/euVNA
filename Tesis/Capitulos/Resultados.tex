@@ -8,19 +8,23 @@
     \label{fig:placassolas}
 \end{figure}
 
-    Los componentes se soldaron a mano, siendo los primeros  los tipo QFN (encapsulados planos cuádruples sin terminales - \textit{Quad Flat No-Lead}). Se puede observar en la figura \ref{fig:qfn} que para hacerlo se utilizó una estación de precalentamiento y un soldador de aire. 
+    Los componentes se soldaron a mano, siendo los primeros  los tipo QFN (encapsulados planos cuádruples sin terminales - \textit{Quad Flat No-Lead}). Se puede observar en la figura \ref{fig:qfn} que para hacerlo se utilizó una estación de precalentamiento y un soldador de aire.
+    
+    Luego se soldaron el resto de componentes, en orden de menor a mayor altura, empezando por los tipo SMD. La figura \ref{fig:bancosoladado} exhibe el banco de soldado. La placa final se muestra en la figura \ref{fig:fotoplacafinal}. Es interesante destacar que debido al plano de masa continuo en la segunda capa, la placa posee muy buenos niveles de disipación, lo que dificultó considerablemente el proceso de soldado. Este inconveniente se resolvió mediante la combinación del uso de precalentadora, pistola de aire, soldador de lápiz y generosas cantidades de flux, como ilustra la figura \ref{fig:soldando}.
+
+
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{Imagenes/soldadoqfn.jpg}
+    \includegraphics[width=0.6\linewidth]{Imagenes/soldadoqfn.jpg}
     \caption{Soldado de componentes QFN}
     \label{fig:qfn}
 \end{figure}
 
-Luego se soldaron el resto de componentes, en orden de menor a mayor altura. La figura \ref{fig:bancosoladado} exhibe el banco de soldado. La placa final se muestra en la figura \ref{fig:fotoplacafinal}. Es interesante destacar que debido al plano de masa continuo en la segunda capa, la placa posee muy buenos niveles de disipación, lo que dificultó considerablemente el proceso de soldado. Este inconveniente se resolvió mediante la combinación del uso de precalentadora, pistola de aire, soldador de lápiz y generosas cantidades de flux, como ilustra la figura \ref{fig:soldando}.
+
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{Imagenes/bancosoldado2.jpg}
+    \includegraphics[width=\linewidth]{Imagenes/bancosoldado2.jpg}
     \caption{Banco de soldado}
     \label{fig:bancosoladado}
 \end{figure}
@@ -137,25 +141,28 @@ El mismo software tiene una herramienta para graficar el espectro de la señal, 
 
 Se procedió a probar la parte del software que aplica el algoritmo de barrido y extracción del S11 sin calibrar, haciendo solo la comparación de la señal de referencia con la medida en magnitud y fase para estimar el S11 tal como se describe en la sección \ref{sec:estS11}. Las figuras \ref{fig:precalibracion} muestran la medición de una carga de 50 $\Omega$ y un cortocircuito. 
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.6\textwidth}
+    \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=\textwidth]{Imagenes/carga 50 sin calibrar.png}
+        \includegraphics[width=\linewidth]{Imagenes/carga 50 sin calibrar.png}
         \caption{Medición de carga adaptada.}
         \label{fig:50precalib}
     \end{subfigure}
+    \caption{Mediciones pre calibración.}
+    \label{fig:precalibracion}
+\end{figure}
 
-    \vspace{1em}   % espacio entre subfiguras (opcional)
-    
-    \begin{subfigure}[b]{0.6\textwidth}
+\begin{figure}[htbp]
+    \ContinuedFloat
+    \centering
+    \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=\textwidth]{Imagenes/cortoprecalib.png}
+        \includegraphics[width=\linewidth]{Imagenes/cortoprecalib.png}
         \caption{Medición de cortocircuito.}
         \label{fig:cortoprecalib}
     \end{subfigure}
-    \caption{Mediciones pre calibración.}
-    \label{fig:precalibracion}
+    \caption{Mediciones pre calibración (continuación).}
 \end{figure}
 
 
@@ -167,7 +174,7 @@ Se puede observar que aunque las mediciones tienen coherencia en cuanto a la for
 Se probó el software completo, incluyendo la calibración SOL, para varios DUT:
 
 \subsection{Cortocircuitos}
-Se midieron dos cortocircuitos. El de la figura \ref{fig:medcortocal} corresponde a una de las cargas de calibración, por lo que debería no tener ningún error que sea sistemático. 
+Se midieron dos cortocircuitos. El de la figura \ref{fig:medcortocal} corresponde a una de las cargas de calibración, por lo que debería no tener ningún error que sea sistemático. Que la fase haga un salto de -180° a +180° se debe a pequeños errores de ruido en la medición, pero en la práctica no hay diferencia entre ambos valores, porque representan el mismo punto en el plano complejo. 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{Imagenes/medcortocal.jpg}
@@ -205,6 +212,7 @@ Una medición con una carga de 50 $\Omega$ equivale al puerto adaptado, por lo q
     \label{fig:med50R}
 \end{figure}
 
+
 \subsection{Medición de banda ancha}
 Se realizó una calibración y medición de un circuito abierto en un rango más ancho, de 500 MHz a 3 GHz, de pasos de a 10 MHz para verificar el correcto comportamiento del sistema. Como se observa en la figura \ref{fig:bandaancha}, esta medición dio valores esperados con pocos valores anómalos.
 
@@ -217,25 +225,27 @@ Se realizó una calibración y medición de un circuito abierto en un rango más
 
 \section{Análisis de resultados}
 La siguiente tabla muestra una comparación entre los coeficientes de reflexión teóricos o "reales" y el promedio (aproximado) de los medidos, en módulo [dB] y ángulo [°]:
-\begin{center}
-\begin{tabularx}{\textwidth}{|X|X|X|}
-\arrayrulecolor{Thistle}
-\hline
-\rowcolor{Thistle!20} 
-\textbf{Carga}  & \textbf{$\Gamma_{REAL}$} & \textbf{$\Gamma_{MEDIDO}$}  \\
-\hline
-50 $\Omega$ & - $\infty$ & -32,7 $\angle$ -70 \\
-\hline
-68 $\Omega$ & -16,33 $\angle$ 0 & -15,8 $\angle$ 6 \\
-\hline
-Corto circuto & 0 $\angle$ 180 & 0 $\angle$ 180 \\
-\hline
-Circuito abierto & 0 $\angle$ 0 & 0 $\angle$ 0 \\
-\hline
-Cortocircuito desfasado & 0 $\angle$ 150 & 0 $\angle$ 150 \\
-\hline
-\end{tabularx}
-\end{center}
+\begin{table}[htbp]
+    \centering
+    \arrayrulecolor{Thistle}
+    \begin{tabularx}{\textwidth}{|X|c|X|}
+        \hline
+        \rowcolor{Thistle!20} 
+        \textbf{Carga} & \textbf{$\Gamma_{REAL}$} & \textbf{$\Gamma_{MEDIDO}$} \\
+        \hline
+        - 50 $\Omega$ & $\infty$ & -32,7 $\angle$ -70 \\
+        \hline
+        68 $\Omega$ & -16,33 $\angle$ 0 & -15,8 $\angle$ 6 \\
+        \hline
+        Corto circuto & 0 $\angle$ 180 & 0 $\angle$ 180 \\
+        \hline
+        Circuito abierto & 0 $\angle$ 0 & 0 $\angle$ 0 \\
+        \hline
+        Cortocircuito desfasado & 0 $\angle$ 150 & 0 $\angle$ 150 \\
+        \hline
+    \end{tabularx}
+    \caption*{Tabla de comparación de coeficientes teóricos y medidos}
+\end{table}
 
 Que el dispositivo pueda medir una carga de 50 $\Omega$ con al menos -30 dB de magnitud, da cuenta de que puede diferenciar una ROE de al menos 1,06  superando el requerimiento RP-05 (ver apéndice   ``Especificación de Requerimientos'' - \ref{apend:ER}) que exigía una ROE mínima distinguible de 1,5.
 
@@ -263,33 +273,25 @@ Si se introduce en el sensor un dedo, se espera que se mueva la frecuencia de re
 
 \section{Interfaz de usuario}
 
-Al incluir la interfaz de usuario, se hicieron algunas mediciones para comprobar su funcionamiento, como 50 y 68 $\Omega$ y el cable terminado en circuito abierto, que se pueden ver en las figuras \ref{fig:medinterfaz}. La interfaz agregó el gráfico en un ábaco de Smith que permite la visualización simultánea del parámetro S11 medido y la impedancia de entrada al DUT.
+Al incluir la interfaz de usuario, se hicieron algunas mediciones para comprobar su funcionamiento, como 50 y 68 $\Omega$ y el cable terminado en circuito abierto, que se pueden ver en las figuras \ref{fig:medinterfaz}. Es relevante aclarar que las mediciones \ref{fig:interfaz50} y \ref{fig:interfaz68} fueron hechas desde 1 hasta 2,8 GHz. La interfaz agregó el gráfico en un ábaco de Smith que permite la visualización simultánea del parámetro S11 medido y la impedancia de entrada al DUT.
 
-% Requiere \usepackage{subcaption} en el preámbulo
-
-% --- PRIMERA PÁGINA ---
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
     \centering
-    \begin{subfigure}[b]{0.48\textwidth}
+    \begin{subfigure}[t]{0.68\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/50R_1000a2800_8oct.png}
         \caption{50 $\Omega$}
         \label{fig:interfaz50}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.48\textwidth}
+    \begin{subfigure}[t]{0.68\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/carga68_8oct_1000a2800.png}
         \caption{68 $\Omega$}
         \label{fig:interfaz68}
     \end{subfigure}
-
-\end{figure}
-\clearpage
-% --- SEGUNDA PÁGINA ---
-\begin{figure}[htbp]\ContinuedFloat
-    \centering
-    \begin{subfigure}[b]{0.48\textwidth}
+    \hfill
+    \begin{subfigure}[t]{0.68\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/interfaz_cableabierto.png}
         \caption{Cable terminado en circuito abierto}
@@ -311,19 +313,14 @@ Para finalizar, se midieron algunas cargas con el Analizador Vectorial de Redes 
         \caption{Circuito abierto}
         \label{fig:comparacionCA}
     \end{subfigure}
-\end{figure}
-
-\begin{figure}[H]\ContinuedFloat
-    \centering
+    \hfill
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/comparacion corto 150.png}
         \caption{Cortocircuito desfasado}
         \label{fig:compcorto}
     \end{subfigure}
-
-    \vspace{1em}
-
+    \hfill
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/comparacion 50.png}
@@ -331,6 +328,6 @@ Para finalizar, se midieron algunas cargas con el Analizador Vectorial de Redes 
         \label{fig:comp50}
     \end{subfigure}
 
-    \caption{Comparaciones $\epsilon-\mu$ VNA vs dispositivo comercial.}
+    \caption{Comparaciones $\epsilon-\mu$ VNA (rosa) vs dispositivo comercial (azul)}
     \label{fig:comparaciones}
 \end{figure}

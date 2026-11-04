@@ -103,6 +103,9 @@ Como se explica en la sección 2.3 de la Especificación Técnica (\ref{apend:ET
 
 \subsection{Implementación en PCB}
 En principio se planteó un modelo de 2 capas, que se puede observar en las figuras \ref{fig:euvnav1}.
+
+Tiene un espesor total de 0,9 mm, con FR4 como dieléctrico de 0,73 mm de espesor y un tamaño de 10 x 9,5 cm\textsuperscript{2}. Sin embargo, el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables puente, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 cm\textsuperscript{2} y se lo puede observar en la figura \ref{fig:euvnav2}. Incorpora además algunas modificaciones en cuanto al ruteo de pines y posición de los transformadores de RF, debido a que no coinciden los pines descriptos en la hoja de datos con el integrado real. 
+
 \begin{figure}[H]
     \centering
     % Primera imagen (Página 1) ocupando el 48% del ancho del texto
@@ -125,7 +128,7 @@ En principio se planteó un modelo de 2 capas, que se puede observar en las figu
     \label{fig:euvnav1}
 \end{figure}
 
-Tiene un espesor total de 0,9 mm, con FR4 como dieléctrico de 0,73 mm de espesor y un tamaño de 10 x 9,5 cm\textsuperscript{2}. Sin embargo, el ruteo del pin $V_{TUNE}$ de los ADF4351 y la alimentación en la parte central de la placa, donde había un sector rodeado de pistas de RF, imponía el uso de varios puentes. Se implementaron con postes y cables puente, pero no es la manera óptima porque son sensibles a interferencias. Por este motivo, se decidió hacer un modelo de 4 capas, que permitiera tener un plano de masa continuo bajo las pistas de RF y poder rutear usando la capa inferior, además de tener una tercera capa para el manejo de la alimentación. A este modelo se lo llamó $\epsilon-\mu VNA \text{ v2}$, tiene un tamaño de 8,7 x 7,8 cm\textsuperscript{2} y se lo puede observar en la figura \ref{fig:euvnav2}. Incorpora además algunas modificaciones en cuanto al ruteo de pines y posición de los transformadores de RF, debido a que no coinciden los pines descriptos en la hoja de datos con el integrado real.  
+ 
 
 \begin{figure}[htbp]
     \centering
@@ -154,7 +157,7 @@ Se pueden observar ambos modelos en 3D en la figura \ref{fig:euvna3d}. La versi�
 \begin{figure}[H]
     \centering
     % Primera imagen (Página 1) ocupando el 48% del ancho del texto
-    \begin{subfigure}[b]{0.48\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/euVNA v1 3d.png}
         \caption{Versión 1}
@@ -162,7 +165,7 @@ Se pueden observar ambos modelos en 3D en la figura \ref{fig:euvna3d}. La versi�
     \end{subfigure}
     \hfill % Esto agrega un espacio en blanco flexible entre las dos imágenes
     % Segunda imagen (Página 2) ocupando el otro 48%
-    \begin{subfigure}[b]{0.48\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/euVNA3 3d.png}
         \caption{Versión 2}
@@ -175,9 +178,10 @@ Se pueden observar ambos modelos en 3D en la figura \ref{fig:euvna3d}. La versi�
 
 \section{Firmware}
 \label{sec:Firmware}
-\begin{wrapfigure}[20]{R}{0.45\textwidth}
+\begin{wrapfigure}[23]{R}{0.55\textwidth}
+  \vspace{-2\baselineskip}
   \centering
-  \includegraphics[width=0.44\textwidth,height=0.32\textheight,keepaspectratio]{Imagenes/diagflujoFW.jpg}
+  \includegraphics[width=0.54\textwidth,height=0.6\textheight,keepaspectratio]{Imagenes/diagflujoFW.jpg}
   \caption{Diagrama de flujo general del firmware.}
   \label{fig:diagflujoFW}
 \end{wrapfigure}
@@ -257,26 +261,28 @@ Este número se almacena como un tipo complex128, un tipo de dato numérico que 
 
 \begin{figure}[htbp]
   \centering
-  \begin{minipage}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.35\textwidth}
     \centering
-    \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{Imagenes/diagflujo_SW.png}
-    \caption{Diagrama de flujo general del software.}
+    \includegraphics[width=\textwidth]{Imagenes/diagflujo_SW.png}
+    \caption{Diagrama de flujo general.}
     \label{fig:diagflujoSW}
-  \end{minipage}%
+  \end{subfigure}%
   \hfill
-  \begin{minipage}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.30\textwidth}
     \centering
-    \includegraphics[width=0.8\textwidth,height=0.4\textheight,keepaspectratio]{Imagenes/diagflujo_SW_calculos11.png}
-    \caption{Diagrama de flujo de la función que calcula S11.}
+    \includegraphics[width=0.8\textwidth]{Imagenes/diagflujo_SW_calculos11.png}
+    \caption{Función que calcula $S_{11}$.}
     \label{fig:diagflujoS11}
-  \end{minipage}%
+  \end{subfigure}%
   \hfill
-  \begin{minipage}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.34\textwidth}
     \centering
-    \includegraphics[width=\textwidth,height=0.45\textheight,keepaspectratio]{Imagenes/diagflujo_SW_barrido.png}
-    \caption{Diagrama de flujo de la función barrido.}
+    \includegraphics[width=\textwidth]{Imagenes/diagflujo_SW_barrido.png}
+    \caption{Función barrido.}
     \label{fig:diagflujobarrido}
-  \end{minipage}
+  \end{subfigure}
+  \caption{Diagramas de flujo del software.}
+  \label{fig:diagflujo_software}
 \end{figure}
 
 
@@ -295,11 +301,14 @@ Cuando se ejecuta el barrido, el software aplica la función de corrección inve
 \section{Interfaz de usuario}
 La interfaz de usuario se programó con PyQt6, mediante un prompt de la inteligencia artificial (IA) Claude, modelo Sonnet 5 Esfuerzo Medio. Se alimentó del software original, que tenía la lógica de medición funcionando, pero que corría secuencialmente y se comunicaba con el usuario a través de la consola. 
 
-El prompt inicial fue: ``Quiero hacer una interfaz de usuario sencilla que me permita comunicarme con este script. que se pueda elegir frecuencias y paso, visualizar modulo y fase de S11 y abaco de smith, que permita hacer calibración. Qué plataforma/lenguaje recomendas, y cuanto tiempo tardaría en ponerla en funcionamiento?''. La IA recomendó Python + PyQt6/PySide6, con matplotlib embebido para los gráficos. Dio las razones (reutilizar funciones, permite actualizar el plot en vivo, aprovecha librerías de Python para graficar) y explicó otras alternativas y por qué las descartó. Preguntó si hacía un esqueleto de la app con ventana principal, campos de frecuencia, threading de barrido y gráficos, y se le dio el permiso. Creó dos archivos, un ``core'' que contiene la misma lógica de cálculo que el código original pero reorganizada en funciones independientes (comunicación serial con Arduino, captura de audio, procesamiento de señal, detección del tono de batido y cálculo de S11 y álgebra de calibración) y un ``GUI'' (Graphical User Interface) que contiene la parte visual: ventana, botones, campos y gráficos. Este llama a las funciones implementadas en el core.
+El prompt inicial consistió en pedir una recomendación de lenguaje o plataforma para hacer una interfaz de usuario sencilla pero funcional, y que no llevase mucho tiempo poner en marcha. La IA recomendó Python + PyQt6/PySide6, con matplotlib embebido para los gráficos. El motivo de esta elección fue reutilizar funciones, que permita actualizar el plot en vivo, aprovechar librerías de Python para graficar. Hizo un esqueleto de la app con ventana principal, campos de frecuencia, threading de barrido y gráficos, y se le dio el permiso. Creó dos archivos, un ``core'' que contiene la misma lógica de cálculo que el código original y un ``GUI'' (Graphical User Interface) que contiene la parte visual: ventana, botones, campos y gráficos. Este llama a las funciones implementadas en el core. Agregó la biblioteca PyQt6 para usar ventanas, botones, campos e hilos de ejecución. Creó una clase (SweepWorker(QThread)) que se encarga de correr el barrido en segundo plano y avisar a la ventana qué se midió para que actualice los gráficos y la barra de progreso sin congelarse entre cada medición. Además, generó el diagrama de flujo que se observa en la figura \ref{fig:d_flujo_interfaz}. Una imagen de la interfaz se encuentra en la figura \ref{fig:interfaz}. Los códigos se encuentran en el capítulo ``Esquemáticos y código'' (\ref{VNA_core}). 
 
-Se agregó la biblioteca PyQt6 para usar ventanas, botones, campos e hilos de ejecución. Se creó una clase (SweepWorker(QThread)) que se encarga de correr el barrido en segundo plano y avisar a la ventana qué se midió para que actualice los gráficos y la barra de progreso sin congelarse entre c ada medición. 
-
-La IA generó además el diagrama de flujo que se observa en la figura \ref{fig:d_flujo_interfaz}. Los códigos se encuentran en el capítulo ``Esquemáticos y código'' (\ref{VNA_core}). 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Imagenes/interfaz.png}
+    \caption{Interfaz de usuario}
+    \label{fig:interfaz}
+\end{figure}
 
 \begin{figure}
     \centering

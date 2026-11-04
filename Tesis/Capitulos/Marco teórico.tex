@@ -14,21 +14,26 @@ Los parámetros de dispersión, también llamados S por su nombre en inglés (\t
     \label{parS}
  \end{figure}
 
-Según las ondas incidentes $a_{1}$ y $a_{2}$ y las reflejadas $b_{1}$ y $b_{2}$, los parámetros S se definen como:
+Según las ondas entrantes $a_{1}$ y $a_{2}$ y las salientes $b_{1}$ y $b_{2}$, los parámetros S se definen como:
 
-\vspace{\baselineskip}   % una línea vacía exacta
-$S_{11} = \left. \frac{b_1}{a_1} \right|_{a_2=0}$; $S_{12} = \left. \frac{b_1}{a_2} \right|_{a_1=0}$; $S_{21} = \left. \frac{b_2}{a_1} \right|_{a_2=0}$; $S_{22} = \left. \frac{b_2}{a_2} \right|_{a_1=0}$
-\vspace{\baselineskip}   % una línea vacía exacta
+\begin{equation}
+    S_{11} = \left. \frac{b_1}{a_1} \right|_{a_2=0}; \quad
+    S_{12} = \left. \frac{b_1}{a_2} \right|_{a_1=0}; \quad
+    S_{21} = \left. \frac{b_2}{a_1} \right|_{a_2=0}; \quad
+    S_{22} = \left. \frac{b_2}{a_2} \right|_{a_1=0}
+    \label{eq:parametros_S}
+\end{equation}
 
 Para lograr que las $a$ sean iguales a 0, el puerto al que pertenecen debe estar adaptado, garantizando que no haya ninguna señal incidente. 
 
 \subsection{Parámetro S11}
-El parámetro $S_{11}$ se conoce como el coeficiente de reflexión. Se puede definir en función de las ondas incidente y reflejada, o en función de la impedancia característica del sistema $Z_{0}$ y la impedancia de carga (es decir, del sistema bajo prueba):
+El parámetro $S_{11}$ representa la relación entre la onda reflejada y la incidente en el puerto 1, y es numéricamente igual al coeficiente de reflexión $\Gamma$. Se puede definir en función de la impedancia característica del sistema $Z_{0}$ y la impedancia de carga $Z_{L}$ (es decir, del sistema bajo prueba) como muestra la ecuación \ref{ecs11}:
 \begin{equation}
+    \label{ecs11}
     S_{11}(DUT) = \Gamma = \frac{Z_{L}-Z_{0}}{Z_{L}+Z_{0}}
 \end{equation}
 
-Expresado en dB, se expresa:
+Expresado en dB, se puede escribir:
 
 \begin{equation}
     S_{11}(DUT)[dB]= 20 . log(|\Gamma|)
@@ -54,7 +59,9 @@ En VNAs de un puerto se pueden simplificar los errores a un modelo de tres térm
 \end{align}
 \end{subequations}
 
-Donde $\Gamma_{\text{M}}$ es el parámetro de reflexión medido para cada carga, $e_{00}$ es la directividad, $e_{11}$ la adaptación del puerto, $e_{10}e_{01}$ el error de seguimiento (\textit{tracking}) y $\Delta_e=e_{00}e_{11}-(e_{10}e_{01})$. Los términos del error se pueden observar en la figura \ref{errorescalibracion}. 
+Donde $\Gamma_{\text{M}}$ es el parámetro de reflexión medido para cada carga, $e_{00}$ es la directividad, $e_{11}$ la adaptación del puerto, $e_{10}e_{01}$ el error de seguimiento (\textit{tracking}) y $\Delta_e=e_{00}e_{11}-(e_{10}e_{01})$. Los términos del error se pueden observar en la figura \ref{errorescalibracion}.
+
+Si las cargas independientes son un circuito abierto, cortocircuito y carga de 50$\Omega$ entonces el método de calibración se denomina SOL (Short, Open, Load) y las ecuaciones \ref{eq:sistema_calibracion} se simplifican a las \ref{eq:sistema_SOL}. 
 
  \begin{figure}[H]
     \centering
@@ -63,7 +70,6 @@ Donde $\Gamma_{\text{M}}$ es el parámetro de reflexión medido para cada carga,
     \label{errorescalibracion}
  \end{figure}
 
-Si las cargas independientes son un circuito abierto, cortocircuito y carga de 50$\Omega$ entonces el método de calibración se denomina SOL (Short, Open, Load) y las ecuaciones \eqref{eq:sistema_calibracion} se simplifican a:
 
 \begin{subequations}\label{eq:sistema_SOL}
 \begin{align}
@@ -91,18 +97,18 @@ Existen acopladores direccionales como el HP 778d \cite{keysight_778d} que posee
 
 \subsection{Puente resistivo}
 Una solución compacta, económica y con un ancho de banda teórico infinito es el puente resistivo tipo Wheatstone. Como se puede observar en la figura \ref{fig:puente_wheatstone} es una red simple de comparación de impedancias, formada por cuatro resistencias sobre las cuales se inyecta una señal de referencia en la parte superior. Una de las resistencias es variable (Zx), mientras que el resto son iguales entre sí. Se utiliza un voltímetro para medir la diferencia de potencial entre las ramas. Si la resistencia variable es de 50$\Omega$, el puente queda balanceado y el voltímetro indica un cero. Si es menor a 50$\Omega$, la rama izquierda presenta un voltaje menor a la derecha, mientras que para valores mayores ocurre lo opuesto.
-La tensión en el nodo de referencia $V_A$ resulta:
+La tensión en el nodo de referencia $v_A$ en función de la tensión incidente $v_{inc}$ resulta:
 \begin{equation} 
-    V_{A} = V_{inc} \cdot \frac{Z_{0}}{Z_{0} + Z_{0}} = \frac{V_{inc}}{2}
+    v_{A} = v_{inc} \cdot \frac{Z_{0}}{Z_{0} + Z_{0}} = \frac{v_{inc}}{2}
 \end{equation}
 Mientras que la tensión en el nodo de medición $V_B$ es: \begin{equation} 
-    V_B = V_{inc} \cdot \frac{Z_{x}}{Z_{0} + Z_{x}} 
+    v_B = v_{inc} \cdot \frac{Z_{x}}{Z_{0} + Z_{x}} 
 \end{equation}
 
 Por lo tanto, la señal desbalanceada o tensión diferencial reflejada $v_{diff}(t)$ entre ambos nodos se define como: 
 \begin{subequations} 
     \begin{align}
-        v_{diff}(t) = v_{B}(t) - v_{A}(t) 
+        v_{diff}(t) = v_{B}(t) - v_{A}(t) \\
         v_{diff}(t) = v_{inc}(t) \left[ \frac{Z_{x}}{Z_{0} + Z_{x}} - \frac{1}{2} \right] 
     \end{align} 
 \end{subequations} 
@@ -110,10 +116,10 @@ Por lo tanto, la señal desbalanceada o tensión diferencial reflejada $v_{diff}
 Reescribiendo la resta interna con común denominador $\frac{Z_{x}}{Z_{x} + Z_{0}} - \frac{1}{2} = \frac{1}{2}\left[\frac{Z_{x} - Z_{0}}{Z_{x} + Z_{0}}\right]$ entonces: 
 \begin{equation}
     v_{diff}(t) =
-    \frac{v_{inc}(t)}{2}
+    \frac{v_{inc}(t)}{2} \cdot
     \underbrace{
         \left[\frac{Z_x-Z_0}{Z_x+Z_0}\right]
-    }_{\text{Coeficiente de reflexión }(\Gamma)}
+    }_{\mathclap{\text{Coeficiente de reflexión }(\Gamma)}}
     = \frac{v_{inc}(t)}{2}\cdot\Gamma
 \end{equation}
 
@@ -192,7 +198,7 @@ Una vez que la señal está digitalizada, para poder extraer su amplitud y fase,
 \subsection{Filtros digitales}
 El objetivo principal de la etapa de filtrado es aislar la señal de FI eliminando el ruido de banda ancha, las interferencias de baja frecuencia y armónicos de orden superior. 
 
-La señal muestreada $x[n]$ pasa por un filtro pasabanda digital caracterizado por una respuesta al impulso $h[n]$. La operación se define mediante la convolución discreta:
+La señal muestreada $x[n]$ pasa por un filtro pasabanda digital caracterizado por una respuesta al impulso $h[n]$. La operación se define mediante la convolución discreta, donde la salida es $y[n]$:
 \begin{equation}
     y[n] = x[n] * h[n] = \sum_{k=0}^{M} h[k] \, x[n-k]
 \end{equation}
@@ -200,11 +206,12 @@ donde $M$ representa el orden del filtro. Los coeficientes $h[k]$ se diseñan pa
 
 Los filtros digitales se pueden clasificar en dos grandes familias según la naturaleza de su respuesta al impulso: filtros de respuesta finita (\textit{Finite Impulse Response}, FIR) y filtros de respuesta infinita (\textit{Infinite Impulse Response}, IIR).
 
-Un filtro IIR se caracteriza por una respuesta al impulso de duración infinita, que se logra mediante una estructura recursiva con realimentación de las salidas anteriores. Su ecuación en diferencias se expresa como:
+Un filtro IIR se caracteriza por una respuesta al impulso de duración infinita, que se logra mediante una estructura recursiva con realimentación de las salidas anteriores. Su ecuación en diferencias se expresa en función de los coeficientes $a_k$ y $b_k$ como:
 \begin{equation}
     y[n] = \sum_{k=0}^{M} b_k \, x[n-k] + \sum_{k=1}^{N} a_k \, y[n-k]
 \end{equation}
-La presencia de los coeficientes $a_k$ introduce polos en el plano z fuera del origen. Si bien permiten lograr bandas de transición abruptas con órdenes bajos, presentan dos desventajas fundamentales: no garantizan fase lineal en toda la banda de paso y pueden ser inestables si sus polos migran fuera del círculo unitario debido a cuantización de precisión finita.
+
+La presencia de los coeficientes $a_k$, que ponderan las muestras pasadas de la propia salida, introduce polos en el plano z fuera del origen. Si bien permiten lograr bandas de transición abruptas con órdenes bajos, presentan dos desventajas fundamentales: no garantizan fase lineal en toda la banda de paso y pueden ser inestables si sus polos migran fuera del círculo unitario debido a cuantización de precisión finita.
 
 Por otro lado, un filtro FIR presenta una respuesta al impulso de duración finita $N_{\text{taps}}$ (comúnmente denominada número de coeficientes o \textit{taps}), siendo $h[n] = 0$ para $n < 0$ y $n \ge N_{\text{taps}}$. Su ecuación en diferencias es puramente no recursiva:
 \begin{equation}
@@ -242,7 +249,7 @@ La multiplicación en el dominio del tiempo equivale a la convolución periódic
 
 
 \subsection{Transformada Rápida de Fourier}
-Para determinar la amplitud y fase de las señales de FI, las secuencias filtradas en el dominio del tiempo se transforman al dominio de la frecuencia mediante la Transformada Discreta de Fourier (DFT), calculada a través del algoritmo de la Transformada Rápida de Fourier (FFT). Para una secuencia de $N$ muestras, la expresión de análisis viene dada por \cite{TDSmanolakis}:
+Para determinar la amplitud y fase de las señales de FI, las secuencias filtradas en el dominio del tiempo se transforman al dominio de la frecuencia mediante la Transformada Discreta de Fourier (DFT), calculada a través del algoritmo de la Transformada Rápida de Fourier (FFT). Para una secuencia de $N$ muestras con salida $X[k]$, la expresión de análisis viene dada por \cite{TDSmanolakis}:
 \begin{equation}
     X[k] = \sum_{n=0}^{N-1} x[n] \, w[n] \, e^{-j \frac{2\pi}{N} k n}, \quad k = 0, 1, \dots, N-1
 \end{equation}

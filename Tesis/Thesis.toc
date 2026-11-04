@@ -1,6 +1,6 @@
 \contentsline {chapter}{Agradecimientos}{1}{figure.caption.1}%
 \contentsline {chapter}{Siglas y abreviaturas}{4}{chapter*.2}%
-\contentsline {chapter}{Resumen}{4}{chapter*.3}%
+\contentsline {chapter}{Resumen}{4}{chapter*.2}%
 \contentsline {chapter}{\numberline {1}Introducción}{6}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Contexto y motivación}{6}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Partes interesadas}{7}{section.1.2}%
@@ -14,7 +14,7 @@
 \contentsline {subsubsection}{\numberline {2.2.2.1}Errores}{9}{subsubsection.2.2.2.1}%
 \contentsline {subsubsection}{\numberline {2.2.2.2}Método SOL}{9}{subsubsection.2.2.2.2}%
 \contentsline {section}{\numberline {2.3}Acoplador Direccional}{10}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Puente resistivo}{11}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.1}Puente resistivo}{10}{subsection.2.3.1}%
 \contentsline {section}{\numberline {2.4}Buenas prácticas de diseño en RF}{12}{section.2.4}%
 \contentsline {section}{\numberline {2.5}Heterodinación de señales}{12}{section.2.5}%
 \contentsline {section}{\numberline {2.6}Procesamiento digital de señales}{13}{section.2.6}%
@@ -39,8 +39,8 @@
 \contentsline {section}{\numberline {3.4}Software}{24}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}Flujo de barrido}{25}{subsection.3.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Estimación del S11}{25}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Calibración}{26}{subsection.3.4.3}%
-\contentsline {section}{\numberline {3.5}Interfaz de usuario}{27}{section.3.5}%
+\contentsline {subsection}{\numberline {3.4.3}Calibración}{25}{subsection.3.4.3}%
+\contentsline {section}{\numberline {3.5}Interfaz de usuario}{26}{section.3.5}%
 \contentsline {chapter}{\numberline {4}Resultados}{29}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Ensamblado de la placa final}{29}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Ficha técnica}{31}{section.4.2}%
@@ -48,33 +48,33 @@
 \contentsline {section}{\numberline {4.4}Mediciones de sistemas bajo prueba}{35}{section.4.4}%
 \contentsline {subsection}{\numberline {4.4.1}Cortocircuitos}{35}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}Circuito abierto}{36}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Adaptación (50 $\Omega $)}{36}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.3}Adaptación (50 $\Omega $)}{37}{subsection.4.4.3}%
 \contentsline {subsection}{\numberline {4.4.4}Medición de banda ancha}{37}{subsection.4.4.4}%
-\contentsline {section}{\numberline {4.5}Análisis de resultados}{37}{section.4.5}%
+\contentsline {section}{\numberline {4.5}Análisis de resultados}{38}{section.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}Sensor resonante}{38}{subsection.4.5.1}%
 \contentsline {section}{\numberline {4.6}Interfaz de usuario}{39}{section.4.6}%
 \contentsline {section}{\numberline {4.7}Comparación con dispositivo comercial}{40}{section.4.7}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajos futuros}{42}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Trabajos futuros}{43}{section.5.1}%
-\contentsline {chapter}{\numberline {6}Esquemáticos y código}{44}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Esquemáticos Altium}{44}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}\ignorespaces Generador de RF incidente (ADF4351)}{45}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}\ignorespaces Generador de RF Oscilador Local (ADF4351)}{46}{subsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.1.3}\ignorespaces Mezclador}{47}{subsection.6.1.3}%
-\contentsline {subsection}{\numberline {6.1.4}\ignorespaces Alimentación y CLK}{48}{subsection.6.1.4}%
-\contentsline {subsection}{\numberline {6.1.5}\ignorespaces Acoplador Direccional}{49}{subsection.6.1.5}%
-\contentsline {subsection}{\numberline {6.1.6}\ignorespaces Amplificadores de FI}{50}{subsection.6.1.6}%
-\contentsline {subsection}{\numberline {6.1.7}\ignorespaces Atenuadores}{51}{subsection.6.1.7}%
-\contentsline {section}{\numberline {6.2}Firmware}{52}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Software}{56}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Interfaz de usuario}{65}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Core}{65}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Graphical User Interface}{71}{subsection.6.4.2}%
-\contentsline {chapter}{Apéndices}{84}{subsection.6.4.2}%
-\contentsline {section}{\numberline {A}\ignorespaces Estudio Preliminar}{86}{section.6.1}%
-\contentsline {section}{\numberline {B}\ignorespaces Plan de Trabajo}{90}{section.6.2}%
-\contentsline {section}{\numberline {C}\ignorespaces Especificación de Requerimientos}{94}{section.6.3}%
-\contentsline {section}{\numberline {D}\ignorespaces Especificación Funcional}{100}{section.6.4}%
-\contentsline {section}{\numberline {E}\ignorespaces Especificación Técnica}{108}{section.6.5}%
-\contentsline {section}{\numberline {F}\ignorespaces Plan de Pruebas}{120}{section.6.6}%
-\contentsline {chapter}{Bibliografía}{126}{chapter*.41}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajos futuros}{43}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Trabajos futuros}{44}{section.5.1}%
+\contentsline {chapter}{\numberline {6}Esquemáticos y código}{45}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Esquemáticos Altium}{45}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}\ignorespaces Generador de RF incidente (ADF4351)}{46}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}\ignorespaces Generador de RF Oscilador Local (ADF4351)}{47}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}\ignorespaces Mezclador}{48}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}\ignorespaces Alimentación y CLK}{49}{subsection.6.1.4}%
+\contentsline {subsection}{\numberline {6.1.5}\ignorespaces Acoplador Direccional}{50}{subsection.6.1.5}%
+\contentsline {subsection}{\numberline {6.1.6}\ignorespaces Amplificadores de FI}{51}{subsection.6.1.6}%
+\contentsline {subsection}{\numberline {6.1.7}\ignorespaces Atenuadores}{52}{subsection.6.1.7}%
+\contentsline {section}{\numberline {6.2}Firmware}{53}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Software}{57}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Interfaz de usuario}{66}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Core}{66}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Graphical User Interface}{72}{subsection.6.4.2}%
+\contentsline {chapter}{Apéndices}{85}{subsection.6.4.2}%
+\contentsline {section}{\numberline {A}\ignorespaces Estudio Preliminar}{87}{section.6.1}%
+\contentsline {section}{\numberline {B}\ignorespaces Plan de Trabajo}{91}{section.6.2}%
+\contentsline {section}{\numberline {C}\ignorespaces Especificación de Requerimientos}{95}{section.6.3}%
+\contentsline {section}{\numberline {D}\ignorespaces Especificación Funcional}{101}{section.6.4}%
+\contentsline {section}{\numberline {E}\ignorespaces Especificación Técnica}{109}{section.6.5}%
+\contentsline {section}{\numberline {F}\ignorespaces Plan de Pruebas}{121}{section.6.6}%
+\contentsline {chapter}{Bibliografía}{127}{chapter*.41}%
