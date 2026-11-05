@@ -82,7 +82,7 @@ Para verificar el correcto funcionamiento de la placa, la primera prueba unitari
 Se midió la frecuencia del cristal con un frecuencímetro Optoelectronics Handi-Counter 2810 \cite{optoelectronics_2810_manual}, alimentando el oscilador con fuente de alimentación regulable Kenwood PA36-3A \cite{kenwood_pa36_3a}. Como evidencia la figura \ref{fig:med_cristal}, el cristal es de 10 MHz.
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\linewidth]{Imagenes/pruebacristal.jpg}
+    \includegraphics[width=0.8\linewidth]{Imagenes/pruebacristal.jpg}
     \caption{Banco de medición de la frecuencia del oscilador a cristal.}
     \label{fig:med_cristal}
 \end{figure}
@@ -102,7 +102,7 @@ Luego de comprobar con éxito el funcionamiento de estos subsistemas, se soldó 
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.9\textwidth}
+    \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Imagenes/grabación 1 k.jpg}
         \caption{Grabación con FI = 1 kHz.}
@@ -111,7 +111,7 @@ Luego de comprobar con éxito el funcionamiento de estos subsistemas, se soldó 
 
     \vspace{1em}   % espacio entre subfiguras (opcional)
 
-    \begin{subfigure}[b]{0.9\textwidth}
+    \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Imagenes/Grabación 5k.jpg}
         \caption{Grabación con FI = 5 kHz.}
@@ -119,7 +119,7 @@ Luego de comprobar con éxito el funcionamiento de estos subsistemas, se soldó 
     \end{subfigure}
 
     
-    \begin{subfigure}[b]{0.9\textwidth}
+    \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Imagenes/grabación 10k.png}
         \caption{Grabación con FI = 10 kHz.}
@@ -186,7 +186,7 @@ El otro cortocircuito que se usó para medir consiste en un conector SMA con su 
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{Imagenes/medcorto150.png}
+    \includegraphics[width=0.92\linewidth]{Imagenes/medcorto150.png}
     \caption{Medición de cortocircuito de 150°.}
     \label{fig:medcorto150}
 \end{figure}
@@ -196,9 +196,20 @@ El circuito abierto de la figura \ref{fig:medCA} se implementó dejando simpleme
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{Imagenes/medCA.png}
+    \includegraphics[width=0.92\linewidth]{Imagenes/medCA.png}
     \caption{Medición de circuito abierto.}
     \label{fig:medCA}
+\end{figure}
+
+
+\subsection{Carga resistiva (68 $\Omega$)}
+Se midió una carga resistiva de 68 $\Omega$, cuyo resultado se observa en la figura \ref{fig:med68}. Que el VNA pueda diferenciar esta carga de una de 50 $\Omega$ da cuenta de que la ROE mínima distinguible que posee es al menos 1,36.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Imagenes/med68R.png}
+    \caption{Medición de carga de 68 $\Omega$.}
+    \label{fig:med68}
 \end{figure}
 
 \subsection{Adaptación (50 $\Omega$)}
@@ -207,7 +218,7 @@ Una medición con una carga de 50 $\Omega$ equivale al puerto adaptado, por lo q
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{Imagenes/med50R.png}
+    \includegraphics[width=0.95\linewidth]{Imagenes/med50R.png}
     \caption{Medición de 50 $\Omega$.}
     \label{fig:med50R}
 \end{figure}
@@ -228,20 +239,20 @@ La siguiente tabla muestra una comparación entre los coeficientes de reflexión
 \begin{table}[htbp]
     \centering
     \arrayrulecolor{Thistle}
-    \begin{tabularx}{\textwidth}{|X|c|X|}
+    \begin{tabularx}{\textwidth}{|X|c|X|X|}
         \hline
         \rowcolor{Thistle!20} 
-        \textbf{Carga} & \textbf{$\Gamma_{REAL}$} & \textbf{$\Gamma_{MEDIDO}$} \\
+        Carga & \textbf{$S11_{REAL}$} & \textbf{$S11_{MEDIDO}$} & Error máximo (excluyendo puntos anómalos)\\
         \hline
-        - 50 $\Omega$ & $\infty$ & -32,7 $\angle$ -70 \\
+        50 $\Omega$ & -$\infty$ & -32,7 dB $\angle$ 70° & -\\
         \hline
-        68 $\Omega$ & -16,33 $\angle$ 0 & -15,8 $\angle$ 6 \\
+        68 $\Omega$ & -16,33 dB $\angle$ 0° & -15,8 dB $\angle$ 6° & 0,9 dB, 8,8° \\
         \hline
-        Corto circuto & 0 $\angle$ 180 & 0 $\angle$ 180 \\
+        Corto circuto & 0 dB $\angle$ 180° & 0 dB $\angle$ 180° & 0,13 dB, 0,96°\\
         \hline
-        Circuito abierto & 0 $\angle$ 0 & 0 $\angle$ 0 \\
+        Circuito abierto & 0 dB $\angle$ 0° & 0 dB $\angle$ 0° & 0,24 dB, 1,35° \\
         \hline
-        Cortocircuito desfasado & 0 $\angle$ 150 & 0 $\angle$ 150 \\
+        Cortocircuito desfasado & 0 dB $\angle$ 150° & 0 dB $\angle$ 150° & 0,59 dB, 6°\\
         \hline
     \end{tabularx}
     \caption*{Tabla de comparación de coeficientes teóricos y medidos}
@@ -256,7 +267,7 @@ Finalmente, para verificar que el sistema está adaptado para operar en conjunto
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{Imagenes/sensor_vacio.png}
+    \includegraphics[width=0.95\linewidth]{Imagenes/sensor_vacio.png}
     \caption{Medición del sensor de glucemia en vacío.}
     \label{fig:sensorvacio}
 \end{figure}
@@ -265,7 +276,7 @@ Si se introduce en el sensor un dedo, se espera que se mueva la frecuencia de re
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{Imagenes/sensordedorami_15oct_bueno.png}
+    \includegraphics[width=0.95\linewidth]{Imagenes/sensordedorami_15oct_bueno.png}
     \caption{Medición del sensor de glucemia con un dedo.}
     \label{fig:sensorlleno}
 \end{figure}
@@ -273,25 +284,17 @@ Si se introduce en el sensor un dedo, se espera que se mueva la frecuencia de re
 
 \section{Interfaz de usuario}
 
-Al incluir la interfaz de usuario, se hicieron algunas mediciones para comprobar su funcionamiento, como 50 y 68 $\Omega$ y el cable terminado en circuito abierto, que se pueden ver en las figuras \ref{fig:medinterfaz}. Es relevante aclarar que las mediciones \ref{fig:interfaz50} y \ref{fig:interfaz68} fueron hechas desde 1 hasta 2,8 GHz. La interfaz agregó el gráfico en un ábaco de Smith que permite la visualización simultánea del parámetro S11 medido y la impedancia de entrada al DUT.
+Al incluir la interfaz de usuario, se hicieron algunas mediciones para comprobar su funcionamiento, como 50 y 68 $\Omega$ y el cable terminado en circuito abierto, que se pueden ver en las figuras \ref{fig:medinterfaz}. Es relevante aclarar que la medición \ref{fig:interfaz50} fue hecha desde 1 hasta 2,8 GHz. La interfaz agregó el gráfico en un ábaco de Smith que permite la visualización simultánea del parámetro S11 medido y la impedancia de entrada al DUT.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
     \centering
-    \begin{subfigure}[t]{0.68\textwidth}
+    \begin{subfigure}[t]{0.8\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/50R_1000a2800_8oct.png}
         \caption{50 $\Omega$}
         \label{fig:interfaz50}
     \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.68\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{Imagenes/carga68_8oct_1000a2800.png}
-        \caption{68 $\Omega$}
-        \label{fig:interfaz68}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.68\textwidth}
+    \begin{subfigure}[t]{0.8\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/interfaz_cableabierto.png}
         \caption{Cable terminado en circuito abierto}
@@ -300,20 +303,32 @@ Al incluir la interfaz de usuario, se hicieron algunas mediciones para comprobar
     \caption{Mediciones realizadas desde la interfaz de usuario}
     \label{fig:medinterfaz}
 \end{figure}
+\clearpage
 
 \section{Comparación con dispositivo comercial}
 
-Para finalizar, se midieron algunas cargas con el Analizador Vectorial de Redes incorporado en el analizador de espectros Rigol Series RSA3000 \cite{rigol_rsa3030n}, las cuales se pueden observar en las figuras \ref{fig:comparaciones}. Es importante aclarar que ambas mediciones se hicieron con el mismo kit de calibración para descartar errores en la comparación entre ambas técnicas. En el caso de la medición de 50 $\Omega$ se puede observar que la realizada con el $\epsilon-\mu VNA$ sería "mejor". Esto se puede deber a la velocidad con la que se realizó el barrido en el dispositivo comercial, ya que logra una medición más rápida en detrimento de la sensibilidad. Se confirma que no es una medición incorrecta porque si se hubiesen confundido las cargas de calibración o medición, las fases no coincidirían.
+Para finalizar, se midieron algunas cargas con el Analizador Vectorial de Redes incorporado en el analizador de espectros Rigol Series RSA3000 \cite{rigol_rsa3030n}, las cuales se pueden observar en las figuras \ref{fig:comparaciones1} y \ref{fig:comparaciones2}. Es importante aclarar que ambas mediciones se hicieron con el mismo kit de calibración para descartar errores en la comparación entre ambas técnicas. En el caso de la medición de 50 $\Omega$ se puede observar que la realizada con el $\epsilon-\mu VNA$ sería "mejor". Esto se puede deber a la velocidad con la que se realizó el barrido en el dispositivo comercial, ya que logra una medición más rápida en detrimento de la sensibilidad. El mismo fenómeno se puede observar en la figura de la medición del sensor vacío (es decir, sin un dedo) \ref{fig:comparacionsensor}, donde las curvas de magnitud no están totalmente superpuestas. Se desestima la teoría de que son mediciones incorrectas porque si se hubiesen confundido las cargas de calibración, las fases no coincidirían.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
+     \begin{subfigure}[b]{\textwidth}
+        \includegraphics[width=\linewidth]{Imagenes/comparacionsensor.png}
+        \caption{Sensor vacío}
+        \label{fig:comparacionsensor}
+    \end{subfigure}
+    \hfill
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/comparacion CA.png}
         \caption{Circuito abierto}
         \label{fig:comparacionCA}
     \end{subfigure}
-    \hfill
+    \caption{Comparaciones $\epsilon-\mu$ VNA (rosa) vs dispositivo comercial (azul)}
+    \label{fig:comparaciones1}    
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/comparacion corto 150.png}
@@ -324,10 +339,10 @@ Para finalizar, se midieron algunas cargas con el Analizador Vectorial de Redes 
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Imagenes/comparacion 50.png}
-        \caption{50 $\Omega$.}
+        \caption{50 $\Omega$}
         \label{fig:comp50}
     \end{subfigure}
 
     \caption{Comparaciones $\epsilon-\mu$ VNA (rosa) vs dispositivo comercial (azul)}
-    \label{fig:comparaciones}
+    \label{fig:comparaciones2}
 \end{figure}

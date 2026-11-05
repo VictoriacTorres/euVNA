@@ -438,16 +438,16 @@ INPUT ./Imagenes/diagflujo_SW_barrido.png
 INPUT ./Imagenes/diagflujo_SW_barrido.png
 INPUT ./Imagenes/diagflujo_SW_barrido.png
 INPUT ./Imagenes/diagflujo_SW_barrido.png
-INPUT ./Imagenes/interfaz.png
-INPUT ./Imagenes/interfaz.png
-INPUT ./Imagenes/interfaz.png
-INPUT ./Imagenes/interfaz.png
-INPUT ./Imagenes/interfaz.png
 INPUT ./Imagenes/d_flujo_interfaz.jpg
 INPUT ./Imagenes/d_flujo_interfaz.jpg
 INPUT ./Imagenes/d_flujo_interfaz.jpg
 INPUT ./Imagenes/d_flujo_interfaz.jpg
 INPUT ./Imagenes/d_flujo_interfaz.jpg
+INPUT ./Imagenes/interfaz.png
+INPUT ./Imagenes/interfaz.png
+INPUT ./Imagenes/interfaz.png
+INPUT ./Imagenes/interfaz.png
+INPUT ./Imagenes/interfaz.png
 INPUT ./Capitulos/Resultados.tex
 INPUT ./Capitulos/Resultados.tex
 INPUT Capitulos/Resultados.tex
@@ -537,6 +537,11 @@ INPUT c:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
 INPUT c:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT c:/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 INPUT c:/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT ./Imagenes/med68R.png
+INPUT ./Imagenes/med68R.png
+INPUT ./Imagenes/med68R.png
+INPUT ./Imagenes/med68R.png
+INPUT ./Imagenes/med68R.png
 INPUT ./Imagenes/med50R.png
 INPUT ./Imagenes/med50R.png
 INPUT ./Imagenes/med50R.png
@@ -562,16 +567,16 @@ INPUT ./Imagenes/50R_1000a2800_8oct.png
 INPUT ./Imagenes/50R_1000a2800_8oct.png
 INPUT ./Imagenes/50R_1000a2800_8oct.png
 INPUT ./Imagenes/50R_1000a2800_8oct.png
-INPUT ./Imagenes/carga68_8oct_1000a2800.png
-INPUT ./Imagenes/carga68_8oct_1000a2800.png
-INPUT ./Imagenes/carga68_8oct_1000a2800.png
-INPUT ./Imagenes/carga68_8oct_1000a2800.png
-INPUT ./Imagenes/carga68_8oct_1000a2800.png
 INPUT ./Imagenes/interfaz_cableabierto.png
 INPUT ./Imagenes/interfaz_cableabierto.png
 INPUT ./Imagenes/interfaz_cableabierto.png
 INPUT ./Imagenes/interfaz_cableabierto.png
 INPUT ./Imagenes/interfaz_cableabierto.png
+INPUT ./Imagenes/comparacionsensor.png
+INPUT ./Imagenes/comparacionsensor.png
+INPUT ./Imagenes/comparacionsensor.png
+INPUT ./Imagenes/comparacionsensor.png
+INPUT ./Imagenes/comparacionsensor.png
 INPUT ./Imagenes/comparacion CA.png
 INPUT ./Imagenes/comparacion CA.png
 INPUT ./Imagenes/comparacion CA.png

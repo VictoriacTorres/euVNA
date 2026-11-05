@@ -48,12 +48,13 @@
 \contentsline {section}{\numberline {4.4}Mediciones de sistemas bajo prueba}{35}{section.4.4}%
 \contentsline {subsection}{\numberline {4.4.1}Cortocircuitos}{35}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}Circuito abierto}{36}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Adaptación (50 $\Omega $)}{37}{subsection.4.4.3}%
-\contentsline {subsection}{\numberline {4.4.4}Medición de banda ancha}{37}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.3}Carga resistiva (68 $\Omega $)}{37}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Adaptación (50 $\Omega $)}{37}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.5}Medición de banda ancha}{38}{subsection.4.4.5}%
 \contentsline {section}{\numberline {4.5}Análisis de resultados}{38}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Sensor resonante}{38}{subsection.4.5.1}%
-\contentsline {section}{\numberline {4.6}Interfaz de usuario}{39}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Comparación con dispositivo comercial}{40}{section.4.7}%
+\contentsline {subsection}{\numberline {4.5.1}Sensor resonante}{39}{subsection.4.5.1}%
+\contentsline {section}{\numberline {4.6}Interfaz de usuario}{40}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Comparación con dispositivo comercial}{41}{section.4.7}%
 \contentsline {chapter}{\numberline {5}Conclusiones y trabajos futuros}{43}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Trabajos futuros}{44}{section.5.1}%
 \contentsline {chapter}{\numberline {6}Esquemáticos y código}{45}{chapter.6}%
@@ -77,4 +78,4 @@
 \contentsline {section}{\numberline {D}\ignorespaces Especificación Funcional}{101}{section.6.4}%
 \contentsline {section}{\numberline {E}\ignorespaces Especificación Técnica}{109}{section.6.5}%
 \contentsline {section}{\numberline {F}\ignorespaces Plan de Pruebas}{121}{section.6.6}%
-\contentsline {chapter}{Bibliografía}{127}{chapter*.41}%
+\contentsline {chapter}{Bibliografía}{127}{chapter*.43}%
