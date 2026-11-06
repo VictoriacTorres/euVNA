@@ -130,6 +130,276 @@
       \verb https://www.freestylelibre.com.ar/
       \endverb
     \endentry
+    \entry{documentacion}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=1b7b1898aa9a9f2f99faa0181fca7101}{%
+           family={Torres},
+           familyi={T\bibinitperiod},
+           given={Victoria\bibnamedelima Carla},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \strng{namehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{bibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorbibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authornamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \field{extraname}{1}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Documentación del proyecto: Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://drive.google.com/drive/folders/1gzWNm5MgSpMQcKEm95vZWqa8vUsSFCzP?usp=sharing
+      \endverb
+      \verb{url}
+      \verb https://drive.google.com/drive/folders/1gzWNm5MgSpMQcKEm95vZWqa8vUsSFCzP?usp=sharing
+      \endverb
+    \endentry
+    \entry{EP}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=1b7b1898aa9a9f2f99faa0181fca7101}{%
+           family={Torres},
+           familyi={T\bibinitperiod},
+           given={Victoria\bibnamedelima Carla},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Universidad Nacional de Mar del Plata, Facultad de Ingeniería}%
+      }
+      \list{location}{1}{%
+        {Mar del Plata}%
+      }
+      \strng{namehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{bibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorbibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authornamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \field{extraname}{2}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{17}
+      \field{month}{4}
+      \field{note}{Proyecto: Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
+      \field{title}{Estudio Preliminar}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://drive.google.com/file/d/1bMKpPTma2fLIvRlIrrAIMo7CFfVeYsGN/view?usp=drive_link
+      \endverb
+      \verb{url}
+      \verb https://drive.google.com/file/d/1bMKpPTma2fLIvRlIrrAIMo7CFfVeYsGN/view?usp=drive_link
+      \endverb
+    \endentry
+    \entry{PProy}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=1b7b1898aa9a9f2f99faa0181fca7101}{%
+           family={Torres},
+           familyi={T\bibinitperiod},
+           given={Victoria\bibnamedelima Carla},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Universidad Nacional de Mar del Plata, Facultad de Ingeniería}%
+      }
+      \list{location}{1}{%
+        {Mar del Plata}%
+      }
+      \strng{namehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{bibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorbibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authornamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \field{extraname}{3}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Proyecto: Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
+      \field{title}{Plan de Proyecto}
+      \field{urlday}{6}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb V
+      \endverb
+      \verb{url}
+      \verb V
+      \endverb
+      \warn{\item report entry 'PProy' (Bibliografia.bib): Invalid format 'https://drive.google.com/file/d/1Js-D4n747PtNrLsU2MFhVEU2xZkBFUuF/view?usp=drive_link026-05-14' of date field 'date' - ignoring}
+    \endentry
+    \entry{ER}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=1b7b1898aa9a9f2f99faa0181fca7101}{%
+           family={Torres},
+           familyi={T\bibinitperiod},
+           given={Victoria\bibnamedelima Carla},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Universidad Nacional de Mar del Plata, Facultad de Ingeniería}%
+      }
+      \strng{namehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{bibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorbibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authornamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \field{extraname}{4}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{30}
+      \field{month}{4}
+      \field{note}{Proyecto: Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
+      \field{title}{Especificación de Requerimientos}
+      \field{type}{Informe técnico}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://drive.google.com/file/d/1R7UrjKJjqodemSqsjsJIrQSAl9BWBAD3/view?usp=drive_link
+      \endverb
+      \verb{url}
+      \verb https://drive.google.com/file/d/1R7UrjKJjqodemSqsjsJIrQSAl9BWBAD3/view?usp=drive_link
+      \endverb
+    \endentry
+    \entry{EF}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=1b7b1898aa9a9f2f99faa0181fca7101}{%
+           family={Torres},
+           familyi={T\bibinitperiod},
+           given={Victoria\bibnamedelima Carla},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Universidad Nacional de Mar del Plata, Facultad de Ingeniería}%
+      }
+      \list{location}{1}{%
+        {Mar del Plata}%
+      }
+      \strng{namehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{bibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorbibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authornamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \field{extraname}{5}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{27}
+      \field{month}{5}
+      \field{note}{Proyecto: Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
+      \field{title}{Especificación Funcional}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://drive.google.com/file/d/1XAHNjKrnI5Ha9DTDkNftPqQdvCirwSj4/view?usp=drive_link
+      \endverb
+      \verb{url}
+      \verb https://drive.google.com/file/d/1XAHNjKrnI5Ha9DTDkNftPqQdvCirwSj4/view?usp=drive_link
+      \endverb
+    \endentry
+    \entry{ET}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=1b7b1898aa9a9f2f99faa0181fca7101}{%
+           family={Torres},
+           familyi={T\bibinitperiod},
+           given={Victoria\bibnamedelima Carla},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Universidad Nacional de Mar del Plata, Facultad de Ingeniería}%
+      }
+      \list{location}{1}{%
+        {Mar del Plata}%
+      }
+      \strng{namehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{bibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorbibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authornamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \field{extraname}{6}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{21}
+      \field{month}{9}
+      \field{note}{Proyecto: Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
+      \field{title}{Especificación técnica}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://drive.google.com/file/d/1LQIHaCipiTcjHTpCb97vLtqDwPewJCm6/view?usp=drive_link
+      \endverb
+      \verb{url}
+      \verb https://drive.google.com/file/d/1LQIHaCipiTcjHTpCb97vLtqDwPewJCm6/view?usp=drive_link
+      \endverb
+    \endentry
+    \entry{PP}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=1b7b1898aa9a9f2f99faa0181fca7101}{%
+           family={Torres},
+           familyi={T\bibinitperiod},
+           given={Victoria\bibnamedelima Carla},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Universidad Nacional de Mar del Plata, Facultad de Ingeniería}%
+      }
+      \list{location}{1}{%
+        {Mar del Plata}%
+      }
+      \strng{namehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{bibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorbibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authornamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \field{extraname}{7}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{14}
+      \field{month}{9}
+      \field{note}{Proyecto: Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
+      \field{title}{Plan de Pruebas}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://drive.google.com/file/d/1hUlfK3Kxmt4yu7GxJ4eAm9VpSNxrA_ck/view?usp=drive_link
+      \endverb
+      \verb{url}
+      \verb https://drive.google.com/file/d/1hUlfK3Kxmt4yu7GxJ4eAm9VpSNxrA_ck/view?usp=drive_link
+      \endverb
+    \endentry
     \entry{Tektronix}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=64fa723ea4023a23c19efdc355c4c6f1}{%
@@ -146,8 +416,8 @@
       \strng{authornamehash}{64fa723ea4023a23c19efdc355c4c6f1}
       \strng{authorfullhash}{64fa723ea4023a23c19efdc355c4c6f1}
       \strng{authorfullhashraw}{64fa723ea4023a23c19efdc355c4c6f1}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Vector Network Analysis: A Practical Introduction.}
@@ -177,8 +447,8 @@
       \strng{authornamehash}{9d5285e0ae376df8f716c1017a7bb170}
       \strng{authorfullhash}{9d5285e0ae376df8f716c1017a7bb170}
       \strng{authorfullhashraw}{9d5285e0ae376df8f716c1017a7bb170}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{HP}
@@ -204,8 +474,8 @@
       \strng{authornamehash}{7a23d40c2d3cd20d162852ea02414c90}
       \strng{authorfullhash}{7a23d40c2d3cd20d162852ea02414c90}
       \strng{authorfullhashraw}{7a23d40c2d3cd20d162852ea02414c90}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{month}{10}
@@ -232,8 +502,8 @@
       \strng{authornamehash}{0a1dc9ba6382e13835002ad4d9099b4e}
       \strng{authorfullhash}{0a1dc9ba6382e13835002ad4d9099b4e}
       \strng{authorfullhashraw}{0a1dc9ba6382e13835002ad4d9099b4e}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{778D Coaxial Dual-Directional Coupler, 100~{MHz} to 2~{GHz}}
@@ -343,8 +613,8 @@
       \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
       \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
       \field{extraname}{1}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://www.analog.com/en/products/hmc601.html}}
@@ -377,8 +647,8 @@
       \strng{authornamehash}{76c48cdd4d2aa56aa945e90040ef3014}
       \strng{authorfullhash}{76c48cdd4d2aa56aa945e90040ef3014}
       \strng{authorfullhashraw}{76c48cdd4d2aa56aa945e90040ef3014}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{isbn}{978-0-521-11002-0}
@@ -412,13 +682,47 @@
       \strng{authornamehash}{6b65fefc61ef07dfae5fcb9291d4aceb}
       \strng{authorfullhash}{6b65fefc61ef07dfae5fcb9291d4aceb}
       \strng{authorfullhashraw}{6b65fefc61ef07dfae5fcb9291d4aceb}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{isbn}{0-13-754920-2}
       \field{title}{Discrete-time signal processing, second edition}
       \field{year}{1999}
+    \endentry
+    \entry{codigosTesis}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=1b7b1898aa9a9f2f99faa0181fca7101}{%
+           family={Torres},
+           familyi={T\bibinitperiod},
+           given={Victoria\bibnamedelima Carla},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {GitHub}%
+      }
+      \strng{namehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{fullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{bibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorbibnamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authornamehash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhash}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \strng{authorfullhashraw}{1b7b1898aa9a9f2f99faa0181fca7101}
+      \field{extraname}{8}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Repositorio de códigos}
+      \field{title}{Códigos del proyecto: Desarrollo de un Analizador Vectorial de Redes para medición no invasiva de glucemia}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://github.com/VictoriacTorres/e-uVNA.git
+      \endverb
+      \verb{url}
+      \verb https://github.com/VictoriacTorres/e-uVNA.git
+      \endverb
     \endentry
     \entry{altium_designer}{software}{}{}
       \name{author}{1}{}{%
@@ -434,8 +738,8 @@
       \strng{authornamehash}{1da5dad821da4d39416530d9c285f8ef}
       \strng{authorfullhash}{1da5dad821da4d39416530d9c285f8ef}
       \strng{authorfullhashraw}{1da5dad821da4d39416530d9c285f8ef}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Licencia educativa}
@@ -464,8 +768,8 @@
       \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
       \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
       \field{extraname}{2}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Sintetizador de RF ADF4351}
@@ -492,8 +796,8 @@
       \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
       \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
       \field{extraname}{3}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{ADIsimPLL}
@@ -510,8 +814,8 @@
       \list{organization}{1}{%
         {ECS Inc. International}%
       }
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labeltitlesource}{title}
       \field{note}{Cristal oscilador 10MHz}
       \field{title}{ECS-2200X Series SMD Clock Oscillator Datasheet}
@@ -526,8 +830,8 @@
       \list{organization}{1}{%
         {Diodes Incorporated}%
       }
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labeltitlesource}{title}
       \field{note}{Datasheet}
       \field{number}{DS35162}
@@ -557,8 +861,8 @@
       \strng{authorfullhash}{427174bb5af8de05a7ae7b95b8e37e2b}
       \strng{authorfullhashraw}{427174bb5af8de05a7ae7b95b8e37e2b}
       \field{extraname}{2}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Rev. G}
@@ -587,8 +891,8 @@
       \strng{authornamehash}{e1c84e489e62b14f694c529673d17a55}
       \strng{authorfullhash}{e1c84e489e62b14f694c529673d17a55}
       \strng{authorfullhashraw}{e1c84e489e62b14f694c529673d17a55}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{day}{10}
@@ -609,8 +913,8 @@
       \list{organization}{1}{%
         {Microchip Technology Inc.}%
       }
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labeltitlesource}{title}
       \field{number}{DS20001685E}
       \field{title}{{MCP6021/1R/2/3/4: Rail-to-Rail Input/Output, 10~MHz Op Amps}}
@@ -643,8 +947,8 @@
       \strng{authornamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
       \strng{authorfullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
       \strng{authorfullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{month}{2}
@@ -675,8 +979,8 @@
       \strng{authornamehash}{71d71d3dd67f1a6a9917134613f38635}
       \strng{authorfullhash}{71d71d3dd67f1a6a9917134613f38635}
       \strng{authorfullhashraw}{71d71d3dd67f1a6a9917134613f38635}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Printed Circuit Board Fabrication and Assembly Services}
@@ -704,8 +1008,8 @@
       \strng{authornamehash}{5289511ee36ed236f4be25b1e87cd23d}
       \strng{authorfullhash}{5289511ee36ed236f4be25b1e87cd23d}
       \strng{authorfullhashraw}{5289511ee36ed236f4be25b1e87cd23d}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Frecuencímetro portátil de mano (10\,Hz--3\,GHz)}
@@ -729,8 +1033,8 @@
       \strng{authornamehash}{fb6b17dad843bc2733669b758461f081}
       \strng{authorfullhash}{fb6b17dad843bc2733669b758461f081}
       \strng{authorfullhashraw}{fb6b17dad843bc2733669b758461f081}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Modelo PA36-3A (0--36\,V / 0--3\,A)}
@@ -751,8 +1055,8 @@
       \strng{authornamehash}{daaaffd1ab8ee7f6da285c9b5eb662c6}
       \strng{authorfullhash}{daaaffd1ab8ee7f6da285c9b5eb662c6}
       \strng{authorfullhashraw}{daaaffd1ab8ee7f6da285c9b5eb662c6}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{RSA3030N 3\,GHz Real-Time Spectrum Analyzer}
@@ -781,8 +1085,8 @@
       \strng{authornamehash}{15f5515f16e696265f4b03de2cf08a7d}
       \strng{authorfullhash}{15f5515f16e696265f4b03de2cf08a7d}
       \strng{authorfullhashraw}{15f5515f16e696265f4b03de2cf08a7d}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Atenuador de paso manual 0--110\,dB, DC--18\,GHz}
@@ -812,8 +1116,8 @@
       \strng{authornamehash}{6eeddaff647b4d5744923fa08c6973af}
       \strng{authorfullhash}{6eeddaff647b4d5744923fa08c6973af}
       \strng{authorfullhashraw}{6eeddaff647b4d5744923fa08c6973af}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Audacity}

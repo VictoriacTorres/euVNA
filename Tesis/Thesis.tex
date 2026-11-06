@@ -69,7 +69,7 @@
 \newcommand{\Department}{Departamento de Ingeniería Electrónica y Computación}
 \newcommand{\Universidad}{Universidad Nacional de Mar del Plata}
 \newcommand{\Place}{Facultad de Ingeniería}
-\newcommand{\Fecha}{Septiembre 2026}
+\newcommand{\Fecha}{Noviembre 2026}
 
 \begin{document}
 
@@ -101,6 +101,8 @@
 
 \begin{Large}
 \textbf{\Name}\\[6pt]
+\text{Director: Ramiro Avalos Ribas}\\
+\text{Codirector: Brian Maximiliano Gluzman}
 \end{Large}
 \vfill
 
@@ -250,7 +252,7 @@ Se obtienen señales analógicas en la banda de audio para su adquisición en la
 
 
 %========== Esquemáticos y código ==========
-\chapter{Esquemáticos y código}
+\chapter{Esquemáticos}
 
 \section{Esquemáticos Altium}
 \label{sec:EsquematicosAltium}
@@ -272,7 +274,8 @@ A continuación se presentan los esquemáticos de los distintos bloques funciona
     }
 ]{Esquematicos.pdf}
 %\end{comment}
-
+\begin{comment}
+    
 \section{Firmware}
 \label{codigoFW}
 \inputminted[breaklines, linenos]{cpp}{Codigos/barrido_serial_claude.ino}
@@ -290,13 +293,13 @@ A continuación se presentan los esquemáticos de los distintos bloques funciona
 \inputminted[breaklines, linenos]{python}{Codigos/vna_gui_FINAL.py}
 
 
+
 %========== Apéndices ==========
 \addcontentsline{toc}{chapter}{Apéndices}
 \chapter*{Apéndices}
 \setcounter{section}{0}
 \renewcommand{\thesection}{\Alph{section}}
 
-%\begin{comment}
 \includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Estudio Preliminar, apend:Estudio_Preliminar}]{Apendices/Estudio Preliminar.pdf}
 
 \includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Plan de Trabajo, apend:PProy}]{Apendices/Pproy.pdf}
@@ -309,7 +312,7 @@ A continuación se presentan los esquemáticos de los distintos bloques funciona
 
 \includepdf[pages=-, scale=1, pagecommand={}, addtotoc={1, section, 1, Plan de Pruebas, apend:PP}]{Apendices/Plan de pruebas.pdf}
 
-%\end{comment}
+\end{comment}
 %=========== Bibliografía ===========
 \printbibliography[heading=bibintoc, title={Bibliografía}]
 

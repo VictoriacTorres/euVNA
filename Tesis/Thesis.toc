@@ -57,7 +57,7 @@
 \contentsline {section}{\numberline {4.7}Comparación con dispositivo comercial}{41}{section.4.7}%
 \contentsline {chapter}{\numberline {5}Conclusiones y trabajos futuros}{43}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Trabajos futuros}{44}{section.5.1}%
-\contentsline {chapter}{\numberline {6}Esquemáticos y código}{45}{chapter.6}%
+\contentsline {chapter}{\numberline {6}Esquemáticos}{45}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Esquemáticos Altium}{45}{section.6.1}%
 \contentsline {subsection}{\numberline {6.1.1}\ignorespaces Generador de RF incidente (ADF4351)}{46}{subsection.6.1.1}%
 \contentsline {subsection}{\numberline {6.1.2}\ignorespaces Generador de RF Oscilador Local (ADF4351)}{47}{subsection.6.1.2}%
@@ -66,16 +66,4 @@
 \contentsline {subsection}{\numberline {6.1.5}\ignorespaces Acoplador Direccional}{50}{subsection.6.1.5}%
 \contentsline {subsection}{\numberline {6.1.6}\ignorespaces Amplificadores de FI}{51}{subsection.6.1.6}%
 \contentsline {subsection}{\numberline {6.1.7}\ignorespaces Atenuadores}{52}{subsection.6.1.7}%
-\contentsline {section}{\numberline {6.2}Firmware}{53}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Software}{57}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Interfaz de usuario}{66}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Core}{66}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Graphical User Interface}{72}{subsection.6.4.2}%
-\contentsline {chapter}{Apéndices}{85}{subsection.6.4.2}%
-\contentsline {section}{\numberline {A}\ignorespaces Estudio Preliminar}{87}{section.6.1}%
-\contentsline {section}{\numberline {B}\ignorespaces Plan de Trabajo}{91}{section.6.2}%
-\contentsline {section}{\numberline {C}\ignorespaces Especificación de Requerimientos}{95}{section.6.3}%
-\contentsline {section}{\numberline {D}\ignorespaces Especificación Funcional}{101}{section.6.4}%
-\contentsline {section}{\numberline {E}\ignorespaces Especificación Técnica}{109}{section.6.5}%
-\contentsline {section}{\numberline {F}\ignorespaces Plan de Pruebas}{121}{section.6.6}%
-\contentsline {chapter}{Bibliografía}{127}{chapter*.43}%
+\contentsline {chapter}{Bibliografía}{53}{chapter*.42}%

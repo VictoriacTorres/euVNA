@@ -1,6 +1,6 @@
 \section{Descripción general del producto}
 
-Como describe la sección 2 de la Especificación de Requerimientos (\ref{apend:ER}) el sistema debe generar un barrido de frecuencias en el rango de 1,8 a 2,2 GHz. La señal se debe inyectar en el DUT y se debe medir la onda reflejada. Ambas ondas (incidente y reflejada) deben bajarse a una frecuencia intermedia para luego adquirirlas y digitalizarlas con el fin de realizar el procesamiento correspondiente. Un diagrama en bloques detallado del sistema se puede observar en la figura \ref{fig:diagbloques}. Los datos a asumir, requerimientos y pautas de diseño se pueden encontrar en la Especificación de Requerimientos (\ref{apend:ER}). 
+Como describe la sección 2 de la Especificación de Requerimientos (\cite{ER}) el sistema debe generar un barrido de frecuencias en el rango de 1,8 a 2,2 GHz. La señal se debe inyectar en el DUT y se debe medir la onda reflejada. Ambas ondas (incidente y reflejada) deben bajarse a una frecuencia intermedia para luego adquirirlas y digitalizarlas con el fin de realizar el procesamiento correspondiente. Un diagrama en bloques detallado del sistema se puede observar en la figura \ref{fig:diagbloques}. Los datos a asumir, requerimientos y pautas de diseño se pueden encontrar en la Especificación de Requerimientos (\cite{ET}). 
 
 \begin{figure}
     \centering
@@ -9,14 +9,15 @@ Como describe la sección 2 de la Especificación de Requerimientos (\ref{apend:
     \label{fig:diagbloques}
 \end{figure}
 
-A continuación, se detalla la solución del hardware, software, firmware e interfaz de usuario.
+A continuación, se detalla la solución del hardware, software, firmware e interfaz de usuario. Todos los códigos utilizados se encuentran disponibles en el
+repositorio público de GitHub \cite{codigosTesis}.
 
 \section{Hardware}
-El hardware se diseñó en su totalidad en el software Altium Designer, con una licencia estudiantil gracias al programa Altium Student Lab \cite{altium_designer}. Se creó una librería con los esquemáticos, footprints y modelos 3D de los componentes a utilizar. Se dividió el proyecto en esquemáticos que representan los distintos bloques funcionales, que se pueden observar en el capítulo ``Esquemáticos y códigos'' (\ref{sec:EsquematicosAltium}). Se puede encontrar una descripción general de cada bloque en la Especificación Técnica (\ref{apend:ET}).
+El hardware se diseñó en su totalidad en el software Altium Designer, con una licencia estudiantil gracias al programa Altium Student Lab \cite{altium_designer}. Se creó una librería con los esquemáticos, footprints y modelos 3D de los componentes a utilizar. Se dividió el proyecto en esquemáticos que representan los distintos bloques funcionales, que se pueden observar en el capítulo ``Esquemáticos'' (\ref{sec:EsquematicosAltium}). Se puede encontrar una descripción general de cada bloque en la Especificación Técnica (\cite{ET}).
 
 
 \subsection{Generadores de RF}
-Como explica la sección 2.1.2 de la Especificación Técnica (\ref{apend:ET}) los generadores de RF se sintetizan con los circuitos integrados (IC - \textit{Integrated Circuits}) ADF4351. Este es un sintetizador de banda ancha con VCO integrado, con frecuencia de salida configurable de 40 a 4400 MHz y potencia de salida máxima de 5dBm \cite{datasheet_ADF4351}. El hardware posee dos; uno incide directamente en el acoplador direccional, desviando una parte de su potencia hacia el mezclador para medir la señal incidente. El esquemático de su implementación se puede ver en \ref{sch:ADFRF}. El otro se utiliza como oscilador local para el esquema heterodino (esquemático en \ref{sch:ADFOL}). Es relevante mencionar que las salidas de RF no es una sinusoidal pura perfecta, sino que incluye componentes armónicos generados por el VCO y la etapa de salida. La hoja de datos aclara que el segundo armónico se encuentra entre -19 y -20 dBc por debajo de la potencia de la fundamental, mientras que el tercer armónico se encuentra entre -10 dBc y -13 dBc por debajo. 
+Como explica la sección 2.1.2 de la Especificación Técnica (\cite{ET}) los generadores de RF se sintetizan con los circuitos integrados (IC - \textit{Integrated Circuits}) ADF4351. Este es un sintetizador de banda ancha con VCO integrado, con frecuencia de salida configurable de 40 a 4400 MHz y potencia de salida máxima de 5dBm \cite{datasheet_ADF4351}. El hardware posee dos; uno incide directamente en el acoplador direccional, desviando una parte de su potencia hacia el mezclador para medir la señal incidente. El esquemático de su implementación se puede ver en \ref{sch:ADFRF}. El otro se utiliza como oscilador local para el esquema heterodino (esquemático en \ref{sch:ADFOL}). Es relevante mencionar que las salidas de RF no es una sinusoidal pura perfecta, sino que incluye componentes armónicos generados por el VCO y la etapa de salida. La hoja de datos aclara que el segundo armónico se encuentra entre -19 y -20 dBc por debajo de la potencia de la fundamental, mientras que el tercer armónico se encuentra entre -10 dBc y -13 dBc por debajo. 
 
 El diagrama en bloques del chip se puede observar en la figura \ref{fig:diagADF}:
 
@@ -99,7 +100,7 @@ Para alimentar la placa se dispone de una selección (a través de un jumper) de
 Los conectores que posee son del tipo SMA para mediciones de RF, conexión con el DUT y entrada de referencia auxiliar; conector de audio analógico para llevar las señales a la placa de sonido de la PC por medio de la entrada line-in, y tiras de pines que por medio de cables puente se conectan con el Arduino para escribir los registros de los generadores de RF. Además se ubican pares de pines para medir la detección de enganche en cada ADF4351.
 
 \subsection{Microcontrolador}
-Como se explica en la sección 2.3 de la Especificación Técnica (\ref{apend:ET}), el microcontrolador se implementa utilizando una placa Arduino Uno que se conecta por medio de cables puente con los pines de control de los ADF4351: CLK, CE, LE y DATA. Actúa como un esclavo de ejecución que recibe las órdenes de barrido desde la PC a través de una interfaz serie. Opera a una velocidad de 115200 baudios.
+Como se explica en la sección 2.3 de la Especificación Técnica (\cite{ET}), el microcontrolador se implementa utilizando una placa Arduino Uno que se conecta por medio de cables puente con los pines de control de los ADF4351: CLK, CE, LE y DATA. Actúa como un esclavo de ejecución que recibe las órdenes de barrido desde la PC a través de una interfaz serie. Opera a una velocidad de 115200 baudios.
 
 \subsection{Implementación en PCB}
 En principio se planteó un modelo de 2 capas, que se puede observar en las figuras \ref{fig:euvnav1}.
@@ -185,7 +186,7 @@ Se pueden observar ambos modelos en 3D en la figura \ref{fig:euvna3d}. La versi�
   \caption{Diagrama de flujo general del firmware.}
   \label{fig:diagflujoFW}
 \end{wrapfigure}
-El firmware se programó en lenguaje C++ en el entorno Arduino IDE. Se puede leer en la sección ``códigos'' (\ref{codigoFW}). Está desarrollado para un microcontrolador Arduino UNO y se encarga del control, configuración dinámica y sincronización de los sintetizadores ADF4351. Un diagrama de flujo se puede ver en la figura \ref{fig:diagflujoFW}.
+El firmware se programó en lenguaje C++ en el entorno Arduino IDE. Está desarrollado para un microcontrolador Arduino UNO y se encarga del control, configuración dinámica y sincronización de los sintetizadores ADF4351. Un diagrama de flujo se puede ver en la figura \ref{fig:diagflujoFW}.
 
  Al ser inicializado en la función de arranque (\textit{setup}), configura los pines de control, inicializa el bus SPI y transmite la cadena ``Listo'' para confirmar que el sistema está disponible.
 
@@ -217,7 +218,7 @@ Para mejorar la coherencia y estabilidad de fase en el canal del Oscilador Local
 \section{Software}
 
 
-Como se explica en la sección 4 de la Especificación Técnica \ref{apend:ET} el software se programa en lenguaje Python en el entorno Visual Studio Code. El código se encuentra en la sección \ref{SW}. Un diagrama de bloques general se puede ver en la figura \ref{fig:diagflujoSW}. Las funciones principales que cumple son:
+Como se explica en la sección 4 de la Especificación Técnica \cite{ET} el software se programa en lenguaje Python en el entorno Visual Studio Code. Un diagrama de bloques general se puede ver en la figura \ref{fig:diagflujoSW}. Las funciones principales que cumple son:
 
 \begin{itemize}
     \item Gestionar el barrido en frecuencia;
@@ -301,7 +302,7 @@ Cuando se ejecuta el barrido, el software aplica la función de corrección inve
 \section{Interfaz de usuario}
 La interfaz de usuario se programó con PyQt6, mediante un prompt de la inteligencia artificial (IA) Claude, modelo Sonnet 5 Esfuerzo Medio. Se alimentó del software original, que tenía la lógica de medición funcionando, pero que corría secuencialmente y se comunicaba con el usuario a través de la consola. 
 
-El prompt inicial consistió en pedir una recomendación de lenguaje o plataforma para hacer una interfaz de usuario sencilla pero funcional, y que no llevase mucho tiempo poner en marcha. La IA recomendó Python + PyQt6/PySide6, con matplotlib embebido para los gráficos. El motivo de esta elección fue reutilizar funciones, que permita actualizar el plot en vivo, aprovechar librerías de Python para graficar. Hizo un esqueleto de la app con ventana principal, campos de frecuencia, threading de barrido y gráficos, y se le dio el permiso. Creó dos archivos, un ``core'' que contiene la misma lógica de cálculo que el código original y un ``GUI'' (Graphical User Interface) que contiene la parte visual: ventana, botones, campos y gráficos. Este llama a las funciones implementadas en el core. Agregó la biblioteca PyQt6 para usar ventanas, botones, campos e hilos de ejecución. Creó una clase (SweepWorker(QThread)) que se encarga de correr el barrido en segundo plano y avisar a la ventana qué se midió para que actualice los gráficos y la barra de progreso sin congelarse entre cada medición. Además, generó el diagrama de flujo que se observa en la figura \ref{fig:d_flujo_interfaz}. Una imagen de la interfaz se encuentra en la figura \ref{fig:interfaz}. Los códigos se encuentran en el capítulo ``Esquemáticos y código'' (\ref{VNA_core}). 
+El prompt inicial consistió en pedir una recomendación de lenguaje o plataforma para hacer una interfaz de usuario sencilla pero funcional, y que no llevase mucho tiempo poner en marcha. La IA recomendó Python + PyQt6/PySide6, con matplotlib embebido para los gráficos. El motivo de esta elección fue reutilizar funciones, que permita actualizar el plot en vivo, aprovechar librerías de Python para graficar. Hizo un esqueleto de la app con ventana principal, campos de frecuencia, threading de barrido y gráficos, y se le dio el permiso. Creó dos archivos, un ``core'' que contiene la misma lógica de cálculo que el código original y un ``GUI'' (Graphical User Interface) que contiene la parte visual: ventana, botones, campos y gráficos. Este llama a las funciones implementadas en el core. Agregó la biblioteca PyQt6 para usar ventanas, botones, campos e hilos de ejecución. Creó una clase (SweepWorker(QThread)) que se encarga de correr el barrido en segundo plano y avisar a la ventana qué se midió para que actualice los gráficos y la barra de progreso sin congelarse entre cada medición. Además, generó el diagrama de flujo que se observa en la figura \ref{fig:d_flujo_interfaz}. Una imagen de la interfaz se encuentra en la figura \ref{fig:interfaz}. 
 
 \begin{figure}
     \centering

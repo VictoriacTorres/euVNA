@@ -1,0 +1,18 @@
+[0] Config.pm:329> INFO - This is Biber 2.22
+[0] Config.pm:332> INFO - Logfile is 'Thesis.blg'
+[214] biber-MSWIN64:342> INFO - === 
+[280] Biber.pm:421> INFO - Reading 'Thesis.bcf'
+[502] Biber.pm:1002> INFO - Found 37 citekeys in bib section 0
+[534] Biber.pm:4487> INFO - Processing section 0
+[555] Biber.pm:4680> INFO - Looking for bibtex file 'Bibliografia.bib' for section 0
+[668] bibtex.pm:1713> INFO - LaTeX decoding ...
+[738] bibtex.pm:1519> INFO - Found BibTeX data source 'Bibliografia.bib'
+[1061] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1061] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1061] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-US'
+[1061] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[1110] bbl.pm:676> INFO - Writing 'Thesis.bbl' with encoding 'UTF-8'
+[1137] bbl.pm:779> INFO - Output to Thesis.bbl
+[1138] Biber.pm:132> WARN - report entry 'PProy' (Bibliografia.bib): Invalid format 'https://drive.google.com/file/d/1Js-D4n747PtNrLsU2MFhVEU2xZkBFUuF/view?usp=drive_link026-05-14' of date field 'date' - ignoring
+[1138] Biber.pm:132> WARN - legacy year field 's.~f.' in entry 'altium_via_stitching' is not an integer - this will probably not sort properly.
+[1138] Biber.pm:134> INFO - WARNINGS: 2
