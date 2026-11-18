@@ -1,6 +1,6 @@
 <QucsStudio Schematic 5.9>
 <Properties>
-View=97.5531,107.027,1437.14,1020.67,0.840665,0,0
+View=26.3297,-101.984,1437.6,789.058,0.72057,0,60
 Grid=10,10,1
 DataSet=*.dat
 DataDisplay=*.dpl
@@ -22,9 +22,10 @@ GND * 1 270 260 0 0 0
 GND * 1 310 350 0 0 0
 GND * 1 480 260 0 0 0
 GND * 1 450 350 0 0 0
-SUBST Subst1 1 740 240 -30 24 0 "4.15"1"1.6mm"1"20µm"1"0.02"1"1.72e-08"1"0µm"1"Metal"0"Hammerstad"0"Kirschning"0
-.SP SP1 1 870 240 0 9 0 "log"1"0.2 GHz"1"10 GHz"1"201"1"no"0"1"0"2"0"none"0
 MCOUPLED MSTC1 1 360 230 -26 37 0 "Subst1"1"3.14mm"1"15mm"1"3.2mm"1"26.85"0
+SUBST Subst1 1 620 240 -30 24 0 "4.15"1"1.6mm"1"20µm"1"0.02"1"1.72e-08"1"0µm"1"Metal"0"Hammerstad"0"Kirschning"0
+.SP SP1 1 730 250 0 9 0 "log"1"0.2 GHz"1"10 GHz"1"201"1"no"0"1"0"2"0"none"0
+CTLIN TL1 1 380 60 -26 16 0 "50 Ω"1"50 Ω"1"1 mm"1"1"0"1"0"0 dB"0"0 dB"0"26.85"0
 </Components>
 <Wires>
 270 200 330 200
